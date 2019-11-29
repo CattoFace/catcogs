@@ -40,9 +40,10 @@ def findCountdown(unparsedData):
 
 
 def parseDatetimeData(unparsedData):
+    parsedData=[]
     for unparsedEntry in unparsedData:
         parsedDate = findDate(unparsedEntry)
-        parsedData = findAllTimes(parsedDate, unparsedEntry)
+        parsedData = findAllTimes(parsedData, parsedDate, unparsedEntry)
     return parsedData
 
 
@@ -52,14 +53,12 @@ def findDate(unparsedEntry):
     return datetime.strptime(relevantData, "%B %d %Y")
 
 
-def findAllTimes(parsedDate, unparsedEntry):
-    parsedData = []
+def findAllTimes(parsedData, parsedDate, unparsedEntry):
     data = unparsedEntry[unparsedEntry.index("at ") + 3:]
     data = data.split("and ")
     for entry in data:
         entry = entry[:entry.index(' -')]
-        parsedData.append(
-            datetime.strptime(
+        parsedData.append(datetime.strptime(
                 str(parsedDate.year) + " " + str(parsedDate.month) + " " + str(parsedDate.day) + " " + entry,
                 "%Y %m %d %H:%M %p"))
     return parsedData
@@ -72,9 +71,8 @@ def get2xTimes():
         return "No 2x periods were found"
     for entry in times:
         toPrint += entry + "\n"
-    # WORK IN PROGRESS
     countdown = findCountdown(times)
-    toPrint += ("The next 2x period is in " + str(countdown)) if countdown else "All 2x periods have ended(or the last one is currently active"
+    toPrint += ("The next 2x period is in " + str(countdown).split('.')[0]) if countdown else "All 2x periods have ended(or the last one is currently active"
     return toPrint
 
 
@@ -93,3 +91,5 @@ class mapleCog(commands.Cog):
         if not toPrint:
             toPrint = "No patch notes were found."
         await ctx.send(toPrint)
+
+print(get2xTimes())
