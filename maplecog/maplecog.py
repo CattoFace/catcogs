@@ -91,5 +91,3 @@ class mapleCog(commands.Cog):
         if not toPrint:
             toPrint = "No patch notes were found."
         await ctx.send(toPrint)
-
-print(get2xTimes())
