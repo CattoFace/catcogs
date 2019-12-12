@@ -7,9 +7,6 @@ from datetime import datetime, timedelta
 from functools import reduce
 
 
-def __init__(self, bot):
-    self.bot = bot
-
 def scrape():
     url = findLatestPatchNotes()
     if not url:
@@ -91,6 +88,9 @@ def getUrsus2xStatus():
 
 class mapleCog():
 
+    def __init__(self, bot):
+        self.bot = bot
+
     @commands.command()
     async def next2x(self, ctx):
         """Finds the latest 2x post"""
@@ -110,3 +110,6 @@ class mapleCog():
         """sends info about current ursus 2x meso status"""
         toPrint = getUrsus2xStatus()
         await self.bot.say(toPrint)
+
+def setup(bot):
+    bot.add_cog(mapleCog(bot))
