@@ -46,16 +46,14 @@ class mapleCog(commands.Cog):
 
     @commands.command()
     async def next2x(self, ctx):
+        """Finds the latest 2x post"""
         toPrint = get2xTimes()
         await ctx.send(toPrint)
 
     @commands.command()
     async def patchnotes(self, ctx):
+        """Finds the latest patch notes"""
         toPrint = findLatestPatchNotes()
         if not toPrint:
             toPrint = "No patch notes were found."
         await ctx.send(toPrint)
-
-    @commands.command()
-    async def catface(self,ctx):
-        await ctx.send('meow')
