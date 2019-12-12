@@ -37,8 +37,9 @@ def get2xTimes():
         return "No 2x periods were found"
     for time in times:
         toPrint+=time+"\n"
-    countdown = findCountdown(times)
-    toPrint+="The next 2x period is in "+countdown
+    #WORK IN PROGRESS    
+    #countdown = findCountdown(times)
+    #toPrint+="The next 2x period is in "+countdown
     return toPrint
 
 class mapleCog(commands.Cog):
