@@ -2,7 +2,7 @@ from redbot.core import commands
 import requests
 from bs4 import BeautifulSoup
 import re
-from datetime import datetime, timedelta, time
+from datetime import datetime, timedelta
 from functools import reduce
 
 
@@ -75,6 +75,15 @@ def get2xTimes():
     toPrint += ("The next 2x period is in " + str(countdown).split('.')[0]) if countdown else "All 2x periods have ended(or the last one is currently active"
     return toPrint
 
+def getUrsus2xStatus():
+    currentTime = datetime.utcnow()
+    if currentTime.hour>10 and currentTime.hour<22:
+        endTime = currentTime.replace(hour=22,minute=0,second=0)
+        return "Ursus 2x meso time is currently active, it will end in "+str(endTime-currentTime).split('.')[0]
+    startTime = currentTime.replace(hour=10,minute=0,second=0)
+    return  "Ursus 2x meso time is not active, it will start in "\
+            +(str(startTime)-currentTime).split('.')[0] if startTime-currentTime>timedelta(0) else str(startTime + timedelta(days=1) - currentTime.split('.')[0])
+
 
 class mapleCog(commands.Cog):
 
@@ -90,4 +99,10 @@ class mapleCog(commands.Cog):
         toPrint = findLatestPatchNotes()
         if not toPrint:
             toPrint = "No patch notes were found."
+        await ctx.send(toPrint)
+
+    @commands.command()
+    async def ursus(self, ctx):
+        """sends info about current ursus 2x meso status"""
+        toPrint = getUrsus2xStatus()
         await ctx.send(toPrint)
