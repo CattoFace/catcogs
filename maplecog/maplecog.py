@@ -1,4 +1,5 @@
-from redbot.core import commands
+import discord
+from discord.ext import commands
 import requests
 from bs4 import BeautifulSoup
 import re
