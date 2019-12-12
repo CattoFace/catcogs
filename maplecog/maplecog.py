@@ -6,6 +6,9 @@ from datetime import datetime, timedelta
 from functools import reduce
 
 
+def __init__(self, bot):
+    self.bot = bot
+
 def scrape():
     url = findLatestPatchNotes()
     if not url:
