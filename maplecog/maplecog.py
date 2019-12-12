@@ -92,13 +92,13 @@ class mapleCog():
         self.bot = bot
 
     @commands.command()
-    async def next2x(self, ctx):
+    async def next2x(self):
         """Finds the latest 2x post"""
         toPrint = get2xTimes()
         await self.bot.say(toPrint)
 
     @commands.command()
-    async def patchnotes(self, ctx):
+    async def patchnotes(self):
         """Finds the latest patch notes"""
         toPrint = findLatestPatchNotes()
         if not toPrint:
@@ -106,7 +106,7 @@ class mapleCog():
         await self.bot.say(toPrint)
 
     @commands.command()
-    async def ursus(self, ctx):
+    async def ursus(self):
         """sends info about current ursus 2x meso status"""
         toPrint = getUrsus2xStatus()
         await self.bot.say(toPrint)
