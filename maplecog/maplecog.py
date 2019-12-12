@@ -89,7 +89,7 @@ def getUrsus2xStatus():
             +(str(startTime)-currentTime).split('.')[0] if startTime-currentTime>timedelta(0) else str(startTime + timedelta(days=1) - currentTime.split('.')[0])
 
 
-class mapleCog(commands.Cog):
+class mapleCog():
 
     @commands.command()
     async def next2x(self, ctx):
