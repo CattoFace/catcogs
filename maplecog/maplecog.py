@@ -1,6 +1,10 @@
 from redbot.core import commands
 import requests
 from bs4 import BeautifulSoup
+import re
+from datetime import datetime, timedelta, time
+from functools import reduce
+
 
 def scrape():
     url = findLatestPatchNotes()
@@ -8,12 +12,14 @@ def scrape():
         return 0
     site = requests.get(url)
     times = []
-    soup = BeautifulSoup(site.text, 'html.parser').find('div', class_='component component-news-article').find('ul').find_next('p')
-    soup = soup.find_next(lambda tag: tag.name=='span' and '2x EXP & Drop' in tag.text).find_next('p')
+    soup = BeautifulSoup(site.text, 'html.parser').find('div', class_='component component-news-article').find(
+        'ul').find_next('p')
+    soup = soup.find_next(lambda tag: tag.name == 'span' and '2x EXP & Drop' in tag.text).find_next('p')
     for entry in soup.text.split("UTC:"):
         if entry:
-            times.append("UTC:"+entry)
+            times.append("UTC:" + entry)
     return times
+
 
 def findLatestPatchNotes():
     baseURL = 'http://maplestory.nexon.net'
@@ -22,25 +28,55 @@ def findLatestPatchNotes():
     news = soup.find('ul', class_='news-container rows').find_all('div', class_='text')
     for entry in news:
         title = entry.find('a')
-        if ('Patch Notes' in title.text):
+        if 'Patch Notes' in title.text:
             return baseURL + title['href']
     return 0
 
-def findCountdown(times):
-    for time in times:
-        return '0'
+
+def findCountdown(unparsedData):
+    parsedData = parseDatetimeData(unparsedData)
+    nearest = reduce(lambda a, b: a if a - datetime.utcnow() < b - datetime.utcnow() else b, parsedData)
+    return nearest - datetime.utcnow() if nearest - datetime.utcnow() > timedelta(0) else 0
+
+
+def parseDatetimeData(unparsedData):
+    for unparsedEntry in unparsedData:
+        parsedDate = findDate(unparsedEntry)
+        parsedData = findAllTimes(parsedDate, unparsedEntry)
+    return parsedData
+
+
+def findDate(unparsedEntry):
+    splitData = unparsedEntry.split(" ")
+    relevantData = splitData[1] + " " + splitData[2] + " " + str(datetime.utcnow().year)
+    return datetime.strptime(relevantData, "%B %d %Y")
+
+
+def findAllTimes(parsedDate, unparsedEntry):
+    parsedData = []
+    data = unparsedEntry[unparsedEntry.index("at ") + 3:]
+    data = data.split("and ")
+    for entry in data:
+        entry = entry[:entry.index(' -')]
+        parsedData.append(
+            datetime.strptime(
+                str(parsedDate.year) + " " + str(parsedDate.month) + " " + str(parsedDate.day) + " " + entry,
+                "%Y %m %d %H:%M %p"))
+    return parsedData
+
 
 def get2xTimes():
     times = scrape()
-    toPrint=''
+    toPrint = ''
     if not times:
         return "No 2x periods were found"
-    for time in times:
-        toPrint+=time+"\n"
-    #WORK IN PROGRESS    
-    #countdown = findCountdown(times)
-    #toPrint+="The next 2x period is in "+countdown
+    for entry in times:
+        toPrint += entry + "\n"
+    # WORK IN PROGRESS
+    countdown = findCountdown(times)
+    toPrint += ("The next 2x period is in " + str(countdown)) if countdown else "All 2x periods have ended(or the last one is currently active"
     return toPrint
+
 
 class mapleCog(commands.Cog):
 
