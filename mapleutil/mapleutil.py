@@ -73,7 +73,7 @@ def get2xTimes():
     for entry in times:
         toPrint += entry + "\n"
     countdown = findCountdown(times)
-    toPrint += ("The next 2x period is in " + str(countdown).split('.')[0]) if countdown else "All 2x periods have ended(or the last one is currently active"
+    toPrint += ("The next 2x period is in " + str(countdown).split('.')[0]) if countdown else "All 2x periods have ended(or the last one is currently active)"
     return toPrint
 
 def getUrsus2xStatus():
