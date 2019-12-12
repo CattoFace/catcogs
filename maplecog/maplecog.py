@@ -86,8 +86,9 @@ def getUrsus2xStatus():
             +(str(startTime)-currentTime).split('.')[0] if startTime-currentTime>timedelta(0) else str(startTime + timedelta(days=1) - currentTime.split('.')[0])
 
 
-class mapleCog():
-
+class mapleCog:
+    """performs various maple related commands"""
+    
     def __init__(self, bot):
         self.bot = bot
 
