@@ -121,7 +121,7 @@ class mapleUtil:
     @commands.command()
     async def patchnotes(self):
         """Finds the latest patch notes"""
-        toPrint = fetchUrl("update", "Patch Notes")
+        toPrint = fetchUrl("update", ["Patch Notes"])
         if not toPrint:
             toPrint = "No patch notes were found."
         await self.bot.say(embed=generateEmbed("Patch Notes", toPrint))
