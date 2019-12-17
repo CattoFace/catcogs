@@ -120,7 +120,7 @@ class mapleUtil:
     async def next2x(self):
         """Finds the latest 2x post"""
         toPrint = get2xTimes()
-        await self.bot.say(generateEmbed("2x EXP & Drop", toPrint))
+        await self.bot.say(embed=generateEmbed("2x EXP & Drop", toPrint))
 
     @commands.command()
     async def patchnotes(self):
@@ -128,13 +128,13 @@ class mapleUtil:
         toPrint = fetchUrl("Patch Notes")
         if not toPrint:
             toPrint = "No patch notes were found."
-        await self.bot.say(generateEmbed("Patch Notes", toPrint))
+        await self.bot.say(embed=generateEmbed("Patch Notes", toPrint))
 
     @commands.command()
     async def ursus(self):
         """Sends info about current ursus 2x meso status"""
         toPrint = getUrsus2xStatus()
-        await self.bot.say(generateEmbed("Ursus Status", toPrint))
+        await self.bot.say(embed=generateEmbed("Ursus Status", toPrint))
 
     @commands.command(name="maintenance", aliases=["maint"])
     async def maintenance(self):
@@ -142,13 +142,13 @@ class mapleUtil:
         toPrint = getMaintenanceTime();
         if not toPrint:
             toPrint = "No maintenance was found"
-        await self.bot.say(generateEmbed("Maintenance", toPrint))
+        await self.bot.say(embed=generateEmbed("Maintenance", toPrint))
 
     @commands.command()
     async def reset(self):
         """Sends various times regarding the games reset timers"""
         toPrint=getResetTimes()
-        await self.bot.say(generateEmbed("Times", toPrint))
+        await self.bot.say(embed=generateEmbed("Times", toPrint))
 
 def setup(bot):
     bot.add_cog(mapleUtil(bot))
