@@ -97,11 +97,7 @@ def getUrsus2xStatus():
             +(str(startTime)-currentTime).split('.')[0] if startTime-currentTime>timedelta(0) else str(startTime + timedelta(days=1) - currentTime.split('.')[0])
 
 def generateEmbed(name, content):
-        author = ctx.message.author
-        embed = discord.Embed(colour=0x000000, description='')
-        embed.title=name
-        embed.set_author(name=str(author.name), icon_url=author.avatar_url)
-        embed.add_field(name=name, value=content)
+        embed = discord.Embed(color=discord.Color.orange(), description=content, title="**"+name+"**")
         return embed
 
 def getResetTimes():
@@ -125,7 +121,7 @@ class mapleUtil:
     @commands.command()
     async def patchnotes(self):
         """Finds the latest patch notes"""
-        toPrint = fetchUrl("Patch Notes")
+        toPrint = fetchUrl("update", "Patch Notes")
         if not toPrint:
             toPrint = "No patch notes were found."
         await self.bot.say(embed=generateEmbed("Patch Notes", toPrint))
