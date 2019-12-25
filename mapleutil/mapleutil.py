@@ -149,5 +149,3 @@ class mapleUtil:
 
 def setup(bot):
     bot.add_cog(mapleUtil(bot))
-
-print(getResetTimes())
