@@ -39,7 +39,7 @@ def fetchUrl(category, targets):
 
 def findCountdown(unparsedData):
     parsedData = parseDatetimeData(unparsedData)
-    nearest = reduce(lambda a, b: a if a - datetime.utcnow() < b - datetime.utcnow() else b, parsedData)
+    nearest = reduce(lambda a, b: a if a - datetime.utcnow() < b - datetime.utcnow() and a - datetime.utcnow()>timedelta(0) else b, parsedData)
     return nearest - datetime.utcnow() if nearest - datetime.utcnow() > timedelta(0) else 0
 
 
@@ -64,7 +64,7 @@ def findAllTimes(parsedData, parsedDate, unparsedEntry):
         entry = entry[:entry.index(' -')]
         parsedData.append(datetime.strptime(
                 str(parsedDate.year) + " " + str(parsedDate.month) + " " + str(parsedDate.day) + " " + entry,
-                "%Y %m %d %H:%M %p"))
+                "%Y %m %d %I:%M %p"))
     return parsedData
 
 
@@ -112,13 +112,13 @@ class mapleUtil:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(name="next2x", aliases=["2x"])
     async def next2x(self):
         """Finds the latest 2x post"""
         toPrint = get2xTimes()
         await self.bot.say(embed=generateEmbed("2x EXP & Drop", toPrint))
 
-    @commands.command()
+    @commands.command(name="patchnotes", aliases=["patch"])
     async def patchnotes(self):
         """Finds the latest patch notes"""
         toPrint = fetchUrl("update", ["Patch Notes"])
