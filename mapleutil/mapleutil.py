@@ -104,6 +104,7 @@ def getResetTimes():
     currentTime = datetime.utcnow()
     toPrint = "Daily reset will happen in: " + str(currentTime.replace(hour=0,minute=0,second=0)+timedelta(1)-currentTime)+"\n"
     toPrint += "Weekly reset will happen in: " + str(currentTime.replace(hour=0,minute=0,second=0)+timedelta(3-currentTime.weekday() if currentTime.weekday()<=2 else 10-currentTime.weekday())-currentTime)+"\n"
+    toPrint += "Dojo reset will happen in: " +str(currentTime.replace(hour=0,minute=0,second=0)+timedelta(0-currentTime.weekday() if currentTime.weekday()==0 else 7-currentTime.weekday())-currentTime)+"\n"
     return toPrint
 
 class mapleUtil:
@@ -148,3 +149,5 @@ class mapleUtil:
 
 def setup(bot):
     bot.add_cog(mapleUtil(bot))
+
+print(getResetTimes())
