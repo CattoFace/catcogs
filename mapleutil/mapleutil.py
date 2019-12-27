@@ -6,12 +6,15 @@ import re
 from datetime import datetime, timedelta
 from functools import reduce
 
+def fetch(url):
+    with requests.session() as s:
+        return s.get(url)
     
 def scrape(category, targetSections, targetArticles):
     url = fetchUrl(category, targetArticles)
     if not url:
         return 0
-    site = requests.get(url)
+    site = fetch(url)
     soup = BeautifulSoup(site.text, 'html.parser').find('div', class_='component component-news-article').find(
         'ul').find_next('p')
     soup = soup.find_next(lambda tag: tag.name == 'span' and any(x in tag.text for x in targetSections)).find_next('p')
@@ -27,7 +30,7 @@ def fetchTimes(soup):
 
 def fetchUrl(category, targets):
     baseURL = 'http://maplestory.nexon.net'
-    site = requests.get(baseURL + '/news/'+category)
+    site = fetch(baseURL + '/news/'+category)
     soup = BeautifulSoup(site.content, 'html.parser')
     news = soup.find('ul', class_='news-container rows').find_all('div', class_='text')
     for entry in news:
@@ -83,7 +86,7 @@ def getMaintenanceTime():
     url = fetchUrl('maintenance',['Scheduled', 'Unscheduled'])
     if not url:
         return 0
-    site = requests.get(url)
+    site = fetch(url)
     soup = BeautifulSoup(site.text, 'html.parser').find('div', class_='article-content').find_next('p')
     return soup.text
 
