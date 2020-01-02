@@ -97,7 +97,7 @@ def getUrsus2xStatus():
         return "Ursus 2x meso time is currently active, it will end in "+str(endTime-currentTime).split('.')[0]
     startTime = currentTime.replace(hour=10,minute=0,second=0)
     return  "Ursus 2x meso time is not active, it will start in "\
-            +(str(startTime)-currentTime).split('.')[0] if startTime-currentTime>timedelta(0) else str(startTime + timedelta(days=1) - currentTime.split('.')[0])
+            +(str(startTime-currentTime).split('.')[0] if currentTime.hour<10 else str(startTime + timedelta(days=1) - currentTime).split('.')[0])
 
 def generateEmbed(name, content):
         embed = discord.Embed(color=discord.Color.orange(), description=content, title="**"+name+"**")
