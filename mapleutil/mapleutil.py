@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import re
 from datetime import datetime, timedelta
 from functools import reduce
+import gc
 
 def fetch(url):
     with requests.session() as s:
@@ -122,6 +123,7 @@ class mapleUtil:
         """Finds the latest 2x post"""
         toPrint = get2xTimes()
         await self.bot.say(embed=generateEmbed("2x EXP & Drop", toPrint))
+        gc.collect()
 
     @commands.command(name="patchnotes", aliases=["patch"])
     async def patchnotes(self):
@@ -130,26 +132,30 @@ class mapleUtil:
         if not toPrint:
             toPrint = "No patch notes were found."
         await self.bot.say(embed=generateEmbed("Patch Notes", toPrint))
+        gc.collect()
 
     @commands.command()
     async def ursus(self):
         """Sends info about current ursus 2x meso status"""
         toPrint = getUrsus2xStatus()
         await self.bot.say(embed=generateEmbed("Ursus Status", toPrint))
+        gc.collect()
 
     @commands.command(name="maintenance", aliases=["maint"])
     async def maintenance(self):
         """Finds the last maintenance times"""
-        toPrint = getMaintenanceTime();
+        toPrint = getMaintenanceTime()
         if not toPrint:
             toPrint = "No maintenance was found"
         await self.bot.say(embed=generateEmbed("Maintenance", toPrint))
+        gc.collect()
 
     @commands.command()
     async def reset(self):
         """Sends various times regarding the games reset timers"""
         toPrint=getResetTimes()
         await self.bot.say(embed=generateEmbed("Times", toPrint))
+        gc.collect()
 
 def setup(bot):
     bot.add_cog(mapleUtil(bot))
