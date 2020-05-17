@@ -93,11 +93,11 @@ def getMaintenanceTime():
 
 def getUrsus2xStatus():
     currentTime = datetime.utcnow()
-    if currentTime.hour>10 and currentTime.hour<22:
+    if currentTime.hour>=10 and currentTime.hour<22:
         endTime = currentTime.replace(hour=22,minute=0,second=0)
-        return "Ursus 2x meso time is currently active, it will end in "+str(endTime-currentTime).split('.')[0]
+        return "Ursus 2x meso time is active between 10am and 10pm UTC\nUrsus 2x meso time is currently active, it will end in "+str(endTime-currentTime).split('.')[0]
     startTime = currentTime.replace(hour=10,minute=0,second=0)
-    return  "Ursus 2x meso time is not active, it will start in "\
+    return  "Ursus 2x meso time is active between 10am and 10pm UTC\nUrsus 2x meso time is not active, it will start in "\
             +(str(startTime-currentTime).split('.')[0] if currentTime.hour<10 else str(startTime + timedelta(days=1) - currentTime).split('.')[0])
 
 def generateEmbed(name, content):
@@ -107,7 +107,7 @@ def generateEmbed(name, content):
 def getResetTimes():
     currentTime = datetime.utcnow()
     toPrint = "Daily reset will happen in: " + str(currentTime.replace(hour=0,minute=0,second=0)+timedelta(1)-currentTime)+"\n"
-    toPrint += "Weekly reset will happen in: " + str(currentTime.replace(hour=0,minute=0,second=0)+timedelta(3-currentTime.weekday() if currentTime.weekday()<=2 else 10-currentTime.weekday())-currentTime)+"\n"
+    toPrint += "Weekly Boss reset will happen in: " + str(currentTime.replace(hour=0,minute=0,second=0)+timedelta(3-currentTime.weekday() if currentTime.weekday()<=2 else 10-currentTime.weekday())-currentTime)+"\n"
     toPrint += "Dojo reset will happen in: " +str(currentTime.replace(hour=0,minute=0,second=0)+timedelta(7-currentTime.weekday())-currentTime)+"\n"
     toPrint += "You can claim the weekly guild potions right now!" if currentTime.weekday()==0 else ("You will be able to claim the weekly guild potions in: "+str(currentTime.replace(hour=0,minute=0,second=0)+timedelta(7-currentTime.weekday())-currentTime))+"\n"
     return toPrint
@@ -156,6 +156,14 @@ class mapleUtil:
         toPrint=getResetTimes()
         await self.bot.say(embed=generateEmbed("Times", toPrint))
         gc.collect()
-
+        
+    @commands.command(name="sunny", aliases=["sunnysunday"])
+    async def sunny(self):
+        """Links the sunny sunday section in the last patch note, does not check sunny sunday existance! just assumes one exists in the lastest patch notes"""
+        toPrint = fetchUrl("update", ["Patch Notes"])+"#sunny"
+        if not toPrint:
+            toPrint = "No patch notes were found."
+        await self.bot.say(embed=generateEmbed("Sunny Sunday", toPrint))
+        gc.collect()
 def setup(bot):
     bot.add_cog(mapleUtil(bot))
