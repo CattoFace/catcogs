@@ -95,9 +95,9 @@ def getUrsus2xStatus():
     currentTime = datetime.utcnow()
     if currentTime.hour>=10 and currentTime.hour<22:
         endTime = currentTime.replace(hour=22,minute=0,second=0)
-        return "Ursus 2x meso time is active between 10am and 10pm UTC\nUrsus 2x meso time is currently active, it will end in "+str(endTime-currentTime).split('.')[0]
+        return "Ursus 2x meso time is active between 10 AM and 10 PM UTC\nUrsus 2x meso time is currently active, it will end in "+str(endTime-currentTime).split('.')[0]
     startTime = currentTime.replace(hour=10,minute=0,second=0)
-    return  "Ursus 2x meso time is active between 10am and 10pm UTC\nUrsus 2x meso time is not active, it will start in "\
+    return  "Ursus 2x meso time is active between 10 AM and 10 PM UTC\nUrsus 2x meso time is not active, it will start in "\
             +(str(startTime-currentTime).split('.')[0] if currentTime.hour<10 else str(startTime + timedelta(days=1) - currentTime).split('.')[0])
 
 def generateEmbed(name, content):
