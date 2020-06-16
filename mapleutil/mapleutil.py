@@ -18,8 +18,8 @@ def scrape(category, targetSections, targetArticles):
     site = fetch(url)
     soup = BeautifulSoup(site.text, 'html.parser').find('div', class_='component component-news-article').find(
         'ul').find_next('p')
-    soup = soup.find_next(lambda tag: tag.name == 'span' and any(x in tag.text for x in targetSections)).find_next('p')
-    return soup
+    soup = soup.find_next(lambda tag: tag.name == 'span' and any(x in tag.text for x in targetSections))
+    return soup.find_next('p') if soup else 0
     
 def fetchTimes(soup):
     times = []
@@ -73,7 +73,10 @@ def findAllTimes(parsedData, parsedDate, unparsedEntry):
 
 
 def get2xTimes():
-    times = fetchTimes(scrape('update', ['2x EXP & Drop'], ["Patch Notes"]))
+    page = scrape('update', ['2x EXP & Drop'], ["Patch Notes"])
+    times = 0
+    if page:
+        times = fetchTimes()
     toPrint = ''
     if not times:
         return "No 2x periods were found"
@@ -132,6 +135,14 @@ class mapleUtil:
         if not toPrint:
             toPrint = "No patch notes were found."
         await self.bot.say(embed=generateEmbed("Patch Notes", toPrint))
+        gc.collect()
+    @commands.command()
+    async def csupdate(self):
+        """Finds the latest Cash Shop Update"""
+        toPrint = fetchUrl("sale", ["Cash Shop Update"])
+        if not toPrint:
+            toPrint = "No Cash Shop update was found."
+        await self.bot.say(embed=generateEmbed("Cash Shop Update", toPrint))
         gc.collect()
 
     @commands.command()
