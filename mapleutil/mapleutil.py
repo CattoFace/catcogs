@@ -1,11 +1,10 @@
-import discord
-from discord.ext import commands
 import requests
 from bs4 import BeautifulSoup
 import re
 from datetime import datetime, timedelta
 from functools import reduce
 import gc
+from redbot.core import commands
 
 def fetch(url):
     with requests.session() as s:
