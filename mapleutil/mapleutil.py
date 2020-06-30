@@ -114,7 +114,7 @@ def getResetTimes():
     toPrint += "You can claim the weekly guild potions right now!" if currentTime.weekday()==0 else ("You will be able to claim the weekly guild potions in: "+str(currentTime.replace(hour=0,minute=0,second=0)+timedelta(7-currentTime.weekday())-currentTime))+"\n"
     return toPrint
 
-class mapleUtil:
+class mapleUtil(commands.Cog):
     """performs various maple related commands"""
     
     def __init__(self, bot):
