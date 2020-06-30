@@ -125,7 +125,7 @@ class mapleUtil:
     async def next2x(self):
         """Finds the latest 2x post"""
         toPrint = get2xTimes()
-        await self.bot.say(embed=generateEmbed("2x EXP & Drop", toPrint))
+        await ctx.send(embed=generateEmbed("2x EXP & Drop", toPrint))
         gc.collect()
 
     @commands.command(name="patchnotes", aliases=["patch"])
@@ -134,7 +134,7 @@ class mapleUtil:
         toPrint = fetchUrl("update", ["Patch Notes"])
         if not toPrint:
             toPrint = "No patch notes were found."
-        await self.bot.say(embed=generateEmbed("Patch Notes", toPrint))
+        await ctx.send(embed=generateEmbed("Patch Notes", toPrint))
         gc.collect()
     @commands.command()
     async def csupdate(self):
@@ -142,14 +142,14 @@ class mapleUtil:
         toPrint = fetchUrl("sale", ["Cash Shop Update"])
         if not toPrint:
             toPrint = "No Cash Shop update was found."
-        await self.bot.say(embed=generateEmbed("Cash Shop Update", toPrint))
+        await ctx.send(embed=generateEmbed("Cash Shop Update", toPrint))
         gc.collect()
 
     @commands.command()
     async def ursus(self):
         """Sends info about current ursus 2x meso status"""
         toPrint = getUrsus2xStatus()
-        await self.bot.say(embed=generateEmbed("Ursus Status", toPrint))
+        await ctx.send(embed=generateEmbed("Ursus Status", toPrint))
         gc.collect()
 
     @commands.command(name="maintenance", aliases=["maint"])
@@ -158,14 +158,14 @@ class mapleUtil:
         toPrint = getMaintenanceTime()
         if not toPrint:
             toPrint = "No maintenance was found"
-        await self.bot.say(embed=generateEmbed("Maintenance", toPrint))
+        await ctx.send(embed=generateEmbed("Maintenance", toPrint))
         gc.collect()
 
     @commands.command()
     async def reset(self):
         """Sends various times regarding the games reset timers"""
         toPrint=getResetTimes()
-        await self.bot.say(embed=generateEmbed("Times", toPrint))
+        await ctx.send(embed=generateEmbed("Times", toPrint))
         gc.collect()
         
     @commands.command(name="sunny", aliases=["sunnysunday"])
@@ -174,7 +174,7 @@ class mapleUtil:
         toPrint = fetchUrl("update", ["Patch Notes"])+"#sunny"
         if not toPrint:
             toPrint = "No patch notes were found."
-        await self.bot.say(embed=generateEmbed("Sunny Sunday", toPrint))
+        await ctx.send(embed=generateEmbed("Sunny Sunday", toPrint))
         gc.collect()
 def setup(bot):
-    bot.add_cog(mapleUtil(bot))
+    bot.add_cog(mapleUtil())
