@@ -118,14 +118,14 @@ class MapleUtil(commands.Cog):
     """performs various maple related commands"""
 
     @commands.command(name="next2x", aliases=["2x"])
-    async def next2x(self):
+    async def next2x(self,ctx):
         """Finds the latest 2x post"""
         toPrint = get2xTimes()
         await ctx.send(embed=generateEmbed("2x EXP & Drop", toPrint))
         gc.collect()
 
     @commands.command(name="patchnotes", aliases=["patch"])
-    async def patchnotes(self):
+    async def patchnotes(self,ctx):
         """Finds the latest patch notes"""
         toPrint = fetchUrl("update", ["Patch Notes"])
         if not toPrint:
@@ -133,7 +133,7 @@ class MapleUtil(commands.Cog):
         await ctx.send(embed=generateEmbed("Patch Notes", toPrint))
         gc.collect()
     @commands.command()
-    async def csupdate(self):
+    async def csupdate(self,ctx):
         """Finds the latest Cash Shop Update"""
         toPrint = fetchUrl("sale", ["Cash Shop Update"])
         if not toPrint:
@@ -142,14 +142,14 @@ class MapleUtil(commands.Cog):
         gc.collect()
 
     @commands.command()
-    async def ursus(self):
+    async def ursus(self,ctx):
         """Sends info about current ursus 2x meso status"""
         toPrint = getUrsus2xStatus()
         await ctx.send(embed=generateEmbed("Ursus Status", toPrint))
         gc.collect()
 
     @commands.command(name="maintenance", aliases=["maint"])
-    async def maintenance(self):
+    async def maintenance(self,ctx):
         """Finds the last maintenance times"""
         toPrint = getMaintenanceTime()
         if not toPrint:
@@ -158,14 +158,14 @@ class MapleUtil(commands.Cog):
         gc.collect()
 
     @commands.command()
-    async def reset(self):
+    async def reset(self,ctx):
         """Sends various times regarding the games reset timers"""
         toPrint=getResetTimes()
         await ctx.send(embed=generateEmbed("Times", toPrint))
         gc.collect()
         
     @commands.command(name="sunny", aliases=["sunnysunday"])
-    async def sunny(self):
+    async def sunny(self,ctx):
         """Links the sunny sunday section in the last patch note, does not check sunny sunday existance! just assumes one exists in the lastest patch notes"""
         toPrint = fetchUrl("update", ["Patch Notes"])+"#sunny"
         if not toPrint:
