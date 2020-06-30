@@ -1,6 +1,6 @@
-import requests
 from bs4 import BeautifulSoup
 import re
+import requests
 from datetime import datetime, timedelta
 from functools import reduce
 import gc
