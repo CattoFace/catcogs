@@ -141,6 +141,7 @@ class MapleUtil(commands.Cog):
             toPrint = "No patch notes were found."
         await ctx.send(embed=generateEmbed("Patch Notes", toPrint))
         gc.collect()
+        
     @commands.command()
     async def csupdate(self,ctx):
         """Finds the latest Cash Shop Update"""
