@@ -120,10 +120,11 @@ class MapleUtil(commands.Cog):
     """performs various maple related commands"""
 
     @commands.command(name="time")
-    async def time(self)
+    async def time(self,ctx)
         """Prints maple time"""
         toPrint = datetime.utcnow().strftime("Maple time is currently %H:%M %d-%m-%y")
         await ctx.send(embed=generateEmbed("Time", toPrint))
+        gc.collect()
 
     @commands.command(name="next2x", aliases=["2x"])
     async def next2x(self,ctx):
