@@ -95,13 +95,26 @@ def getMaintenanceTime():
     return soup.text
 
 def getUrsus2xStatus():
+    response = "Ursus 2x meso time is active between 1 AM and 3 AM and between 6 PM and 8 PM UTC\n"
     currentTime = datetime.utcnow()
-    if currentTime.hour>=10 and currentTime.hour<22:
-        endTime = currentTime.replace(hour=22,minute=0,second=0)
-        return "Ursus 2x meso time is active between 10 AM and 10 PM UTC\nUrsus 2x meso time is currently active, it will end in "+str(endTime-currentTime).split('.')[0]
-    startTime = currentTime.replace(hour=10,minute=0,second=0)
-    return  "Ursus 2x meso time is active between 10 AM and 10 PM UTC\nUrsus 2x meso time is not active, it will start in "\
-            +(str(startTime-currentTime).split('.')[0] if currentTime.hour<10 else str(startTime + timedelta(days=1) - currentTime).split('.')[0])
+    isActive = 0
+    checkTime = currentTime.replace(hour=1,minute=0,second=0)+timedelta(days=1)
+    if currentTime.hour<1:
+        isActive = 0
+        checkTime = currentTime.replace(hour=1,minute=0,second=0)
+    elif currentTime.hour<3:
+        isActive = 1
+    elif currentTime.hour<18:
+        isActive = 0
+        checkTime = currentTime.replace(hour=18,minute=0,second=0)
+    elif currentTime.hour<20:
+        isActive = 1
+        checkTime = currentTime.replace(hour=20,minute=0,second=0)
+    if isActive:
+        response+="Ursus 2x meso time is currently active, it will end in "
+    else:
+        response+="Ursus 2x meso time is not active, it will start in "
+    return response + str(checkTime-currentTime).split('.')[0])
 
 def generateEmbed(name, content):
         embed = discord.Embed(color=discord.Color.orange(), description=content, title="**"+name+"**")
