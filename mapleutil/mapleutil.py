@@ -114,7 +114,7 @@ def getUrsus2xStatus():
         response+="Ursus 2x meso time is currently active, it will end in "
     else:
         response+="Ursus 2x meso time is not active, it will start in "
-    return response + str(checkTime-currentTime).split('.')[0])
+    return response + str(checkTime-currentTime).split('.')[0]
 
 def generateEmbed(name, content):
         embed = discord.Embed(color=discord.Color.orange(), description=content, title="**"+name+"**")
