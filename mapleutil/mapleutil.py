@@ -31,14 +31,12 @@ def fetchTimes(soup):
 
 
 def fetchUrl(category, targets):
-    baseURL = 'http://maplestory.nexon.net'
-    site = fetch(baseURL + '/news/'+category)
-    soup = BeautifulSoup(site.content, 'html.parser')
-    news = soup.find('ul', class_='news-container rows').find_all('div', class_='text')
-    for entry in news:
-        title = entry.find('a')
-        if any(x in title.text for x in targets):
-            return baseURL + title['href']
+    baseURL = 'http://maplestory.nexon.net/news/'
+    j = json.loads(requests.get("https://nexon.ws/api/news/1180").text)
+    for entry in j:
+        title = entry["Title"]
+        if any(x in title for x in targets):
+            return baseURL + str(entry["Id"])
     return 0
 
 
