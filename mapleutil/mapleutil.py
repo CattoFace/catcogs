@@ -6,7 +6,8 @@ from datetime import datetime, timedelta
 from functools import reduce
 import gc
 from redbot.core import commands
-
+import json
+import random
 def fetch(url):
     with requests.session() as s:
         return s.get(url)
