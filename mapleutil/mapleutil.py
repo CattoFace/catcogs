@@ -195,5 +195,13 @@ class MapleUtil(commands.Cog):
             toPrint = "No patch notes were found."
         await ctx.send(embed=generateEmbed("Sunny Sunday", toPrint))
         gc.collect()
+    @commands.command()
+    async def mapletip(self,ctx):
+        """Sends a random maple tip"""
+        j = json.loads(requests.get("https://maplestory.io/api/GMS/190/tips").text)
+        toPrint = j[10]["messages"][random.randint(0,len(j[10]["messages"]))]
+        await ctx.send(embed=generateEmbed("Maple Tip", toPrint))
+        gc.collect()
+     
 def setup(bot):
     bot.add_cog(mapleUtil(bot))
