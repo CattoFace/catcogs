@@ -32,8 +32,9 @@ def fetchTimes(soup):
 def fetchCharImg(charName,eu):
     url = ("https://maplestory.nexon.net/rankings/overall-ranking/legendary?pageIndex=1&character_name="+charName+"&search=true&region="+("eu" if eu else "")+"&rebootIndex=0#ranking")
     site = fetch(url)
-    imgurl = BeautifulSoup(site.text, 'html.parser').find('img', class_='avatar')["src"]
-    return imgurl
+    imgurl = BeautifulSoup(site.text, 'html.parser').find('img', class_='avatar')
+    
+    return imgurl["src"] if imgurl else 0
 
 def fetchUrl(category, targets):
     baseURL = 'http://maplestory.nexon.net/news/'
@@ -209,21 +210,31 @@ class MapleUtil(commands.Cog):
         await ctx.send(embed=generateEmbed("Maple Tip", toPrint))
         gc.collect()
 
+    def subchar(charName,region):
+        """Sends various times regarding the games reset timers"""
+        img=fetchCharImg(charName,region)
+        embd = 0
+        if img:
+            embd=generateEmbed(charName, "")
+            embd.set_image(fetchCharImg(charName,region))
+        else:
+            embd=generateEmbed(charName, "The character was not found")
+        return embd
+    
     @commands.command()
     async def char(self,ctx,charName):
-        """Sends various times regarding the games reset timers"""
-        embd=generateEmbed(charName, "")
-        embd.set_image(getCharImg(charName,0))
-        await ctx.send(embed=embd)
+        """Shows an image of the character from the NA region"""
+        await ctx.send(embed=subchar(charName,0))
+        
         gc.collect()
         
     @commands.command()
     async def chareu(self,ctx,charName):
-        """Sends various times regarding the games reset timers"""
-        embd=generateEmbed(charName, "")
-        embd.set_image(getCharImg(charName,1))
-        await ctx.send(embed=embd)
+        """Shows an image of the character from the EU region"""
+        await ctx.send(subchar(charName,1))
         gc.collect()
      
 def setup(bot):
     bot.add_cog(mapleUtil(bot))
+
+print(fetchCharImg("Citt",0))
