@@ -139,7 +139,7 @@ def subchar(charName,region):
     embd = 0
     if img:
         embd=generateEmbed(charName, "")
-        embd.set_image("fetchCharImg(charName,region))
+        embd.set_image(fetchCharImg(charName,region))
     else:
         embd=generateEmbed(charName, "The character was not found")
     return embd
