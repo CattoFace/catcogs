@@ -231,7 +231,7 @@ class MapleUtil(commands.Cog):
     @commands.command()
     async def chareu(self,ctx,charName):
         """Shows an image of the character from the EU region"""
-        await ctx.send(subchar(charName,1))
+        await ctx.send(embed=subchar(charName,1))
         gc.collect()
      
 def setup(bot):
