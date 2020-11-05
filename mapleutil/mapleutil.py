@@ -194,6 +194,7 @@ class MapleUtil(commands.Cog):
             toPrint = "No patch notes were found."
         await ctx.send(embed=generateEmbed("Sunny Sunday", toPrint))
         gc.collect()
+        
     @commands.command()
     async def mapletip(self,ctx):
         """Sends a random maple tip"""
@@ -201,6 +202,14 @@ class MapleUtil(commands.Cog):
         group=random.randint(0,2)
         toPrint = j[group]["messages"][random.randint(0,len(j[group]["messages"]))]
         await ctx.send(embed=generateEmbed("Maple Tip", toPrint))
+        gc.collect()
+
+    @commands.command()
+    async def char(self,ctx,charName):
+        """Sends various times regarding the games reset timers"""
+        embd=generateEmbed(charName, "")
+        #embd.set_image(getCharImg(charName))
+        await ctx.send(embed=embd)
         gc.collect()
      
 def setup(bot):
