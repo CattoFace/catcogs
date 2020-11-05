@@ -135,15 +135,15 @@ def getResetTimes():
     return toPrint
 
 def subchar(charName,region):
-        """Sends various times regarding the games reset timers"""
-        img=fetchCharImg(charName,region)
-        embd = 0
-        if img:
-            embd=generateEmbed(charName, "")
-            embd.set_image(fetchCharImg(charName,region))
-        else:
-            embd=generateEmbed(charName, "The character was not found")
-        return embd
+    """Sends various times regarding the games reset timers"""
+    img=fetchCharImg(charName,region)
+    embd = 0
+    if img:
+        embd=generateEmbed(charName, "")
+        embd.set_image(fetchCharImg(charName,region))
+    else:
+        embd=generateEmbed(charName, "The character was not found")
+    return embd
     
 
 class MapleUtil(commands.Cog):
