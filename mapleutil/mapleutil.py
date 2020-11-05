@@ -134,6 +134,18 @@ def getResetTimes():
     toPrint += "You can claim the weekly guild potions right now!" if currentTime.weekday()==0 else ("You will be able to claim the weekly guild potions in: "+str(currentTime.replace(hour=0,minute=0,second=0)+timedelta(7-currentTime.weekday())-currentTime))+"\n"
     return toPrint
 
+def subchar(charName,region):
+        """Sends various times regarding the games reset timers"""
+        img=fetchCharImg(charName,region)
+        embd = 0
+        if img:
+            embd=generateEmbed(charName, "")
+            embd.set_image(fetchCharImg(charName,region))
+        else:
+            embd=generateEmbed(charName, "The character was not found")
+        return embd
+    
+
 class MapleUtil(commands.Cog):
     """performs various maple related commands"""
 
@@ -210,17 +222,6 @@ class MapleUtil(commands.Cog):
         await ctx.send(embed=generateEmbed("Maple Tip", toPrint))
         gc.collect()
 
-    def subchar(charName,region):
-        """Sends various times regarding the games reset timers"""
-        img=fetchCharImg(charName,region)
-        embd = 0
-        if img:
-            embd=generateEmbed(charName, "")
-            embd.set_image(fetchCharImg(charName,region))
-        else:
-            embd=generateEmbed(charName, "The character was not found")
-        return embd
-    
     @commands.command()
     async def char(self,ctx,charName):
         """Shows an image of the character from the NA region"""
@@ -237,4 +238,3 @@ class MapleUtil(commands.Cog):
 def setup(bot):
     bot.add_cog(mapleUtil(bot))
 
-print(fetchCharImg("Citt",0))
