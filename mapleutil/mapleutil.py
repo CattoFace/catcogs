@@ -29,6 +29,11 @@ def fetchTimes(soup):
             times.append("UTC:" + entry)
     return times
 
+def fetchCharImg(charName,eu):
+    url = ("https://maplestory.nexon.net/rankings/overall-ranking/legendary?pageIndex=1&character_name="+charName+"&search=true&region="+("eu" if eu else "")+"&rebootIndex=0#ranking")
+    site = fetch(url)
+    imgurl = BeautifulSoup(site.text, 'html.parser').find('img', class_='avatar')["src"]
+    return imgurl
 
 def fetchUrl(category, targets):
     baseURL = 'http://maplestory.nexon.net/news/'
@@ -208,7 +213,15 @@ class MapleUtil(commands.Cog):
     async def char(self,ctx,charName):
         """Sends various times regarding the games reset timers"""
         embd=generateEmbed(charName, "")
-        #embd.set_image(getCharImg(charName))
+        embd.set_image(getCharImg(charName,0))
+        await ctx.send(embed=embd)
+        gc.collect()
+        
+    @commands.command()
+    async def chareu(self,ctx,charName):
+        """Sends various times regarding the games reset timers"""
+        embd=generateEmbed(charName, "")
+        embd.set_image(getCharImg(charName,1))
         await ctx.send(embed=embd)
         gc.collect()
      
