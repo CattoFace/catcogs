@@ -111,8 +111,7 @@ class MapleUtil(commands.Cog):
 	async def addrank(self,ctx,char):
 		"""Adds a character to this servers rankings as an NA character"""
 		addchar(ctx.Guild,char,0)
-    	gc.collect()
-	
+    	gc.collect()	
 	@commands.has_permissions(manage_messages=True)
 	@commands.command()
 	async def addrankeu(self,ctx,char):
