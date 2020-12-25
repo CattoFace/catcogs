@@ -110,28 +110,28 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def addrank(self,ctx,char):
 		"""Adds a character to this servers rankings as an NA character"""
-		addchar(ctx.Guild,char,0)
+		addChar(ctx.Guild,char,0)
 		gc.collect()
     	
 	@commands.has_permissions(manage_messages=True)
 	@commands.command()
 	async def addrankeu(self,ctx,char):
 		"""Adds a character to this servers rankings as an EU character"""
-		addchar(ctx.Guild,char,1)
+		addChar(ctx.Guild,char,1)
 		gc.collect()
         	
 	@commands.has_permissions(manage_messages=True)
 	@commands.command()
-	async def addrank(self,ctx,char):
+	async def delrank(self,ctx,char):
 		"""Removes a character from this servers rankings as an NA character"""
-		delchar(ctx.Guild,char,0)
+		delChar(ctx.Guild,char,0)
 		gc.collect()
 	
 	@commands.has_permissions(manage_messages=True)
 	@commands.command()
-	async def addrankeu(self,ctx,char):
+	async def delrankeu(self,ctx,char):
 		"""Removes a character from this servers rankings as an EU character"""
-		delchar(ctx.Guild,char,1)
+		delChar(ctx.Guild,char,1)
 		gc.collect()
 	
 	@commands.command()
