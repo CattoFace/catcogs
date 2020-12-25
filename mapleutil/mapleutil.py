@@ -116,7 +116,7 @@ class MapleUtil(commands.Cog):
 	@commands.has_permissions(manage_messages=True)
 	@commands.command()
 	async def addrankeu(self,ctx,char):
-    	"""Adds a character to this servers rankings as an EU character"""
+		"""Adds a character to this servers rankings as an EU character"""
     	addchar(ctx.Guild,char,1)
     	gc.collect()
         	
