@@ -112,28 +112,28 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def addrank(self,ctx,char):
 		"""Adds a character to this servers rankings as an NA character"""
-		jsonlib.addChar(ctx.guild,char,0)
+		jsonlib.addChar(ctx.guild.id,char,0)
 		gc.collect()
     	
 	@commands.has_permissions(manage_messages=True)
 	@commands.command()
 	async def addrankeu(self,ctx,char):
 		"""Adds a character to this servers rankings as an EU character"""
-		jsonlib.addChar(ctx.guild,char,1)
+		jsonlib.addChar(ctx.guild.id,char,1)
 		gc.collect()
         	
 	@commands.has_permissions(manage_messages=True)
 	@commands.command()
 	async def delrank(self,ctx,char):
 		"""Removes a character from this servers rankings as an NA character"""
-		jsonlib.delChar(ctx.guild,char,0)
+		jsonlib.delChar(ctx.guild.id,char,0)
 		gc.collect()
 	
 	@commands.has_permissions(manage_messages=True)
 	@commands.command()
 	async def delrankeu(self,ctx,char):
 		"""Removes a character from this servers rankings as an EU character"""
-		jsonlib.delChar(ctx.guild,char,1)
+		jsonlib.delChar(ctx.guild.id,char,1)
 		gc.collect()
 	
 	@commands.command()
@@ -145,7 +145,7 @@ class MapleUtil(commands.Cog):
 		
 	@commands.command()
 	async def testguild(self,ctx):
-		await ctx.send(ctx.guild)
+		await ctx.send(ctx.guild.id)
 
 def setup(bot):
 	bot.add_cog(mapleUtil(bot))
