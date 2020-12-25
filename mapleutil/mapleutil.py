@@ -4,18 +4,18 @@ import gc
 from redbot.core import commands
 
 def generateEmbed(name, content):
-        embed = discord.Embed(color=discord.Color.orange(), description=content, title="**"+name+"**")
-        return embed
+	embed = discord.Embed(color=discord.Color.orange(), description=content, title="**"+name+"**")
+	return embed
 
 def subchar(charName,region):
-    img=fetchCharImg(charName,region)
-    embd = 0
-    if img:
-        embd=generateEmbed(charName, "")
-        embd.set_image(url=fetchCharImg(charName,region))
-    else:
-        embd=generateEmbed(charName, "The character was not found")
-    return embd
+	img=fetchCharImg(charName,region)
+	embd = 0
+	if img:
+		embd=generateEmbed(charName, "")
+		embd.set_image(url=fetchCharImg(charName,region))
+	else:
+		embd=generateEmbed(charName, "The character was not found")
+	return embd
     
 
 class MapleUtil(commands.Cog):
@@ -142,6 +142,6 @@ class MapleUtil(commands.Cog):
         	gc.collect()
 
 def setup(bot):
-    bot.add_cog(mapleUtil(bot))
-    initiateBot()
+	bot.add_cog(mapleUtil(bot))
+	initiateBot()
 
