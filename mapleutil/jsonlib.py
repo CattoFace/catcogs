@@ -39,6 +39,3 @@ def generateLeaderboard(server):
 
 def formatLeaderboard(leaderboard):
 	return '\n'.join('{name} - Level: {level} Exp: {exp}'.format(**x) for x in leaderboard)
-	
-	
-

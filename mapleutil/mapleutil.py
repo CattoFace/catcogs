@@ -109,37 +109,37 @@ class MapleUtil(commands.Cog):
 	@commands.has_permissions(manage_messages=True)
 	@commands.command()
 	async def addrank(self,ctx,char):
-        	"""Adds a character to this servers rankings as an NA character"""
-        	addchar(ctx.Guild,char,0)
-        	gc.collect()
+    	"""Adds a character to this servers rankings as an NA character"""
+    	addchar(ctx.Guild,char,0)
+    	gc.collect()
 	
 	@commands.has_permissions(manage_messages=True)
 	@commands.command()
 	async def addrankeu(self,ctx,char):
-        	"""Adds a character to this servers rankings as an EU character"""
-        	addchar(ctx.Guild,char,1)
-        	gc.collect()
+    	"""Adds a character to this servers rankings as an EU character"""
+    	addchar(ctx.Guild,char,1)
+    	gc.collect()
         	
 	@commands.has_permissions(manage_messages=True)
 	@commands.command()
 	async def addrank(self,ctx,char):
-        	"""Removes a character from this servers rankings as an NA character"""
-        	delchar(ctx.Guild,char,0)
-        	gc.collect()
+    	"""Removes a character from this servers rankings as an NA character"""
+    	delchar(ctx.Guild,char,0)
+    	gc.collect()
 	
 	@commands.has_permissions(manage_messages=True)
 	@commands.command()
 	async def addrankeu(self,ctx,char):
-        	"""Removes a character from this servers rankings as an EU character"""
-        	delchar(ctx.Guild,char,1)
-        	gc.collect()
+    	"""Removes a character from this servers rankings as an EU character"""
+    	delchar(ctx.Guild,char,1)
+    	gc.collect()
 	
 	@commands.command()
 	async def serverrankings(self,ctx):
-        	"""Prints the servers current rankings"""
-        	toPrint = formatLeaderboard(generateLeaderboard(ctx.Guild))
+    	"""Prints the servers current rankings"""
+    	toPrint = formatLeaderboard(generateLeaderboard(ctx.Guild))
 		await ctx.send(embed=generateEmbed("Server Rankings", toPrint))
-        	gc.collect()
+    	gc.collect()
 
 def setup(bot):
 	bot.add_cog(mapleUtil(bot))
