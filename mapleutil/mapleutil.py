@@ -2,7 +2,6 @@ import discord
 from datetime import datetime, timedelta
 import gc
 from redbot.core import commands
-from scrapelib import *
 from . import jsonlib
 
 rankingsData ={}
@@ -60,7 +59,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def ursus(self,ctx):
 		"""Sends info about current ursus 2x meso status"""
-		toPrint = getUrsus2xStatus()
+		toPrint = scrapelib.getUrsus2xStatus()
 		await ctx.send(embed=generateEmbed("Ursus Status", toPrint))
 		gc.collect()
 
