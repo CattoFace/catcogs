@@ -2,6 +2,8 @@ import discord
 from datetime import datetime, timedelta
 import gc
 from redbot.core import commands
+import scrapelib
+import jsonlib
 
 def generateEmbed(name, content):
 	embed = discord.Embed(color=discord.Color.orange(), description=content, title="**"+name+"**")
