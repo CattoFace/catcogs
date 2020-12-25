@@ -142,7 +142,7 @@ class MapleUtil(commands.Cog):
 		toPrint = jsonlib.formatLeaderboard(jsonlib.generateLeaderboard(ctx.guild))
 		await ctx.send(embed=generateEmbed("Server Rankings", toPrint))
 		gc.collect()
-	@commands
+	@commands.command
 	async def testguild(self,ctx):
 		await ctx.send(ctx.guild)
 def setup(bot):
