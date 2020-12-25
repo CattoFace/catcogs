@@ -123,7 +123,7 @@ class MapleUtil(commands.Cog):
 	@commands.has_permissions(manage_messages=True)
 	@commands.command()
 	async def addrank(self,ctx,char):
-    	"""Removes a character from this servers rankings as an NA character"""
+		"""Removes a character from this servers rankings as an NA character"""
     	delchar(ctx.Guild,char,0)
     	gc.collect()
 	
