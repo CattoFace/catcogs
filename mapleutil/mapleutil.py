@@ -2,7 +2,7 @@ import discord
 from datetime import datetime, timedelta
 import gc
 from redbot.core import commands
-from . import scrapelib
+#from . import scrapelib
 from . import jsonlib
 
 def generateEmbed(name, content):
