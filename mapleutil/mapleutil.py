@@ -5,6 +5,8 @@ from redbot.core import commands
 #from . import scrapelib
 from . import jsonlib
 
+rankingsData ={}
+
 def generateEmbed(name, content):
 	embed = discord.Embed(color=discord.Color.orange(), description=content, title="**"+name+"**")
 	return embed
@@ -112,7 +114,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def addrank(self,ctx,char):
 		"""Adds a character to this servers rankings as an NA character"""
-		jsonlib.addChar(ctx.guild.id,char,0)
+		jsonlib.addChar(rankingsData,ctx.guild.id,char,0)
 		await ctx.send(char +" was added")
 		gc.collect()
     	
@@ -120,7 +122,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def addrankeu(self,ctx,char):
 		"""Adds a character to this servers rankings as an EU character"""
-		jsonlib.addChar(ctx.guild.id,char,1)
+		jsonlib.addChar(rankingsData,ctx.guild.id,char,1)
 		await ctx.send(char +" was added")
 		gc.collect()
         	
@@ -128,7 +130,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def delrank(self,ctx,char):
 		"""Removes a character from this servers rankings as an NA character"""
-		jsonlib.delChar(ctx.guild.id,char,0)
+		jsonlib.delChar(rankingsData, ctx.guild.id,char,0)
 		await ctx.send(char +" was removed")
 		gc.collect()
 	
@@ -136,14 +138,14 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def delrankeu(self,ctx,char):
 		"""Removes a character from this servers rankings as an EU character"""
-		jsonlib.delChar(ctx.guild.id,char,1)
+		jsonlib.delChar(rankingsData, ctx.guild.id,char,1)
 		await ctx.send(char +" was removed")
 		gc.collect()
 	
 	@commands.command()
 	async def serverrankings(self,ctx):
 		"""Prints the servers current rankings"""
-		toPrint = jsonlib.formatLeaderboard(jsonlib.generateLeaderboard(ctx.guild.id))
+		toPrint = jsonlib.formatLeaderboard(jsonlib.generateLeaderboard(rankingsData, ctx.guild.id))
 		await ctx.send(embed=generateEmbed("Server Rankings", toPrint))
 		gc.collect()
 		
@@ -153,5 +155,6 @@ class MapleUtil(commands.Cog):
 
 def setup(bot):
 	bot.add_cog(mapleUtil(bot))
-	initiateBot()
+	global rankingsData
+	rankingsData = initiateBot()
 
