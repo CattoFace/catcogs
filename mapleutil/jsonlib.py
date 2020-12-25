@@ -31,6 +31,8 @@ def updateJson(data):
 		
 def generateLeaderboard(data,server):
 	leaderboard = []
+	if not server in data:
+		return None
 	for char in data[server]:
 		exp=scrapelib.fetchCharExp(char[0],char[1])
 		leaderboard.append({'name':char[0],'eu':char[1],'level':exp[0],'exp':exp[1] })
