@@ -34,7 +34,7 @@ def generateLeaderboard(data,server):
 	if not server in data:
 		return {}
 	for char in data[server]:
-		exp=scrapelib.fetchCharExp(char[0],char[1])
+		exp=fetchCharExp(char[0],char[1])
 		leaderboard.append({'name':char[0],'eu':char[1],'level':exp[0],'exp':exp[1] })
 	leaderboard.sort(key = lambda x: (x['level'],x['exp']),reverse=1)
 	return leaderboard
