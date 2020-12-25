@@ -112,34 +112,34 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def addrank(self,ctx,char):
 		"""Adds a character to this servers rankings as an NA character"""
-		addChar(ctx.Guild,char,0)
+		jsonlib.addChar(ctx.Guild,char,0)
 		gc.collect()
     	
 	@commands.has_permissions(manage_messages=True)
 	@commands.command()
 	async def addrankeu(self,ctx,char):
 		"""Adds a character to this servers rankings as an EU character"""
-		addChar(ctx.Guild,char,1)
+		jsonlib.addChar(ctx.Guild,char,1)
 		gc.collect()
         	
 	@commands.has_permissions(manage_messages=True)
 	@commands.command()
 	async def delrank(self,ctx,char):
 		"""Removes a character from this servers rankings as an NA character"""
-		delChar(ctx.Guild,char,0)
+		jsonlib.delChar(ctx.Guild,char,0)
 		gc.collect()
 	
 	@commands.has_permissions(manage_messages=True)
 	@commands.command()
 	async def delrankeu(self,ctx,char):
 		"""Removes a character from this servers rankings as an EU character"""
-		delChar(ctx.Guild,char,1)
+		jsonlib.delChar(ctx.Guild,char,1)
 		gc.collect()
 	
 	@commands.command()
 	async def serverrankings(self,ctx):
 		"""Prints the servers current rankings"""
-		toPrint = formatLeaderboard(generateLeaderboard(ctx.Guild))
+		toPrint = jsonlib.formatLeaderboard(jsonlib.generateLeaderboard(ctx.Guild))
 		await ctx.send(embed=generateEmbed("Server Rankings", toPrint))
 		gc.collect()
 
