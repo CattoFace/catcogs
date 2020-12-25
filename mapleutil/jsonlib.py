@@ -1,5 +1,5 @@
 import json
-#from . import scrapelib
+from ./scrapelib import *
 
 def initiateBot():
 	data ={}
