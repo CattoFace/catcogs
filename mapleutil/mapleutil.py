@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import gc
 from redbot.core import commands
 from . import jsonlib
+import scrapelib
 
 rankingsData ={}
 
