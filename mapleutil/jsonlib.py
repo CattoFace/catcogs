@@ -1,11 +1,10 @@
 import json
 from . import scrapelib
-import os
+import redbot
 
 def initiateBot():
 	data ={}
-	scriptDir = os.path.split(os.path.abspath(__file__))[0]
-	jsonPath = os.path.join(scriptDir, "rankData.json")
+	jsonPath = 	redbot.core.data_manager.cog_data_path('mapleUtil')+'/rankData.py'
 	try:
 		with open(jsonPath) as jsonFile:
 			data = json.load(jsonFile)
@@ -29,8 +28,7 @@ def delChar(data,server,char,eu):
 	return True
 
 def updateJson(data):
-	scriptDir = os.path.split(os.path.abspath(__file__))[0]
-	jsonPath = os.path.join(scriptDir, "rankData.json")
+	jsonPath = 	redbot.core.data_manager.cog_data_path('mapleUtil')+'/rankData.py'
 	with open(jsonPath, "w") as jsonFile:
 		json.dump(data, jsonFile)
 		
