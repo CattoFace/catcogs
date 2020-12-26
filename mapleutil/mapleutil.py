@@ -115,7 +115,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def addrank(self,ctx,char):
 		"""Adds a character to this servers rankings as an NA character"""
-		jsonlib.addChar(rankingsData,ctx.guild.id,char,0)
+		jsonlib.addChar(rankingsData,str(ctx.guild.id),char,0)
 		await ctx.send(char +" was added")
 		gc.collect()
     	
@@ -123,7 +123,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def addrankeu(self,ctx,char):
 		"""Adds a character to this servers rankings as an EU character"""
-		jsonlib.addChar(rankingsData,ctx.guild.id,char,1)
+		jsonlib.addChar(rankingsData,str(ctx.guild.id),char,1)
 		await ctx.send(char +" was added")
 		gc.collect()
         	
@@ -131,7 +131,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def delrank(self,ctx,char):
 		"""Removes a character from this servers rankings as an NA character"""
-		jsonlib.delChar(rankingsData, ctx.guild.id,char,0)
+		jsonlib.delChar(rankingsData, str(ctx.guild.id),char,0)
 		await ctx.send(char +" was removed")
 		gc.collect()
 	
@@ -139,7 +139,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def delrankeu(self,ctx,char):
 		"""Removes a character from this servers rankings as an EU character"""
-		jsonlib.delChar(rankingsData, ctx.guild.id,char,1)
+		jsonlib.delChar(rankingsData, str(ctx.guild.id),char,1)
 		await ctx.send(char +" was removed")
 		gc.collect()
 	
