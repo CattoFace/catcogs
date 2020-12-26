@@ -157,6 +157,6 @@ class MapleUtil(commands.Cog):
 
 def setup(bot):
 	bot.add_cog(mapleUtil(bot))
-	global rankingsData
+	#global rankingsData
 	rankingsData = downloadRankingData()
 
