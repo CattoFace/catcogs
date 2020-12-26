@@ -60,7 +60,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def ursus(self,ctx):
 		"""Sends info about current ursus 2x meso status"""
-		toPrint = scrapelib.getUrsus2xStatus()
+		toPrint = getUrsus2xStatus()
 		await ctx.send(embed=generateEmbed("Ursus Status", toPrint))
 		gc.collect()
 
