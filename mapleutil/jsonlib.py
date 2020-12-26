@@ -4,7 +4,7 @@ import redbot
 
 def initiateBot():
 	data ={}
-	jsonPath = 	redbot.core.data_manager.cog_data_path('mapleUtil')+'/rankData.py'
+	jsonPath = 	str(redbot.core.data_manager.cog_data_path('mapleUtil'))+'rankData.py'
 	try:
 		with open(jsonPath) as jsonFile:
 			data = json.load(jsonFile)
@@ -28,7 +28,7 @@ def delChar(data,server,char,eu):
 	return True
 
 def updateJson(data):
-	jsonPath = 	redbot.core.data_manager.cog_data_path('mapleUtil')+'/rankData.py'
+	jsonPath = 	str(redbot.core.data_manager.cog_data_path('mapleUtil'))+'rankData.py'
 	with open(jsonPath, "w") as jsonFile:
 		json.dump(data, jsonFile)
 		
