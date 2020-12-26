@@ -22,7 +22,7 @@ def addChar(data,server,char,eu):
 def delChar(data,server,char,eu):
 	if not server in data:
 		return False
-	data[server]= [x for x in data[server] if x[0]!=char or x[1]!=eu]
+	data[server]= [x for x in data[server] if x[0].lower()!=char.lower() or x[1]!=eu]
 	scrapelib.saveRankingData(data)
 	#updateJson(data)
 	return True
