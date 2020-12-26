@@ -2,7 +2,7 @@ import json
 from . import scrapelib
 #from scrapelib import *
 def initiateBot():
-	return downloadRankingData()
+	return scrapelib.downloadRankingData()
 	#try:
 	#	with open(jsonPath) as jsonFile:
 	#		data = json.load(jsonFile)
@@ -45,4 +45,3 @@ def generateLeaderboard(data,server):
 def formatLeaderboard(leaderboard):
 	return '\n'.join('{name} - Level: {level} Exp: {exp}'.format(**x) for x in leaderboard)
 
-print(initiateBot())
