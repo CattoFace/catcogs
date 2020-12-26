@@ -137,4 +137,14 @@ def getResetTimes():
     toPrint += "You can claim the weekly guild potions right now!" if currentTime.weekday()==0 else ("You will be able to claim the weekly guild potions in: "+str(currentTime.replace(hour=0,minute=0,second=0)+timedelta(7-currentTime.weekday())-currentTime))+"\n"
     return toPrint
 
-
+def downloadRankingData():
+	API_ENDPOINT = "https://json.psty.io/api_v1/stores/rankingData"
+	headers = { 'Api-Key': "544fa888-293e-4d4e-be20-8682153a1461"}
+	data = requests.get(API_ENDPOINT,headers=headers)
+	return data.json()['data']
+	
+def saveRankingData(data):
+	API_ENDPOINT = "https://json.psty.io/api_v1/stores/rankingData"
+	headers = { 'Api-Key': "544fa888-293e-4d4e-be20-8682153a1461", 'Content-Type': 'application/json'}
+	data = requests.put(API_ENDPOINT,headers=headers,data=json.dumps(data))
+	
