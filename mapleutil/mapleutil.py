@@ -151,7 +151,7 @@ class MapleUtil(commands.Cog):
 		
 	@commands.command()
 	async def testguild(self,ctx):
-		await ctx.send(ctx.guild.id)
+		await ctx.send(rankingsData)
 
 def setup(bot):
 	bot.add_cog(mapleUtil(bot))
