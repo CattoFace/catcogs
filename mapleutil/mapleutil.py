@@ -93,7 +93,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def mapletip(self,ctx):
 		"""Sends a random maple tip"""
-		j = json.loads(requests.get("https://maplestory.io/api/GMS/217/tips").text)
+		j = json.loads(requests.get("https://maplestory.io/api/GMS/219/tips").text)
 		group=random.randint(0,2)
 		toPrint = j[group]["messages"][random.randint(0,len(j[group]["messages"]))]
 		await ctx.send(embed=generateEmbed("Maple Tip", toPrint))
