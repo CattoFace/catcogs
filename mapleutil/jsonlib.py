@@ -38,10 +38,10 @@ def generateLeaderboard(data,server):
 		return {}
 	for char in data[server]:
 		exp=scrapelib.fetchCharExp(char[0],char[1])
-		leaderboard.append({'name':char[0],'eu':char[1],'level':exp[0],'exp':exp[1] })
+		leaderboard.append({'name':char[0],'region':'EU' if char[1] else 'NA','level':exp[0],'exp':exp[1] })
 	leaderboard.sort(key = lambda x: (x['level'],x['exp']),reverse=1)
 	return leaderboard
 
 def formatLeaderboard(leaderboard):
-	return '\n'.join('{name} - Level: {level} Exp: {exp}'.format(**x) for x in leaderboard)
+	return '\n'.join('{name} - Region: {region} Level: {level} Exp: {exp}'.format(**x) for x in leaderboard)
 
