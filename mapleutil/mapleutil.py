@@ -153,7 +153,8 @@ class MapleUtil(commands.Cog):
 		
 	@commands.command()
 	async def testguild(self,ctx):
-		await ctx.send(os.getcwd())
+		with open('rankData.json') as f:
+			await ctx.send(os.path(f))
 
 def setup(bot):
 	bot.add_cog(mapleUtil(bot))
