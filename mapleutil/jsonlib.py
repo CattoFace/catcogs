@@ -1,6 +1,6 @@
 import json
-#from . import scrapelib
-from scrapelib import *
+from . import scrapelib
+#from scrapelib import *
 def initiateBot():
 	return downloadRankingData()
 	#try:
