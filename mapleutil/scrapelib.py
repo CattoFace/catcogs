@@ -39,7 +39,7 @@ def fetchCharExp(charName,eu):
 	site = fetch(url)
 	data = BeautifulSoup(site.text, 'html.parser').find('td', class_='level-move')
 	if not data:
-		return (0,0)
+		return 0,0
 	data=data.contents
 	level = ''.join(filter(lambda x: x.isdigit(),data[0]))
 	exp = int(''.join(filter(lambda x: x.isdigit(),data[2])))
