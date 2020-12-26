@@ -155,6 +155,7 @@ class MapleUtil(commands.Cog):
 		await ctx.send(rankingsData)
 		await ctx.send(downloadRankingData())
 
+rankingsData = downloadRankingData()
 def setup(bot):
 	bot.add_cog(mapleUtil(bot))
 	#global rankingsData
