@@ -5,8 +5,6 @@ from redbot.core import commands
 from . import jsonlib
 from .scrapelib import *
 
-import os
-
 rankingsData ={}
 
 def generateEmbed(name, content):
@@ -154,7 +152,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def testguild(self,ctx):
 		with open('rankData.json') as f:
-			await ctx.send(os.path(f))
+			await ctx.send(rankingsData)
 
 def setup(bot):
 	bot.add_cog(mapleUtil(bot))

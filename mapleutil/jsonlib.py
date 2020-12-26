@@ -1,13 +1,16 @@
 import json
 from . import scrapelib
+import os
 
 def initiateBot():
 	data ={}
+	scriptDir = os.path.split(os.path.abspath(__file__))[0]
+	jsonPath = os.path.join(scriptDir, "rankData.json")
 	try:
-		with open('rankData.json') as jsonFile:
+		with open(jsonPath) as jsonFile:
 			data = json.load(jsonFile)
 	except:
-		open('rankData.json', 'w')
+		open(jsonPath, 'w')
 	return data
 
 def addChar(data,server,char,eu):
@@ -26,7 +29,9 @@ def delChar(data,server,char,eu):
 	return True
 
 def updateJson(data):
-	with open("rankData.json", "w") as jsonFile:
+	scriptDir = os.path.split(os.path.abspath(__file__))[0]
+	jsonPath = os.path.join(scriptDir, "rankData.json")
+	with open(jsonPath, "w") as jsonFile:
 		json.dump(data, jsonFile)
 		
 def generateLeaderboard(data,server):
@@ -41,3 +46,4 @@ def generateLeaderboard(data,server):
 
 def formatLeaderboard(leaderboard):
 	return '\n'.join('{name} - Level: {level} Exp: {exp}'.format(**x) for x in leaderboard)
+
