@@ -152,7 +152,7 @@ class MapleUtil(commands.Cog):
 		
 	@commands.command()
 	async def testguild(self,ctx):
-		jsonPath = 	str(redbot.core.data_manager.cog_data_path(MapleUtil))+'/rankData.py'
+		jsonPath = 	str(redbot.core.data_manager.cog_data_path(raw_name='mapleUtil'))+'/rankData.py'
 		await ctx.send(jsonPath)
 
 def setup(bot):
