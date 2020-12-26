@@ -146,7 +146,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def serverrankings(self,ctx):
 		"""Prints the servers current rankings"""
-		toPrint = jsonlib.formatLeaderboard(jsonlib.generateLeaderboard(rankingsData, ctx.guild.id))
+		toPrint = jsonlib.formatLeaderboard(jsonlib.generateLeaderboard(rankingsData, str(ctx.guild.id)))
 		await ctx.send(embed=generateEmbed("Server Rankings", toPrint))
 		gc.collect()
 		
