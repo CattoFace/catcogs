@@ -41,7 +41,7 @@ def generateLeaderboard(data,server):
 		leaderboard.append({'name':char[0],'region':'EU' if char[1] else 'NA','level':exp[0],'exp':exp[1] })
 	leaderboard.sort(key = lambda x: (x['level'],x['exp']),reverse=1)
 	for char in leaderboard:
-		char['exp']= f"{char['exp']:,}" if char['exp']=='0' else 0
+		char['exp']= 0 if char['exp']=='0' else f"{char['exp']:,}"
 	return leaderboard
 
 def formatLeaderboard(leaderboard):
