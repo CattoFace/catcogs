@@ -109,7 +109,7 @@ def getMaintenanceTime():
     return soup.text
 
 def getUrsus2xStatus():
-    response = "Ursus 2x meso time is active between 1 AM and 5 AM and between 6 PM and 10 PM UTC\n"
+    response = "Ursus 2x meso time is active between 1 AM and 3 AM and between 6 PM and 8 PM UTC\n"
     currentTime = datetime.utcnow()
     isActive = 0
     checkTime = currentTime.replace(hour=1,minute=0,second=0)+timedelta(days=1)
@@ -118,13 +118,13 @@ def getUrsus2xStatus():
         checkTime = currentTime.replace(hour=1,minute=0,second=0)
     elif currentTime.hour<5:
         isActive = 1
-        checkTime = currentTime.replace(hour=5,minute=0,second=0)
+        checkTime = currentTime.replace(hour=3,minute=0,second=0)
     elif currentTime.hour<18:
         isActive = 0
         checkTime = currentTime.replace(hour=18,minute=0,second=0)
     elif currentTime.hour<22:
         isActive = 1
-        checkTime = currentTime.replace(hour=22,minute=0,second=0)
+        checkTime = currentTime.replace(hour=20,minute=0,second=0)
     if isActive:
         response+="Ursus 2x meso time is currently active, it will end in "
     else:
