@@ -151,4 +151,3 @@ def saveRankingData(data):
 	headers = { 'Api-Key': "544fa888-293e-4d4e-be20-8682153a1461", 'Content-Type': 'application/json'}
 	data = requests.put(API_ENDPOINT,headers=headers,data=json.dumps(data))
 	
-print(downloadRankingData())
