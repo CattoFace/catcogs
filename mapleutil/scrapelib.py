@@ -37,14 +37,11 @@ def fetchCharImg(charName,eu):
 	return char["CharacterImgUrl"] if char else 0
 
 def fetchCharExp(charName,eu):
-	url = ("https://maplestory.nexon.net/rankings/overall-ranking/legendary?pageIndex=1&character_name="+charName+"&search=true&region="+("eu" if eu else "")+"&rebootIndex=0#ranking")
-	site = fetch(url)
-	data = BeautifulSoup(site.text, 'html.parser').find('td', class_='level-move')
+	data= fetchChar(charName,eu)
 	if not data:
 		return '0','0'
-	data=data.contents
-	level = ''.join(filter(lambda x: x.isdigit(),data[0]))
-	exp = int(''.join(filter(lambda x: x.isdigit(),data[2])))
+	level = data['Level']
+	exp = data['Exp']
 	return level,exp
 	
 def fetchUrl(category, targets):
