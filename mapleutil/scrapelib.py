@@ -30,11 +30,11 @@ def fetchTimes(soup):
 
 def fetchChar(charName,eu):
 	with requests.session() as s:
-		return s.get('https://maplestory.nexon.net/api/ranking?id=overall&character_name='+charName+('&region=eu' if eu else ''))
+		return s.get('https://maplestory.nexon.net/api/ranking?id=overall&character_name='+charName+('&region=eu' if eu else '')).json()[0]
 			     
 def fetchCharImg(charName,eu):
-	img =fetchChar(charName,eu)["CharacterImgUrl"]
-	return img if img else 0
+	char = fetchChar(charName,eu)
+	return char["CharacterImgUrl"] if char else 0
 
 def fetchCharExp(charName,eu):
 	url = ("https://maplestory.nexon.net/rankings/overall-ranking/legendary?pageIndex=1&character_name="+charName+"&search=true&region="+("eu" if eu else "")+"&rebootIndex=0#ranking")
