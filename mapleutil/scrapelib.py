@@ -31,7 +31,7 @@ def fetchTimes(soup):
 def fetchCharImg(charName,eu):
     url = ("https://maplestory.nexon.net/rankings/overall-ranking/legendary?pageIndex=1&character_name="+charName+"&search=true&region="+("eu" if eu else "")+"&rebootIndex=0#ranking")
     site = fetch(url)
-    imgurl = BeautifulSoup(site.text, 'html.parser').find('div', class_='c-rank-list__item-character-image').find_next('img')
+    imgurl = BeautifulSoup(site.text, 'html.parser').find(class_='c-rank-list__item-character-image').find_next('img')
     return imgurl["src"] if imgurl else 0
 
 def fetchCharExp(charName,eu):
