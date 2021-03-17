@@ -28,11 +28,13 @@ def fetchTimes(soup):
             times.append("UTC:" + entry)
     return times
 
+def fetchChar(charName,eu):
+	with requests.session() as s:
+		return s.get(''https://maplestory.nexon.net/api/ranking?id=overall&character_name='+charName+'&region=eu' if eu else '')
+			     
 def fetchCharImg(charName,eu):
-    url = ("https://maplestory.nexon.net/rankings/overall-ranking/legendary?pageIndex=1&character_name="+charName+"&search=true&region="+("eu" if eu else "")+"&rebootIndex=0#ranking")
-    site = fetch(url)
-    imgurl = BeautifulSoup(site.text, 'html.parser').find('div', class_='c-rank-list__item-character-image')#.find_next('img')
-    return imgurl["src"] if imgurl else 0
+	img =fetchChar(charName,eu)["CharacterImgUrl"]
+	return img if img else 0
 
 def fetchCharExp(charName,eu):
 	url = ("https://maplestory.nexon.net/rankings/overall-ranking/legendary?pageIndex=1&character_name="+charName+"&search=true&region="+("eu" if eu else "")+"&rebootIndex=0#ranking")
