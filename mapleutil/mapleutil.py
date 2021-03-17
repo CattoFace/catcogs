@@ -13,11 +13,11 @@ def generateEmbed(name, content):
 	return embed
 
 def subchar(charName,region):
-	img=fetchCharImg(charName,region)
+	char=fetchChar(charName,region)
 	embd = 0
 	if img:
-		embd=generateEmbed(charName, "")
-		embd.set_image(url=fetchCharImg(charName,region))
+		embd=generateEmbed(char["CharacterName", "World: "+char["WorldName"]+"\nRank: "+char["Rank"]+"\nLevel: "+char["Level"+" Exp: "+char["Exp"]+"\nClass: "+char["JobName"])
+		embd.set_image(url=char["CharacterImgUrl"])
 	else:
 		embd=generateEmbed(charName, "The character was not found")
 	return embd
