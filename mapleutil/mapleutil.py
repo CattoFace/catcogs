@@ -16,7 +16,7 @@ def subchar(charName,region):
 	char=fetchChar(charName,region)
 	embd = 0
 	if img:
-		embd=generateEmbed(char["CharacterName"], "World: "+char["WorldName"]+"\nRank: "+char["Rank"]+"\nLevel: "+char["Level"+" Exp: "+char["Exp"]+"\nClass: "+char["JobName"])
+		embd=generateEmbed(char["CharacterName"], "World: "+char["WorldName"]+"\nRank: "+char["Rank"]+"\nLevel: "+char["Level"]+" Exp: "+char["Exp"]+"\nClass: "+char["JobName"])
 		embd.set_image(url=char["CharacterImgUrl"])
 	else:
 		embd=generateEmbed(charName, "The character was not found")
