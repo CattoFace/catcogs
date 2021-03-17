@@ -15,7 +15,7 @@ def generateEmbed(name, content):
 def subchar(charName,region):
 	char=fetchChar(charName,region)
 	embd = 0
-	if img:
+	if char:
 		embd=generateEmbed(char["CharacterName"], "World: "+char["WorldName"]+"\nRank: "+char["Rank"]+"\nLevel: "+char["Level"]+" Exp: "+char["Exp"]+"\nClass: "+char["JobName"])
 		embd.set_image(url=char["CharacterImgUrl"])
 	else:
