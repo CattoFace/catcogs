@@ -71,8 +71,8 @@ class MapleUtil(commands.Cog):
 		toPrint = getMaintenanceTime()
 		if not toPrint:
 			toPrint = "No maintenance was found"
-			await ctx.send(embed=generateEmbed("Maintenance", toPrint))
-			gc.collect()
+		await ctx.send(embed=generateEmbed("Maintenance", toPrint))
+		gc.collect()
 
 	@commands.command()
 	async def reset(self,ctx):
