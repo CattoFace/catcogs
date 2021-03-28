@@ -48,9 +48,10 @@ def fetchCharExp(charName,eu):
 def fetchUrl(category, targets):
     baseURL = 'http://maplestory.nexon.net/news/'
     j = json.loads(requests.get("https://nexon.ws/api/news/1180").text)
+    j = list(filter(lambda x:x["Category"]==category,j))
+    if targets==[]: return baseURL + str(j[0]["Id"])
     for entry in j:
-        title = entry["Title"]
-        if any(x in title for x in targets):
+        if any(x in entry["Title"] for x in targets):
             return baseURL + str(entry["Id"])
     return 0
 
@@ -101,11 +102,12 @@ def get2xTimes():
     return toPrint
 
 def getMaintenanceTime():
-    url = fetchUrl('maintenance',['Scheduled', 'Unscheduled'])
+    url = fetchUrl('maintenance',[])
     if not url:
         return 0
     site = fetch(url)
     soup = BeautifulSoup(site.text, 'html.parser').find('div', class_='article-content').find_next('p')
+    while soup.text=="": soup=soup.find_next('p')
     return soup.text
 
 def getUrsus2xStatus():
@@ -149,4 +151,5 @@ def saveRankingData(data):
 	API_ENDPOINT = "https://json.psty.io/api_v1/stores/rankingData"
 	headers = { 'Api-Key': "544fa888-293e-4d4e-be20-8682153a1461", 'Content-Type': 'application/json'}
 	data = requests.put(API_ENDPOINT,headers=headers,data=json.dumps(data))
-	
+
+print(getMaintenanceTime())

@@ -3,12 +3,6 @@ from . import scrapelib
 #from scrapelib import *
 def initiateBot():
 	return scrapelib.downloadRankingData()
-	#try:
-	#	with open(jsonPath) as jsonFile:
-	#		data = json.load(jsonFile)
-	#except:
-	#	open(jsonPath, 'w')
-	#return data
 
 def addChar(data,server,char,eu):
 	delChar(data,server,char,eu)
