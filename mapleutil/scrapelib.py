@@ -40,7 +40,7 @@ def fetchCharImg(charName,eu):
 def fetchCharExp(charName,eu):
 	data= fetchChar(charName,eu)
 	if not data:
-		return '0','0'
+		return 0,0
 	level = data['Level']
 	exp = data['Exp']
 	return level,exp
