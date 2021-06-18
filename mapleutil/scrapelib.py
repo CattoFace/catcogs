@@ -124,7 +124,7 @@ def getUrsus2xStatus():
     elif currentTime.hour<18:
         isActive = 0
         checkTime = currentTime.replace(hour=18,minute=0,second=0)
-    elif currentTime.hour<20:
+    elif currentTime.hour<22:
         isActive = 1
         checkTime = currentTime.replace(hour=22,minute=0,second=0)
     if isActive:
