@@ -137,9 +137,9 @@ def getUrsus2xStatus():
 def getResetTimes():
     currentTime = datetime.utcnow()
     toPrint = currentTime.strftime("Maple time is currently %H:%M:%S %d-%m-%y")+"\n"
-    toPrint += f"Daily reset will happen <t:{datetime.timestamp(currentTime.replace(hour=0,minute=0,second=0)+timedelta(1))}:R>\n"
-    toPrint += f"Weekly Boss reset will happen <t:{datetime.timestamp(hour=0,minute=0,second=0)+timedelta(3-currentTime.weekday() if currentTime.weekday()<=2 else 10-currentTime.weekday())}:R>\n"
-    toPrint += f"Dojo/Weekly Quests/Guild Potions reset will happen <t:{datetime.timestamp(hour=0,minute=0,second=0)+timedelta(7-currentTime.weekday())}:R>\n"
+    toPrint += "Daily reset will happen in: " + str(currentTime.replace(hour=0,minute=0,second=0)+timedelta(1)-currentTime)+"\n"
+    toPrint += "Weekly Boss reset will happen in: " + str(currentTime.replace(hour=0,minute=0,second=0)+timedelta(3-currentTime.weekday() if currentTime.weekday()<=2 else 10-currentTime.weekday())-currentTime)+"\n"
+    toPrint += "Dojo/Weekly Quests/Guild Potions reset will happen in: " +str(currentTime.replace(hour=0,minute=0,second=0)+timedelta(7-currentTime.weekday())-currentTime)+"\n"
     return toPrint
 
 def downloadRankingData():
