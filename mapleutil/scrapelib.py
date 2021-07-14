@@ -132,7 +132,7 @@ def getUrsus2xStatus():
         response+="Ursus 2x meso time is currently active, it will end in "
     else:
         response+="Ursus 2x meso time is not active, it will start in "
-    return response + f"<t:{int(datetime.timestamp(checkTime))}:R>"
+    return response + str(checkTime-currentTime).split('.')[0]
 
 def getResetTimes():
     currentTime = datetime.utcnow()
