@@ -154,5 +154,5 @@ rankingsData = downloadRankingData()
 def setup(bot):
 	bot.add_cog(mapleUtil(bot))
 	#global rankingsData
-	rankingsData = downloadRankingData()
+	rankingsData = jsonlib.initiateBot()
 
