@@ -135,7 +135,6 @@ class MapleUtil(commands.Cog):
 		await ctx.send(char +" was removed")
 		gc.collect()
 	
-	@commands.has_permissions(manage_messages=True)
 	@commands.command()
 	async def delrankeu(self,ctx,char):
 		"""Removes a character from this servers rankings as an EU character"""
@@ -146,10 +145,23 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def serverrankings(self,ctx):
 		"""Prints the servers current rankings"""
-		toPrint = jsonlib.formatLeaderboard(jsonlib.generateLeaderboard(rankingsData, str(ctx.guild.id)))
-		await ctx.send(embed=generateEmbed("Server Rankings", toPrint))
+		async with ctx.typing():
+			toPrint = jsonlib.formatLeaderboard(jsonlib.generateLeaderboard(rankingsData, str(ctx.guild.id)))
+			await ctx.send(embed=generateEmbed("Server Rankings", toPrint))
 		gc.collect()
 	
+	@commands.command()
+	async def registermychar(self,ctx,name,region):
+		"""registers a new character as yours"""
+		jsonlib.assignChar(rankingsData, str(ctx.author),name,region)
+		gc.collect()
+
+	@commands.command
+	async def mychar(self,ctx):
+		"""shows your character"""
+		char = jsonlib.getPersonalChar(rankingsData,ctx.author)
+		await ctx.send(embed=subchar(char["name"],char["region"]))
+		gc.collect()
 
 rankingsData = jsonlib.initiateBot()
 def setup(bot):

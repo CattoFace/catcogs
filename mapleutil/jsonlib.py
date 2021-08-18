@@ -47,3 +47,15 @@ def generateLeaderboard(data,server):
 def formatLeaderboard(leaderboard):
 	return '\n'.join('{name} - Region: {region} Level: {level} Exp: {exp}'.format(**x) for x in leaderboard)
 
+def assignChar(data, author,char,region):
+	if not "personalCharacters" in data:
+		data["personalCharacters"]={}
+	data["personalCharacters"][author]["name"]=char
+	data["personalCharacters"][author]["region"]=1 if region.lower()=="eu" else 0
+	updateJson(data)
+
+def getPersonalChar(data,author):
+	if not "personalCharacters" in data:
+		return ""
+	return data["personalCharacters"][author]
+	
