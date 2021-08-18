@@ -150,9 +150,7 @@ class MapleUtil(commands.Cog):
 		await ctx.send(embed=generateEmbed("Server Rankings", toPrint))
 		gc.collect()
 
-rankingsData = downloadRankingData()
+rankingsData = jsonlib.initiateBot()
 def setup(bot):
 	bot.add_cog(mapleUtil(bot))
-	#global rankingsData
-	rankingsData = jsonlib.initiateBot()
 
