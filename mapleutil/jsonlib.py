@@ -1,5 +1,6 @@
 import json
 from . import scrapelib
+import redbot
 #from scrapelib import *
 
 jsonPath = 	str(redbot.core.data_manager.cog_data_path(raw_name='mapleUtil'))+'/rankData.py'
