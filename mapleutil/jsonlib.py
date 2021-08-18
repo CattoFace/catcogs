@@ -56,7 +56,7 @@ def assignChar(data, author,char,region):
 	updateJson(data)
 
 def getPersonalChar(data,author):
-	if not "personalCharacters" in data:
+	if (not "personalCharacters" in data) or (not author in data["personalCharacters"]):
 		return None
 	return data["personalCharacters"][author]
 	
