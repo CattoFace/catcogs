@@ -57,6 +57,6 @@ def assignChar(data, author,char,region):
 
 def getPersonalChar(data,author):
 	if not "personalCharacters" in data:
-		return ""
+		return None
 	return data["personalCharacters"][author]
 	
