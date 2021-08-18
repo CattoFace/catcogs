@@ -149,6 +149,7 @@ class MapleUtil(commands.Cog):
 		toPrint = jsonlib.formatLeaderboard(jsonlib.generateLeaderboard(rankingsData, str(ctx.guild.id)))
 		await ctx.send(embed=generateEmbed("Server Rankings", toPrint))
 		gc.collect()
+	
 
 rankingsData = jsonlib.initiateBot()
 def setup(bot):

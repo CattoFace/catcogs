@@ -141,14 +141,3 @@ def getResetTimes():
     toPrint += "Weekly Boss reset will happen in: " + str(currentTime.replace(hour=0,minute=0,second=0)+timedelta(3-currentTime.weekday() if currentTime.weekday()<=2 else 10-currentTime.weekday())-currentTime)+"\n"
     toPrint += "Dojo/Weekly Quests/Guild Potions reset will happen in: " +str(currentTime.replace(hour=0,minute=0,second=0)+timedelta(7-currentTime.weekday())-currentTime)+"\n"
     return toPrint
-
-def downloadRankingData():
-	API_ENDPOINT = "https://json.psty.io/api_v1/stores/rankingData"
-	headers = { 'Api-Key': "544fa888-293e-4d4e-be20-8682153a1461"}
-	data = requests.get(API_ENDPOINT,headers=headers)
-	return data.json()['data']
-	
-def saveRankingData(data):
-	API_ENDPOINT = "https://json.psty.io/api_v1/stores/rankingData"
-	headers = { 'Api-Key': "544fa888-293e-4d4e-be20-8682153a1461", 'Content-Type': 'application/json'}
-	data = requests.put(API_ENDPOINT,headers=headers,data=json.dumps(data))
