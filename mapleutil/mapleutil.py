@@ -160,7 +160,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def mychar(self,ctx):
 		"""shows your registered character"""
-		char = jsonlib.getPersonalChar(rankingsData,ctx.author.id)
+		char = jsonlib.getPersonalChar(rankingsData,str(ctx.author.id))
 		if char:
 			await ctx.send(embed=subchar(char["name"],char["region"]))
 		else:
