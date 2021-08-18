@@ -157,7 +157,7 @@ class MapleUtil(commands.Cog):
 		await ctx.send(name+ " is now your registered IGN")
 		gc.collect()
 
-	@commands.command
+	@commands.command ()
 	async def mychar(self,ctx):
 		"""shows your registered character"""
 		char = jsonlib.getPersonalChar(rankingsData,ctx.author.id)
@@ -167,10 +167,6 @@ class MapleUtil(commands.Cog):
 			await ctx.send('It looks like you dont have an assigned IGN, assign one with the command "assignmychar <name> <region>')
 		gc.collect()
 
-	@commands.command
-	async def dumpdata(self,ctx):
-		ctx.send(str(rankingsData))
-		
 rankingsData = jsonlib.initiateBot()
 def setup(bot):
 	bot.add_cog(mapleUtil(bot))
