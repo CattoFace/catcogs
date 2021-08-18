@@ -1,5 +1,5 @@
 import json
-from . import scrapelib
+from mapleutil import scrapelib
 import redbot
 from pathlib import Path
 
