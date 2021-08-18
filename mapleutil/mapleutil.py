@@ -149,14 +149,7 @@ class MapleUtil(commands.Cog):
 			toPrint = jsonlib.formatLeaderboard(jsonlib.generateLeaderboard(rankingsData, str(ctx.guild.id)))
 			await ctx.send(embed=generateEmbed("Server Rankings", toPrint))
 		gc.collect()
-	
-	@commands.command()
-	async def registermychar(self,ctx,name,region):
-		"""registers a new character as yours"""
-		jsonlib.assignChar(rankingsData, str(ctx.author.id),name,region)
-		await ctx.send(name+ " is now your registered IGN")
-		gc.collect()
-
+		
 	@commands.command
 	async def testname(self,ctx):
 		"""shows your character"""
@@ -167,6 +160,15 @@ class MapleUtil(commands.Cog):
 		#else:
 		#	await ctx.send('It looks like you dont have an assigned IGN, assign one with the command "assignmychar <name> <region>')
 		#gc.collect()
+
+	@commands.command()
+	async def registermychar(self,ctx,name,region):
+		"""registers a new character as yours"""
+		jsonlib.assignChar(rankingsData, str(ctx.author.id),name,region)
+		await ctx.send(name+ " is now your registered IGN")
+		gc.collect()
+
+	
 
 rankingsData = jsonlib.initiateBot()
 def setup(bot):
