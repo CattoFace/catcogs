@@ -153,7 +153,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def registermychar(self,ctx,name,region):
 		"""registers a new character as yours"""
-		jsonlib.assignChar(rankingsData, str(ctx.author),name,region)
+		jsonlib.assignChar(rankingsData, str(ctx.author.id),name,region)
 		gc.collect()
 
 	@commands.command
