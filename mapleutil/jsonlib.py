@@ -1,6 +1,8 @@
 import json
 from . import scrapelib
 import redbot
+from pathlib import Path
+
 #from scrapelib import *
 
 jsonPath = 	str(redbot.core.data_manager.cog_data_path(raw_name='mapleUtil'))+'/rankData.py'
@@ -28,6 +30,8 @@ def updateJson(data):
 		json.dump(data, jsonFile)
 
 def loadJson():
+	f = Path(jsonPath)
+	f.touch(exist_ok=True)
 	with open(jsonPath, 'r') as jsonFile:
 		data = json.load(jsonFile)
 	return data
