@@ -1,31 +1,36 @@
 import json
 from . import scrapelib
 #from scrapelib import *
+
+jsonPath = 	str(redbot.core.data_manager.cog_data_path(raw_name='mapleUtil'))+'/rankData.py'
+
 def initiateBot():
-	return scrapelib.downloadRankingData()
+	return loadJson()
 
 def addChar(data,server,char,eu):
 	delChar(data,server,char,eu)
 	if not server in data:
 		data[server]=[]
 	data[server].append((char,eu))
-	scrapelib.saveRankingData(data)	
-	#updateJson(data)
+	updateJson(data)
 	return True
 
 def delChar(data,server,char,eu):
 	if not server in data:
 		return False
 	data[server]= [x for x in data[server] if x[0].lower()!=char.lower() or x[1]!=eu]
-	scrapelib.saveRankingData(data)
-	#updateJson(data)
+	updateJson(data)
 	return True
 
 def updateJson(data):
-	jsonPath = 	str(redbot.core.data_manager.cog_data_path(raw_name='mapleUtil'))+'/rankData.py'
 	with open(jsonPath, "w") as jsonFile:
 		json.dump(data, jsonFile)
-		
+
+def loadJson():
+	with open(jsonPath, 'r') as jsonFile:
+		data = json.load(jsonFile)
+	return data
+
 def generateLeaderboard(data,server):
 	leaderboard = []
 	if not server in data:
