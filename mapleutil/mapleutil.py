@@ -161,12 +161,12 @@ class MapleUtil(commands.Cog):
 	async def testname(self,ctx):
 		"""shows your character"""
 		await ctx.send("test")
-		char = jsonlib.getPersonalChar(rankingsData,ctx.author.id)
-		if char:
-			await ctx.send(embed=subchar(char["name"],char["region"]))
-		else:
-			await ctx.send('It looks like you dont have an assigned IGN, assign one with the command "assignmychar <name> <region>')
-		gc.collect()
+		#char = jsonlib.getPersonalChar(rankingsData,ctx.author.id)
+		#if char:
+		#	await ctx.send(embed=subchar(char["name"],char["region"]))
+		#else:
+		#	await ctx.send('It looks like you dont have an assigned IGN, assign one with the command "assignmychar <name> <region>')
+		#gc.collect()
 
 rankingsData = jsonlib.initiateBot()
 def setup(bot):
