@@ -154,6 +154,7 @@ class MapleUtil(commands.Cog):
 	async def registermychar(self,ctx,name,region):
 		"""registers a new character as yours"""
 		jsonlib.assignChar(rankingsData, str(ctx.author.id),name,region)
+		await ctx.send(name+ "is now your registered IGN")
 		gc.collect()
 
 	@commands.command
