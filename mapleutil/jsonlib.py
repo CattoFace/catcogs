@@ -50,6 +50,7 @@ def formatLeaderboard(leaderboard):
 def assignChar(data, author,char,region):
 	if not "personalCharacters" in data:
 		data["personalCharacters"]={}
+	data["personalCharacters"][author]={}
 	data["personalCharacters"][author]["name"]=char
 	data["personalCharacters"][author]["region"]=1 if region.lower()=="eu" else 0
 	updateJson(data)
