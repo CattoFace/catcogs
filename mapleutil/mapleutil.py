@@ -157,7 +157,7 @@ class MapleUtil(commands.Cog):
 		await ctx.send(name+ " is now your registered IGN")
 		gc.collect()
 
-	@commands.command ()
+	@commands.command()
 	async def mychar(self,ctx):
 		"""shows your registered character"""
 		char = jsonlib.getPersonalChar(rankingsData,ctx.author.id)
