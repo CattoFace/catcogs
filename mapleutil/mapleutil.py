@@ -165,7 +165,7 @@ class MapleUtil(commands.Cog):
 	async def mychar(self,ctx,*args):
 		"""shows your registered character"""
 		id = str(ctx.author.id if (len(args)==0 or not re.match(r"<@[0-9]+>",args[0])) else args[0][2:-1])
-		ctx.send(str(id))
+		await ctx.send(str(id))
 		char = jsonlib.getPersonalChar(rankingsData,ctx.author.id)
 		if char:
 			await ctx.send(embed=subchar(char["name"],char["region"]))
