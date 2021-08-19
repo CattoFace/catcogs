@@ -2,8 +2,8 @@ import discord
 from datetime import datetime, timedelta
 import gc
 from redbot.core import commands
-from . import jsonlib
-from .scrapelib import *
+from .mapleutil import jsonlib
+from .mapleutil import scrapelib
 import redbot
 
 rankingsData ={}
@@ -13,7 +13,7 @@ def generateEmbed(name, content):
 	return embed
 
 def subchar(charName,region):
-	char=fetchChar(charName,region)
+	char=scrapelib.fetchChar(charName,region)
 	embd = 0
 	if char:
 		embd=generateEmbed(char["CharacterName"],"World: "+char["WorldName"] + " Rank: "+f'{char["Rank"]:,}'+"\nLevel: "+str(char["Level"])+" Exp: "+f'{char["Exp"]:,}'+"\nClass: "+char["JobName"])
@@ -26,6 +26,9 @@ def subchar(charName,region):
 class MapleUtil(commands.Cog):
 	"""performs various maple related commands"""
 
+	def __init__(self, bot):
+		self.bot = bot
+
 	@commands.command(name="time")
 	async def time(self,ctx):
 		"""Prints maple time"""
@@ -36,14 +39,14 @@ class MapleUtil(commands.Cog):
 	@commands.command(name="next2x", aliases=["2x"])
 	async def next2x(self,ctx):
 		"""Finds the latest 2x post"""
-		toPrint = get2xTimes()
+		toPrint = scrapelib.get2xTimes()
 		await ctx.send(embed=generateEmbed("2x EXP & Drop", toPrint))
 		gc.collect()
 
 	@commands.command(name="patchnotes", aliases=["patch"])
 	async def patchnotes(self,ctx):
 		"""Finds the latest patch notes"""
-		toPrint = fetchUrl("update", ["Patch Notes"])
+		toPrint = scrapelib.fetchUrl("update", ["Patch Notes"])
 		if not toPrint:
 		    toPrint = "No patch notes were found."
 		await ctx.send(embed=generateEmbed("Patch Notes", toPrint))
@@ -52,7 +55,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def csupdate(self,ctx):
 		"""Finds the latest Cash Shop Update"""
-		toPrint = fetchUrl("sale", ["Cash Shop Update"])
+		toPrint = scrapelib.fetchUrl("sale", ["Cash Shop Update"])
 		if not toPrint:
 		    toPrint = "No Cash Shop update was found."
 		await ctx.send(embed=generateEmbed("Cash Shop Update", toPrint))
@@ -61,14 +64,14 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def ursus(self,ctx):
 		"""Sends info about current ursus 2x meso status"""
-		toPrint = getUrsus2xStatus()
+		toPrint = scrapelib.getUrsus2xStatus()
 		await ctx.send(embed=generateEmbed("Ursus Status", toPrint))
 		gc.collect()
 
 	@commands.command(name="maintenance", aliases=["maint"])
 	async def maintenance(self,ctx):
 		"""Finds the last maintenance times"""
-		toPrint = getMaintenanceTime()
+		toPrint = scrapelib.getMaintenanceTime()
 		if not toPrint:
 			toPrint = "No maintenance was found"
 		await ctx.send(embed=generateEmbed("Maintenance", toPrint))
@@ -77,14 +80,14 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def reset(self,ctx):
 		"""Sends various times regarding the games reset timers"""
-		toPrint=getResetTimes()
+		toPrint=scrapelib.getResetTimes()
 		await ctx.send(embed=generateEmbed("Times", toPrint))
 		gc.collect()
 
 	@commands.command(name="sunny", aliases=["sunnysunday"])
 	async def sunny(self,ctx):
 		"""Links the sunny sunday section in the last patch note, does not check sunny sunday existance! just assumes one exists in the lastest patch notes"""	
-		toPrint = fetchUrl("update", ["Patch Notes"])+"#sunny"
+		toPrint = scrapelib.fetchUrl("update", ["Patch Notes"])+"#sunny"
 		if not toPrint:
 		    toPrint = "No patch notes were found."
 		await ctx.send(embed=generateEmbed("Sunny Sunday", toPrint))
@@ -146,7 +149,7 @@ class MapleUtil(commands.Cog):
 	async def serverrankings(self,ctx):
 		"""Prints the servers current rankings"""
 		async with ctx.typing():
-			toPrint = jsonlib.formatLeaderboard(jsonlib.generateLeaderboard(rankingsData, str(ctx.guild.id)))
+			toPrint = scrapelib.formatLeaderboard(scrapelib.generateLeaderboard(rankingsData, str(ctx.guild.id)))
 			await ctx.send(embed=generateEmbed("Server Rankings", toPrint))
 		gc.collect()
 	
@@ -168,6 +171,3 @@ class MapleUtil(commands.Cog):
 		gc.collect()
 
 rankingsData = jsonlib.initiateBot()
-def setup(bot):
-	bot.add_cog(mapleUtil(bot))
-

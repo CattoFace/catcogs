@@ -141,3 +141,18 @@ def getResetTimes():
     toPrint += "Weekly Boss reset will happen in: " + str(currentTime.replace(hour=0,minute=0,second=0)+timedelta(3-currentTime.weekday() if currentTime.weekday()<=2 else 10-currentTime.weekday())-currentTime)+"\n"
     toPrint += "Dojo/Weekly Quests/Guild Potions reset will happen in: " +str(currentTime.replace(hour=0,minute=0,second=0)+timedelta(7-currentTime.weekday())-currentTime)+"\n"
     return toPrint
+
+def generateLeaderboard(data,server):
+	leaderboard = []
+	if not server in data:
+		return {}
+	for char in data[server]:
+		exp=fetchCharExp(char[0],char[1])
+		leaderboard.append({'name':char[0],'region':'EU' if char[1] else 'NA','level':exp[0],'exp':exp[1] })
+	leaderboard.sort(key = lambda x: (x['level'],x['exp']),reverse=1)
+	for char in leaderboard:
+		char['exp']= 0 if char['exp']=='0' else f"{char['exp']:,}"
+	return leaderboard
+
+def formatLeaderboard(leaderboard):
+	return '\n'.join('{name} - Region: {region} Level: {level} Exp: {exp}'.format(**x) for x in leaderboard)
