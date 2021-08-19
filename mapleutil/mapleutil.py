@@ -172,7 +172,7 @@ class MapleUtil(commands.Cog):
 			if char:
 				await ctx.send(embed=subchar(char["name"],char["region"]))
 			else:
-				await ctx.send(f'It looks like {"you dont" if len(args)==0 else "the specified user doesn't"} have an assigned IGN, assign one with the command `registermychar <name> <region(NA/EU)>`')
+				await ctx.send('It looks like '+ ("you don\'t" if len(args)==0 else 'the specified user doesn\'t')+" have an assigned IGN, assign one with the command `registermychar <name> <region(NA/EU)>`")
 		gc.collect()
 
 rankingsData = jsonlib.initiateBot()
