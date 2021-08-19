@@ -173,4 +173,7 @@ class MapleUtil(commands.Cog):
 			await ctx.send('It looks like you dont have an assigned IGN, assign one with the command `registermychar <name> <region(NA/EU)>`')
 		gc.collect()
 
+	@commands.command()
+	async def dumpdata (self,ctx):
+		await ctx.send(rankingsData)
 rankingsData = jsonlib.initiateBot()
