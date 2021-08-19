@@ -5,6 +5,7 @@ from redbot.core import commands
 from . import jsonlib
 from . import scrapelib
 import redbot
+import re
 
 rankingsData ={}
 
@@ -161,9 +162,10 @@ class MapleUtil(commands.Cog):
 		gc.collect()
 
 	@commands.command()
-	async def mychar(self,ctx):
+	async def mychar(self,ctx,*args):
 		"""shows your registered character"""
-		char = jsonlib.getPersonalChar(rankingsData,str(ctx.author.id))
+		id = str(ctx.author.id if len(args)==0 or not re.match(r"<@[0-9]+>",args[0]) else args[0][2:-1])
+		char = jsonlib.getPersonalChar(rankingsData,ctx.author.id)
 		if char:
 			await ctx.send(embed=subchar(char["name"],char["region"]))
 		else:
