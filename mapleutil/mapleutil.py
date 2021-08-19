@@ -2,8 +2,8 @@ import discord
 from datetime import datetime, timedelta
 import gc
 from redbot.core import commands
-from .mapleutil import jsonlib
-from .mapleutil import scrapelib
+from . import jsonlib
+from . import scrapelib
 import redbot
 
 rankingsData ={}

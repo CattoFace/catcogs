@@ -35,9 +35,6 @@ def loadJson():
 		data = json.load(jsonFile)
 	return data
 
-def formatLeaderboard(leaderboard):
-	return '\n'.join('{name} - Region: {region} Level: {level} Exp: {exp}'.format(**x) for x in leaderboard)
-
 def assignChar(data, author,char,region):
 	if not "personalCharacters" in data:
 		data["personalCharacters"]={}
