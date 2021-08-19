@@ -29,10 +29,13 @@ def updateJson(data):
 		json.dump(data, jsonFile)
 
 def loadJson():
-	f = Path(jsonPath)
-	f.touch(exist_ok=True)
-	with open(jsonPath, 'r') as jsonFile:
-		data = json.load(jsonFile)
+	data = {}
+	try:
+		with open(jsonPath, 'r') as jsonFile:
+			data = json.load(jsonFile)
+	except Exception as e:
+		with open(jsonPath,'w+') as f:
+			f.write("{}")
 	return data
 
 def assignChar(data, author,char,region):
