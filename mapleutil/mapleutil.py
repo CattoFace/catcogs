@@ -164,7 +164,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def mychar(self,ctx,*args):
 		"""shows your registered character"""
-		id = str(ctx.author.id if len(args)==0 else (args[0][-19:-1] if re.match(r"<@!?[0-9]+>",args[0]) else ""))
+		id = str(ctx.author.id if len(args)==0 else (re.sub('\D','',args[0]) if re.match(r"<@!?[0-9]+>",args[0]) else ""))
 		if not id:
 			await ctx.send("Syntax error, please use either `mychar` or `mychar <mention>`")
 		else:
