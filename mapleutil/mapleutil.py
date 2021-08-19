@@ -164,16 +164,15 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def mychar(self,ctx,*args):
 		"""shows your registered character"""
-		id = str(ctx.author.id if (len(args)==0 or not re.match(r"<@[0-9]+>",args[0])) else args[0][3:-1])
-		await ctx.send(str(id))
-		char = jsonlib.getPersonalChar(rankingsData,id)
-		if char:
-			await ctx.send(embed=subchar(char["name"],char["region"]))
+		id = str(ctx.author.id if len(args)==0 else (args[0][3:-1] if re.match(r"<@![0-9]+>",args[0]) else ""))
+		if not id:
+			await ctx.send("Syntax error, please use either `mychar` or `mychar <mention>`")
 		else:
-			await ctx.send('It looks like you dont have an assigned IGN, assign one with the command `registermychar <name> <region(NA/EU)>`')
+			char = jsonlib.getPersonalChar(rankingsData,id)
+			if char:
+				await ctx.send(embed=subchar(char["name"],char["region"]))
+			else:
+				await ctx.send('It looks like you dont have an assigned IGN, assign one with the command `registermychar <name> <region(NA/EU)>`')
 		gc.collect()
 
-	@commands.command()
-	async def dumpdata (self,ctx):
-		await ctx.send(rankingsData)
 rankingsData = jsonlib.initiateBot()
