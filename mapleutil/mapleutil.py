@@ -207,9 +207,7 @@ class MapleUtil(commands.Cog):
 	async def setmemberchar(self,ctx,user,ign,region):
 		id=str(re.sub('\D','',user) if re.match(r"<@!?[0-9]+>",user) else "")
 		if id:
-			data["personalCharacters"][id]["name"]=ign
-			data["personalCharacters"][id]["region"]=region
-			jsonlib.updateJson(data)
+			jsonlib.assignChar(data,id,ign,region)
 			await ctx.send(f'Set {user}\'s character to {ign} in {region}')
 		else:
 			await ctx.send("Invlalid user")
