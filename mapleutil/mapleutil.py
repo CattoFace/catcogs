@@ -7,7 +7,7 @@ from . import scrapelib
 import redbot
 import re
 
-rankingsData ={}
+data ={}
 
 def generateEmbed(name, content):
 	embed = discord.Embed(color=discord.Color.orange(), description=content, title="**"+name+"**")
@@ -48,7 +48,12 @@ class MapleUtil(commands.Cog):
 	async def patchnotes(self,ctx):
 		"""Finds the latest patch notes"""
 		toPrint = scrapelib.fetchUrl("update", ["Patch Notes"])
-		if not toPrint:
+		if toPrint:
+			data["patchnotes"]=toPrint
+			jsonlib.updateJson(data)
+		elif("patchnotes" in data):
+			toPrint=data["patchnotes"]
+		else:
 		    toPrint = "No patch notes were found."
 		await ctx.send(embed=generateEmbed("Patch Notes", toPrint))
 		gc.collect()
@@ -57,8 +62,13 @@ class MapleUtil(commands.Cog):
 	async def csupdate(self,ctx):
 		"""Finds the latest Cash Shop Update"""
 		toPrint = scrapelib.fetchUrl("sale", ["Cash Shop Update"])
-		if not toPrint:
-		    toPrint = "No Cash Shop update was found."
+		if toPrint:
+			data["csupdate"]=toPrint
+			jsonlib.updateJson(data)
+		elif("csupdate" in data):
+			toPrint=data["csupdate"]
+		else:
+		    toPrint = "No cash shop update post were found."
 		await ctx.send(embed=generateEmbed("Cash Shop Update", toPrint))
 		gc.collect()
 
@@ -73,8 +83,13 @@ class MapleUtil(commands.Cog):
 	async def maintenance(self,ctx):
 		"""Finds the last maintenance times"""
 		toPrint = scrapelib.getMaintenanceTime()
-		if not toPrint:
-			toPrint = "No maintenance was found"
+		if toPrint:
+			data["maint"]=toPrint
+			jsonlib.updateJson(data)
+		elif("maint" in data):
+			toPrint=data["maint"]
+		else:
+		    toPrint = "No maintenance were found."
 		await ctx.send(embed=generateEmbed("Maintenance", toPrint))
 		gc.collect()
 
@@ -89,7 +104,12 @@ class MapleUtil(commands.Cog):
 	async def sunny(self,ctx):
 		"""Links the sunny sunday section in the last patch note, does not check sunny sunday existance! just assumes one exists in the lastest patch notes"""	
 		toPrint = scrapelib.fetchUrl("update", ["Patch Notes"])+"#sunny"
-		if not toPrint:
+		if toPrint:
+			data["patchnotes"]=toPrint
+			jsonlib.updateJson(data)
+		elif("patchnotes" in data):
+			toPrint=data["patchnotes"]
+		else:
 		    toPrint = "No patch notes were found."
 		await ctx.send(embed=generateEmbed("Sunny Sunday", toPrint))
 		gc.collect()
@@ -119,7 +139,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def addrank(self,ctx,char):
 		"""Adds a character to this servers rankings as an NA character"""
-		jsonlib.addChar(rankingsData,str(ctx.guild.id),char,0)
+		jsonlib.addChar(data,str(ctx.guild.id),char,0)
 		await ctx.send(char +" was added")
 		gc.collect()
     	
@@ -127,7 +147,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def addrankeu(self,ctx,char):
 		"""Adds a character to this servers rankings as an EU character"""
-		jsonlib.addChar(rankingsData,str(ctx.guild.id),char,1)
+		jsonlib.addChar(data,str(ctx.guild.id),char,1)
 		await ctx.send(char +" was added")
 		gc.collect()
         	
@@ -135,14 +155,14 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def delrank(self,ctx,char):
 		"""Removes a character from this servers rankings as an NA character"""
-		jsonlib.delChar(rankingsData, str(ctx.guild.id),char,0)
+		jsonlib.delChar(data, str(ctx.guild.id),char,0)
 		await ctx.send(char +" was removed")
 		gc.collect()
 	
 	@commands.command()
 	async def delrankeu(self,ctx,char):
 		"""Removes a character from this servers rankings as an EU character"""
-		jsonlib.delChar(rankingsData, str(ctx.guild.id),char,1)
+		jsonlib.delChar(data, str(ctx.guild.id),char,1)
 		await ctx.send(char +" was removed")
 		gc.collect()
 	
@@ -150,14 +170,14 @@ class MapleUtil(commands.Cog):
 	async def serverrankings(self,ctx):
 		"""Prints the servers current rankings"""
 		async with ctx.typing():
-			toPrint = scrapelib.formatLeaderboard(scrapelib.generateLeaderboard(rankingsData, str(ctx.guild.id)))
+			toPrint = scrapelib.formatLeaderboard(scrapelib.generateLeaderboard(data, str(ctx.guild.id)))
 			await ctx.send(embed=generateEmbed("Server Rankings", toPrint))
 		gc.collect()
 	
 	@commands.command()
 	async def registermychar(self,ctx,name,region):
 		"""registers a new character as yours"""
-		jsonlib.assignChar(rankingsData, str(ctx.author.id),name,region)
+		jsonlib.assignChar(data, str(ctx.author.id),name,region)
 		await ctx.send(name+ " is now your registered IGN")
 		gc.collect()
 
@@ -168,11 +188,31 @@ class MapleUtil(commands.Cog):
 		if not id:
 			await ctx.send("Syntax error, please use either `mychar` or `mychar <mention>`")
 		else:
-			char = jsonlib.getPersonalChar(rankingsData,id)
+			char = jsonlib.getPersonalChar(data,id)
 			if char:
 				await ctx.send(embed=subchar(char["name"],char["region"]))
 			else:
 				await ctx.send('It looks like '+ ("you don\'t" if len(args)==0 else 'the specified user doesn\'t')+" have an assigned IGN, assign one with the command `registermychar <name> <region(NA/EU)>`")
 		gc.collect()
 
-rankingsData = jsonlib.initiateBot()
+	@commands.has_permissions(manage_messages=True)
+	@commands.command()
+	async def setdata(self,ctx,key,data):
+		data[key]=data
+		jsonlib.updateJson()
+		await ctx.send(f'{key} was set to {data}')
+	
+	@commands.has_permissions(manage_messages=True)
+	@commands.command()
+	async def setmemberchar(self,ctx,id,ign):
+		id=re.sub('\D','',id) if re.match(r"<@!?[0-9]+>",id) else ""
+		if id:
+			data["personalCharacters"][id]=ign
+			jsonlib.updateJson(data)
+
+	@commands.has_permissions(manage_messages=True)
+	@commands.command()
+	async def dumpdata(self,ctx):
+		await ctx.send(data)
+
+data = jsonlib.initiateBot()
