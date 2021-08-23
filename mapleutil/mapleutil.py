@@ -199,7 +199,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def setdata(self,ctx,key,s):
 		data[key]=s
-		jsonlib.updateJson()
+		jsonlib.updateJson(data)
 		await ctx.send(f'{key} was set to {s}')
 	
 	@commands.has_permissions(manage_messages=True)
