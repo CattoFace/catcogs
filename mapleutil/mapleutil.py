@@ -75,7 +75,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def ursus(self,ctx):
 		"""Sends info about current ursus 2x meso status"""
-		toPrint = scrapelib.getUrsus2xStatus()
+		toPrint = scrapelib.getUrsus2xStatus(0 if (not "summer" in data) or data["summer"]==0 else 1)
 		await ctx.send(embed=generateEmbed("Ursus Status", toPrint))
 		gc.collect()
 
@@ -217,4 +217,18 @@ class MapleUtil(commands.Cog):
 	async def dumpdata(self,ctx):
 		await ctx.send(data)
 
+	@commands.has_permissions(manage_messages=True)
+	@commands.command()
+	async def setursussummer(self,ctx,bool):
+		if bool.lower()=="true":
+			data["summer"]=1
+			await ctx.send("Ursus summer turned on")
+		elif bool.lower()=="false":
+			data["summer"]=0
+			await ctx.send("Ursus summer turned off")
+		else:
+			await ctx.send("Invalid parameter, use `true` or `false`")
+		
+
+	
 data = jsonlib.initiateBot()
