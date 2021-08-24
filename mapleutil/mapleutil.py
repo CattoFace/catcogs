@@ -55,7 +55,7 @@ class MapleUtil(commands.Cog):
 			toPrint=data["patchnotes"]
 		else:
 		    toPrint = "No patch notes were found."
-		await ctx.send(embed=generateEmbed("Patch Notes", toPrint))
+		await ctx.send(toPrint)
 		gc.collect()
 
 	@commands.command()
@@ -69,7 +69,7 @@ class MapleUtil(commands.Cog):
 			toPrint=data["csupdate"]
 		else:
 		    toPrint = "No cash shop update post were found."
-		await ctx.send(embed=generateEmbed("Cash Shop Update", toPrint))
+		await ctx.send(toPrint)
 		gc.collect()
 
 	@commands.command()
@@ -90,7 +90,7 @@ class MapleUtil(commands.Cog):
 			toPrint=data["maint"]
 		else:
 		    toPrint = "No maintenance were found."
-		await ctx.send(embed=generateEmbed("Maintenance", toPrint))
+		await ctx.send(toPrint)
 		gc.collect()
 
 	@commands.command()
@@ -111,7 +111,7 @@ class MapleUtil(commands.Cog):
 			toPrint=data["patchnotes"]
 		else:
 		    toPrint = "No patch notes were found."
-		await ctx.send(embed=generateEmbed("Sunny Sunday", toPrint))
+		await ctx.send(toPrint)
 		gc.collect()
 
 	@commands.command()
