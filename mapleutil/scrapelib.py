@@ -112,7 +112,7 @@ def getMaintenanceTime():
 
 def getUrsus2xStatus():
     summer = True
-    response = f"Ursus 2x meso time is active between <t:1626224400:t> and {'<t:1626238800:t>' if summer else '<t:1626231600:t>'} and between <t:1626282000:t> and {'<t:1626213600:t>' if summer else '<t:1626292800:t>'}\n"
+    response = f"Ursus 2x meso time is active between <t:1626224400:t> and {'<t:1626238800:t>' if summer else '<t:1626231600:t>'} and between <t:1626285600:t> and {'<t:1626213600:t>' if summer else '<t:1626292800:t>'}\n"
     currentTime = datetime.utcnow()
     isActive = 0
     checkTime = currentTime.replace(hour=1,minute=0,second=0)+timedelta(days=1)
