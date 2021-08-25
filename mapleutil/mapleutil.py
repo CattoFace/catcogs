@@ -90,7 +90,7 @@ class MapleUtil(commands.Cog):
 			toPrint=data["maint"]
 		else:
 		    toPrint = "No maintenance were found."
-		await ctx.send(toPrint)
+		await ctx.send(embed=generateEmbed("Maintenance",toPrint))
 		gc.collect()
 
 	@commands.command()
