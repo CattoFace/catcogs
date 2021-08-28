@@ -118,13 +118,13 @@ def getUrsus2xStatus(summer):
     if currentTime.hour<1:
         isActive = 0
         checkTime = currentTime.replace(hour=1,minute=0,second=0)
-    elif currentTime.hour<5:
+    elif currentTime.hour<(5 if summer else 3):
         isActive = 1
         checkTime = currentTime.replace(hour=5,minute=0,second=0)
     elif currentTime.hour<18:
         isActive = 0
         checkTime = currentTime.replace(hour=18,minute=0,second=0)
-    elif currentTime.hour<22:
+    elif currentTime.hour<(22 if summer else 20):
         isActive = 1
         checkTime = currentTime.replace(hour=22,minute=0,second=0)
     if isActive:
