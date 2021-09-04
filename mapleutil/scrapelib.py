@@ -1,3 +1,4 @@
+from json.decoder import JSONDecodeError
 from bs4 import BeautifulSoup
 import re
 import requests
@@ -47,7 +48,10 @@ def fetchCharExp(charName,eu):
 	
 def fetchUrl(category, targets):
     baseURL = 'http://maplestory.nexon.net/news/'
-    j = json.loads(requests.get("https://nexon.ws/api/news/1180").text)
+    try:
+        j = json.loads(requests.get("https://nexon.ws/api/news/1180").text)
+    except JSONDecodeError:
+        return 0
     j = list(filter(lambda x:x["Category"]==category,j))
     if targets==[]: return baseURL + str(j[0]["Id"])
     for entry in j:
