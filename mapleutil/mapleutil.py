@@ -135,7 +135,7 @@ class MapleUtil(commands.Cog):
 		await ctx.send(embed=subchar(charName,1))
 		gc.collect()
 
-	@commands.has_permissions(manage_messages=True)
+	#@commands.has_permissions(manage_messages=True)
 	@commands.command()
 	async def addrank(self,ctx,char):
 		"""Adds a character to this servers rankings as an NA character"""
@@ -143,7 +143,7 @@ class MapleUtil(commands.Cog):
 		await ctx.send(char +" was added")
 		gc.collect()
     	
-	@commands.has_permissions(manage_messages=True)
+	#@commands.has_permissions(manage_messages=True)
 	@commands.command()
 	async def addrankeu(self,ctx,char):
 		"""Adds a character to this servers rankings as an EU character"""
