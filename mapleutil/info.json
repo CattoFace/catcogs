@@ -3,6 +3,6 @@
     "short": "Useful MapleStory related commands",
     "description": "Useful MapleStory related commands",
     "end_user_data_statement": "",
-    "author": "CatFace",
+    "author": ["CatFace"],
     "type": "COG"
 }
