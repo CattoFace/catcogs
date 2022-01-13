@@ -1,4 +1,8 @@
 {
-    "author": ["CatFace"],
-    "description" : "red-discordbot cog for maplestory related commands"
+    "name": "MapleUtil",
+    "short": "Useful MapleStory related commands",
+    "description": "Useful MapleStory related commands",
+    "end_user_data_statement": "",
+    "author": "CatFace",
+    "type": "COG"
 }
