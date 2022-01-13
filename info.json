@@ -1,7 +1,5 @@
 {
-    "package_name": "MapleUtil",
-    "short": "Some useful MapleStory related commands",
-    "description": "This cog can check the server time, look for the latest patch notes and more",
-    "end_user_data_statement": "This cog does not persistently store any data or metadata about users.",
-    "authors": "CatFace"
-}
+    "author" : ["CatFace"],
+    "name" : "CatCogs",
+    "description" : "CatCogs",
+} 
