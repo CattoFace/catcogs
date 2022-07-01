@@ -29,7 +29,6 @@ class MapleUtil(commands.Cog):
 
 	def __init__(self, bot):
 		self.bot = bot
-		self.tree = discord.app_commands.CommandTree(bot)
 
 	@commands.command(name="time")
 	async def time(self,ctx):
@@ -140,16 +139,22 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def addrank(self,ctx,char):
 		"""Adds a character to this servers rankings as an NA character"""
-		jsonlib.addChar(data,str(ctx.guild.id),char,0)
-		await ctx.send(char +" was added")
+		if scrapelib.fetchChar(charName,0):
+			jsonlib.addChar(data,str(ctx.guild.id),char,0)
+			await ctx.send(char +" was added")
+		else:
+			await ctx.send(char +" was not found")
 		gc.collect()
     	
 	#@commands.has_permissions(manage_messages=True)
 	@commands.command()
 	async def addrankeu(self,ctx,char):
 		"""Adds a character to this servers rankings as an EU character"""
-		jsonlib.addChar(data,str(ctx.guild.id),char,1)
-		await ctx.send(char +" was added")
+		if scrapelib.fetchChar(charName,1):
+			jsonlib.addChar(data,str(ctx.guild.id),char,1)
+			await ctx.send(char +" was added")
+		else:
+			await ctx.send(char +" was not found")
 		gc.collect()
         	
 	@commands.has_permissions(manage_messages=True)
