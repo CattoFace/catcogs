@@ -139,7 +139,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def addrank(self,ctx,char):
 		"""Adds a character to this servers rankings as an NA character"""
-		if scrapelib.fetchChar(charName,0):
+		if scrapelib.fetchChar(char,0):
 			jsonlib.addChar(data,str(ctx.guild.id),char,0)
 			await ctx.send(char +" was added")
 		else:
@@ -150,7 +150,7 @@ class MapleUtil(commands.Cog):
 	@commands.command()
 	async def addrankeu(self,ctx,char):
 		"""Adds a character to this servers rankings as an EU character"""
-		if scrapelib.fetchChar(charName,1):
+		if scrapelib.fetchChar(char,1):
 			jsonlib.addChar(data,str(ctx.guild.id),char,1)
 			await ctx.send(char +" was added")
 		else:
