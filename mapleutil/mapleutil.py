@@ -29,7 +29,7 @@ class MapleUtil(commands.Cog):
 
 	def __init__(self, bot):
 		self.bot = bot
-		self.tree = app_commands.CommandTree(bot)
+		self.tree = discord.app_commands.CommandTree(bot)
 
 	@commands.command(name="time")
 	async def time(self,ctx):
