@@ -103,7 +103,7 @@ class MapleUtil(commands.Cog):
 	@commands.command(name="sunny", aliases=["sunnysunday"])
 	async def sunny(self,ctx):
 		"""Links the sunny sunday section in the last patch note, does not check sunny sunday existance! just assumes one exists in the lastest patch notes"""	
-		toPrint = scrapelib.fetchUrl("update", ["Patch Notes"])+"#sunny"
+		toPrint = scrapelib.fetchUrl("update", ["Patch Notes"])
 		if toPrint:
 			data["patchnotes"]=toPrint
 			jsonlib.updateJson(data)
@@ -111,7 +111,7 @@ class MapleUtil(commands.Cog):
 			toPrint=data["patchnotes"]
 		else:
 		    toPrint = "No patch notes were found."
-		await ctx.send(toPrint)
+		await ctx.send(toPrint+"#sunny")
 		gc.collect()
 
 	@commands.command()
