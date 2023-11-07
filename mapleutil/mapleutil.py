@@ -117,13 +117,13 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Shows info of the character from the NA region")
     @app_commands.describe(charName="The character to show")
-    async def char(self,interaction: discord.Interaction,charName):
+    async def char(self,interaction: discord.Interaction,charName: str):
         await interaction.response.send_message(embed=subchar(charName,0))
         gc.collect()
 
     @app_commands.command(description="Shows info of the character from the EU region")
     @app_commands.describe(charName="The character to show")
-    async def chareu(self,interaction: discord.Interaction,charName):
+    async def chareu(self,interaction: discord.Interaction,charName: str):
         await interaction.response.send_message(embed=subchar(charName,1))
         gc.collect()
 
@@ -131,7 +131,7 @@ class MapleUtil(commands.Cog):
     @app_commands.command(description="Adds a character to this servers rankings as an NA character")
     @app_commands.describe(charName="The character to add")
     @app_commands.guild_only()
-    async def addrank(self,interaction: discord.Interaction,charName):
+    async def addrank(self,interaction: discord.Interaction,charName: str):
         if scrapelib.fetchChar(charName,0):
             jsonlib.addChar(self.data,str(interaction.guild_id),charName,0)
             await interaction.response.send_message(charName +" was added")
@@ -143,7 +143,7 @@ class MapleUtil(commands.Cog):
     @app_commands.command(description="Adds a character to this servers rankings as an EU character")
     @app_commands.describe(charName="The character to add")
     @app_commands.guild_only()
-    async def addrankeu(self,interaction: discord.Interaction,charName):
+    async def addrankeu(self,interaction: discord.Interaction,charName: str):
         if scrapelib.fetchChar(charName,1):
             jsonlib.addChar(self.data,str(interaction.guild_id),charName,1)
             await interaction.response.send_message(charName +" was added")
@@ -155,7 +155,7 @@ class MapleUtil(commands.Cog):
     @app_commands.default_permissions(manage_messages=True)
     @app_commands.describe(charName="The character to remove")
     @app_commands.guild_only()
-    async def delrank(self,interaction: discord.Interaction,charName):
+    async def delrank(self,interaction: discord.Interaction,charName: str):
         jsonlib.delChar(self.data, str(interaction.guild_id),charName,0)
         await interaction.response.send_message(charName +" was removed")
         gc.collect()
@@ -164,7 +164,7 @@ class MapleUtil(commands.Cog):
     @app_commands.default_permissions(manage_messages=True)
     @app_commands.describe(charName="The character to remove")
     @app_commands.guild_only()
-    async def delrankeu(self,interaction: discord.Interaction,charName):
+    async def delrankeu(self,interaction: discord.Interaction,charName: str):
         jsonlib.delChar(self.data, str(interaction.guild_id),charName,1)
         await interaction.response.send_message(charName +" was removed")
         gc.collect()
