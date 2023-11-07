@@ -181,9 +181,9 @@ class MapleUtil(commands.Cog):
     @app_commands.command(description="registers a new character as yours")
     @app_commands.describe(charName="The character to add", region="The region of the character")
     @app_commands.choices(region=[app_commands.Choice(name="NA", value="na"), app_commands.Choice(name="EU", value="eu")])
-    async def registermychar(self,interaction: discord.Interaction,name,region):
-        jsonlib.assignChar(self.data, str(interaction.user.id),name,region)
-        await interaction.response.send_message(name+ " is now your registered IGN")
+    async def registermychar(self,interaction: discord.Interaction,charName: str, region):
+        jsonlib.assignChar(self.data, str(interaction.user.id),charName,region)
+        await interaction.response.send_message(charName+ " is now your registered IGN")
         gc.collect()
 
     @app_commands.command(description="shows your registered character")
