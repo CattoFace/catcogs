@@ -221,10 +221,10 @@ class MapleUtil(commands.Cog):
         await interaction.response.send_message(self.data)
 
     @app_commands.command()
-    @app_commands.choices(summer=[app_commands.Choice(name="True", value=True), app_commands.Choice(name="False", value=False)])
+    @app_commands.choices(summer=[app_commands.Choice(name="True", value='true'), app_commands.Choice(name="False", value='false')])
     @app_commands.default_permissions(manage_messages=True)
-    async def setursussummer(self,interaction: discord.Interaction, summer: bool):
-        if summer:
+    async def setursussummer(self,interaction: discord.Interaction, summer: str):
+        if summer=='true':
             self.data["summer"]=1
             await interaction.response.send_message("Ursus summer turned on")
         else:
