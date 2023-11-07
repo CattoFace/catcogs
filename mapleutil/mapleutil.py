@@ -14,14 +14,14 @@ def generateEmbed(name, content):
     embed = discord.Embed(color=discord.Color.orange(), description=content, title="**"+name+"**")
     return embed
 
-def subchar(charName,region):
-    char=scrapelib.fetchChar(charName,region)
+def subchar(charname,region):
+    char=scrapelib.fetchChar(charname,region)
     embd = 0
     if char:
         embd=generateEmbed(char["CharacterName"],"World: "+char["WorldName"] + " Rank: "+f'{char["Rank"]:,}'+"\nLevel: "+str(char["Level"])+" Exp: "+f'{char["Exp"]:,}'+"\nClass: "+char["JobName"])
         embd.set_image(url=char["CharacterImgUrl"])
     else:
-        embd=generateEmbed(charName, "The character was not found")
+        embd=generateEmbed(charname, "The character was not found")
     return embd
     
 
@@ -116,57 +116,57 @@ class MapleUtil(commands.Cog):
         gc.collect()
 
     @app_commands.command(description="Shows info of the character from the NA region")
-    @app_commands.describe(charName="The character to show")
-    async def char(self,interaction: discord.Interaction,charName: str):
-        await interaction.response.send_message(embed=subchar(charName,0))
+    @app_commands.describe(charname="The character to show")
+    async def char(self,interaction: discord.Interaction,charname: str):
+        await interaction.response.send_message(embed=subchar(charname,0))
         gc.collect()
 
     @app_commands.command(description="Shows info of the character from the EU region")
-    @app_commands.describe(charName="The character to show")
-    async def chareu(self,interaction: discord.Interaction,charName: str):
-        await interaction.response.send_message(embed=subchar(charName,1))
+    @app_commands.describe(charname="The character to show")
+    async def chareu(self,interaction: discord.Interaction,charname: str):
+        await interaction.response.send_message(embed=subchar(charname,1))
         gc.collect()
 
     #@commands.has_permissions(manage_messages=True)
     @app_commands.command(description="Adds a character to this servers rankings as an NA character")
-    @app_commands.describe(charName="The character to add")
+    @app_commands.describe(charname="The character to add")
     @app_commands.guild_only()
-    async def addrank(self,interaction: discord.Interaction,charName: str):
-        if scrapelib.fetchChar(charName,0):
-            jsonlib.addChar(self.data,str(interaction.guild_id),charName,0)
-            await interaction.response.send_message(charName +" was added")
+    async def addrank(self,interaction: discord.Interaction,charname: str):
+        if scrapelib.fetchChar(charname,0):
+            jsonlib.addChar(self.data,str(interaction.guild_id),charname,0)
+            await interaction.response.send_message(charname +" was added")
         else:
-            await interaction.response.send_message(charName +" was not found")
+            await interaction.response.send_message(charname +" was not found")
         gc.collect()
         
     #@commands.has_permissions(manage_messages=True)
     @app_commands.command(description="Adds a character to this servers rankings as an EU character")
-    @app_commands.describe(charName="The character to add")
+    @app_commands.describe(charname="The character to add")
     @app_commands.guild_only()
-    async def addrankeu(self,interaction: discord.Interaction,charName: str):
-        if scrapelib.fetchChar(charName,1):
-            jsonlib.addChar(self.data,str(interaction.guild_id),charName,1)
-            await interaction.response.send_message(charName +" was added")
+    async def addrankeu(self,interaction: discord.Interaction,charname: str):
+        if scrapelib.fetchChar(charname,1):
+            jsonlib.addChar(self.data,str(interaction.guild_id),charname,1)
+            await interaction.response.send_message(charname +" was added")
         else:
-            await interaction.response.send_message(charName +" was not found")
+            await interaction.response.send_message(charname +" was not found")
         gc.collect()
             
     @app_commands.command(description="Removes a character from this servers rankings as an NA character")
     @app_commands.default_permissions(manage_messages=True)
-    @app_commands.describe(charName="The character to remove")
+    @app_commands.describe(charname="The character to remove")
     @app_commands.guild_only()
-    async def delrank(self,interaction: discord.Interaction,charName: str):
-        jsonlib.delChar(self.data, str(interaction.guild_id),charName,0)
-        await interaction.response.send_message(charName +" was removed")
+    async def delrank(self,interaction: discord.Interaction,charname: str):
+        jsonlib.delChar(self.data, str(interaction.guild_id),charname,0)
+        await interaction.response.send_message(charname +" was removed")
         gc.collect()
     
     @app_commands.command(description="Removes a character from this servers rankings as an EU character")
     @app_commands.default_permissions(manage_messages=True)
-    @app_commands.describe(charName="The character to remove")
+    @app_commands.describe(charname="The character to remove")
     @app_commands.guild_only()
-    async def delrankeu(self,interaction: discord.Interaction,charName: str):
-        jsonlib.delChar(self.data, str(interaction.guild_id),charName,1)
-        await interaction.response.send_message(charName +" was removed")
+    async def delrankeu(self,interaction: discord.Interaction,charname: str):
+        jsonlib.delChar(self.data, str(interaction.guild_id),charname,1)
+        await interaction.response.send_message(charname +" was removed")
         gc.collect()
     
     @commands.command()
@@ -179,11 +179,11 @@ class MapleUtil(commands.Cog):
         gc.collect()
     
     @app_commands.command(description="registers a new character as yours")
-    @app_commands.describe(charName="The character to add", region="The region of the character")
+    @app_commands.describe(charname="The character to add", region="The region of the character")
     @app_commands.choices(region=[app_commands.Choice(name="NA", value="na"), app_commands.Choice(name="EU", value="eu")])
-    async def registermychar(self,interaction: discord.Interaction,charName: str, region: str):
-        jsonlib.assignChar(self.data, str(interaction.user.id),charName,region)
-        await interaction.response.send_message(charName+ " is now your registered IGN")
+    async def registermychar(self,interaction: discord.Interaction,charname: str, region: str):
+        jsonlib.assignChar(self.data, str(interaction.user.id),charname,region)
+        await interaction.response.send_message(charname+ " is now your registered IGN")
         gc.collect()
 
     @app_commands.command(description="shows your registered character")
