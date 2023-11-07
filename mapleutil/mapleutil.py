@@ -1,10 +1,9 @@
 import discord
-from datetime import datetime, timedelta
+from datetime import datetime
 import gc
 from redbot.core import commands
 from . import jsonlib
 from . import scrapelib
-import redbot
 import re
 
 data ={}

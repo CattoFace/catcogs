@@ -1,5 +1,5 @@
 from .mapleutil import MapleUtil
 
-def setup(bot):
+async def setup(bot):
     #bot setup
-    bot.add_cog(MapleUtil(bot))
+    await bot.add_cog(MapleUtil(bot))
