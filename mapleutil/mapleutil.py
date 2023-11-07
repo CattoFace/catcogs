@@ -181,7 +181,7 @@ class MapleUtil(commands.Cog):
     @app_commands.command(description="registers a new character as yours")
     @app_commands.describe(charName="The character to add", region="The region of the character")
     @app_commands.choices(region=[app_commands.Choice(name="NA", value="na"), app_commands.Choice(name="EU", value="eu")])
-    async def registermychar(self,interaction: discord.Interaction,charName: str, region):
+    async def registermychar(self,interaction: discord.Interaction,charName: str, region: str):
         jsonlib.assignChar(self.data, str(interaction.user.id),charName,region)
         await interaction.response.send_message(charName+ " is now your registered IGN")
         gc.collect()
@@ -201,14 +201,14 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command()
     @app_commands.default_permissions(manage_messages=True)
-    async def setdata(self,interaction: discord.Interaction,key,s):
+    async def setdata(self,interaction: discord.Interaction,key: str,s:str):
         self.data[key]=s
         jsonlib.updateJson(self.data)
         await interaction.response.send_message(f'{key} was set to {s}')
     
     @app_commands.command()
     @app_commands.default_permissions(manage_messages=True)
-    async def setmemberchar(self,interaction: discord.Interaction,user,ign,region):
+    async def setmemberchar(self,interaction: discord.Interaction,user:str,ign:str,region:str):
         id=str(re.sub('\D','',user) if re.match(r"<@!?[0-9]+>",user) else "")
         if id:
             jsonlib.assignChar(self.data,id,ign,region)
@@ -223,7 +223,7 @@ class MapleUtil(commands.Cog):
     @app_commands.command()
     @app_commands.choices(summer=[app_commands.choices.Choice(name="True", value=True), app_commands.choices.Choice(name="False", value=False)])
     @app_commands.default_permissions(manage_messages=True)
-    async def setursussummer(self,interaction: discord.Interaction, summer):
+    async def setursussummer(self,interaction: discord.Interaction, summer: bool):
         if summer:
             self.data["summer"]=1
             await interaction.response.send_message("Ursus summer turned on")
