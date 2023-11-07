@@ -1,12 +1,9 @@
 from json.decoder import JSONDecodeError
 from bs4 import BeautifulSoup
-import re
 import requests
 from datetime import datetime, timedelta
 from functools import reduce
-import gc
 import json
-import random
 
 def fetch(url):
     with requests.session() as s:
@@ -30,22 +27,22 @@ def fetchTimes(soup):
     return times
 
 def fetchChar(charName,eu):
-	with requests.session() as s:
-		char = s.get('https://maplestory.nexon.net/api/ranking?id=overall&character_name='+charName+('&region=eu' if eu else '')).json()
-		return char[0] if char else 0
-			     
+    with requests.session() as s:
+        char = s.get('https://maplestory.nexon.net/api/ranking?id=overall&character_name='+charName+('&region=eu' if eu else '')).json()
+        return char[0] if char else 0
+                 
 def fetchCharImg(charName,eu):
-	char = fetchChar(charName,eu)
-	return char["CharacterImgUrl"] if char else 0
+    char = fetchChar(charName,eu)
+    return char["CharacterImgUrl"] if char else 0
 
 def fetchCharExp(charName,eu):
-	data= fetchChar(charName,eu)
-	if not data:
-		return 0,0
-	level = data['Level']
-	exp = data['Exp']
-	return level,exp
-	
+    data= fetchChar(charName,eu)
+    if not data:
+        return 0,0
+    level = data['Level']
+    exp = data['Exp']
+    return level,exp
+    
 def fetchUrl(category, targets):
     baseURL = 'http://maplestory.nexon.net/news/'
     try:
@@ -53,7 +50,8 @@ def fetchUrl(category, targets):
     except JSONDecodeError:
         return 0
     j = list(filter(lambda x:x["Category"]==category,j))
-    if targets==[]: return baseURL + str(j[0]["Id"])
+    if targets==[]:
+        return baseURL + str(j[0]["Id"])
     for entry in j:
         if any(x in entry["Title"] for x in targets):
             return baseURL + str(entry["Id"])
@@ -111,7 +109,8 @@ def getMaintenanceTime():
         return 0
     site = fetch(url)
     soup = BeautifulSoup(site.text, 'html.parser').find('div', class_='article-content').find_next('p')
-    while soup.text=="": soup=soup.find_next('p')
+    while soup.text=="":
+        soup=soup.find_next('p')
     return soup.text
 
 def getUrsus2xStatus(summer):
@@ -146,16 +145,16 @@ def getResetTimes():
     return toPrint
 
 def generateLeaderboard(data,server):
-	leaderboard = []
-	if not server in data:
-		return {}
-	for char in data[server]:
-		exp=fetchCharExp(char[0],char[1])
-		leaderboard.append({'name':char[0],'region':'EU' if char[1] else 'NA','level':exp[0],'exp':exp[1] })
-	leaderboard.sort(key = lambda x: (x['level'],x['exp']),reverse=1)
-	for char in leaderboard:
-		char['exp']= 0 if char['exp']=='0' else f"{char['exp']:,}"
-	return leaderboard
+    leaderboard = []
+    if server not in data:
+        return {}
+    for char in data[server]:
+        exp=fetchCharExp(char[0],char[1])
+        leaderboard.append({'name':char[0],'region':'EU' if char[1] else 'NA','level':exp[0],'exp':exp[1] })
+    leaderboard.sort(key = lambda x: (x['level'],x['exp']),reverse=1)
+    for char in leaderboard:
+        char['exp']= 0 if char['exp']=='0' else f"{char['exp']:,}"
+    return leaderboard
 
 def formatLeaderboard(leaderboard):
-	return '\n'.join('{name} - Region: {region} Level: {level} Exp: {exp}'.format(**x) for x in leaderboard)
+    return '\n'.join('{name} - Region: {region} Level: {level} Exp: {exp}'.format(**x) for x in leaderboard)
