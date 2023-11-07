@@ -187,8 +187,8 @@ class MapleUtil(commands.Cog):
         gc.collect()
 
     @app_commands.command(description="shows your registered character")
-    async def mychar(self,interaction: discord.Interaction,*args):
-        id = str(interaction.user.id if len(args)==0 else (re.sub('\D','',args[0]) if re.match(r"<@!?[0-9]+>",args[0]) else ""))
+    async def mychar(self,interaction: discord.Interaction):
+        id = str(interaction.user.id)
         if not id:
             await interaction.response.send_message("Syntax error, please use either `mychar` or `mychar <mention>`")
         else:
