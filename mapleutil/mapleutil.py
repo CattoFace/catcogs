@@ -94,7 +94,7 @@ class MapleUtil(commands.Cog):
         await interaction.response.send_message(embed=generateEmbed("Times", toPrint))
         gc.collect()
 
-    @app_commands.command(name="sunny", description="Links the sunny sunday section in the last patch note, does not check sunny sunday existance! just assumes one exists in the lastest patch notes")
+    @app_commands.command(name="sunny", description="Links the sunny sunday section in the last patch note, does not check sunny sunday existance!")
     async def sunny(self,interaction: discord.Interaction):
         toPrint = scrapelib.fetchUrl("update", ["Patch Notes"])
         if toPrint:
