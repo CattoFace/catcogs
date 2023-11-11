@@ -19,7 +19,8 @@ def subchar(charname,region):
     embd = 0
     if char:
         embd=generateEmbed(char["CharacterName"],"World: "+char["WorldName"] + " Rank: "+f'{char["Rank"]:,}'+"\nLevel: "+str(char["Level"])+" Exp: "+f'{char["Exp"]:,}'+"\nClass: "+char["JobName"])
-        embd.set_thumbnail(url=char["CharacterImgUrl"])
+        embd.set_image(url="https://msavatar1.nexon.net/Character/BLICDOCCDIGHGNHIJGHBGNNKIMLMPCHOMOCIFMJDDOJPPJIDHICMLJILHJJBINMAOLBIHCJJJKPBKKENHHIPOHFCHBKGNFLMIOJDBEFDLCCCEBGOJEPAMOOKJOFAKLAOECKBGNOGHIIPGBJOPMMFJPBEDCFNBIALKDMDKIFLAICGDIHDJLIKCNNCDIKCOBAPMELFINPGNCCKIFACICBIBMFDDMNLGEAHPEBFAKNDPIBNLCJPAKDIGNBJOIPAKJBM.png")
+        # embd.set_image(url=char["CharacterImgUrl"])
     else:
         embd=generateEmbed(charname, "The character was not found")
     return embd
