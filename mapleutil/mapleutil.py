@@ -19,7 +19,7 @@ def subchar(charname,region):
     embd = 0
     if char:
         embd=generateEmbed(char["CharacterName"],"World: "+char["WorldName"] + " Rank: "+f'{char["Rank"]:,}'+"\nLevel: "+str(char["Level"])+" Exp: "+f'{char["Exp"]:,}'+"\nClass: "+char["JobName"])
-        embd.set_image(url=char["CharacterImgUrl"])
+        embd.set_thumbnail(url=char["CharacterImgUrl"])
     else:
         embd=generateEmbed(charname, "The character was not found")
     return embd
@@ -94,7 +94,8 @@ class MapleUtil(commands.Cog):
         await interaction.response.send_message(embed=generateEmbed("Times", toPrint))
         gc.collect()
 
-    @app_commands.command(name="sunny", description="Links the sunny sunday section in the last patch note, does not check sunny sunday existance!")
+    # nexon changed patch notes formatting and doesn't use the #sunny tag anymore.
+    # @app_commands.command(name="sunny", description="Links the sunny sunday section in the last patch note, does not check sunny sunday existance!")
     async def sunny(self,interaction: discord.Interaction):
         toPrint = scrapelib.fetchUrl("update", ["Patch Notes"])
         if toPrint:
@@ -109,7 +110,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Sends a random maple tip")
     async def mapletip(self,interaction: discord.Interaction):
-        j = json.loads(requests.get("https://maplestory.io/api/GMS/219/tips").text)
+        j = json.loads(requests.get("https://maplestory.io/api/GMS/245/tips").text)
         group=random.randint(0,2)
         toPrint = j[group]["messages"][random.randint(0,len(j[group]["messages"]))]
         await interaction.response.send_message(embed=generateEmbed("Maple Tip", toPrint))

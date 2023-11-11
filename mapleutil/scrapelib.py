@@ -43,7 +43,7 @@ def fetchCharExp(charName,eu):
     exp = data['Exp']
     return level,exp
     
-def fetchUrl(category, targets, with_image=False):
+def fetchUrl(category, targets):
     baseURL = 'http://maplestory.nexon.net/news/'
     try:
         j = json.loads(requests.get("https://g.nexonstatic.com/maplestory/cms/news/"+category).text)
@@ -53,8 +53,7 @@ def fetchUrl(category, targets, with_image=False):
         return baseURL + str(j[0]["Id"])
     for entry in j:
         if any(x in entry["Title"] for x in targets):
-            baseURL += str(entry["Id"])
-            return (baseURL, entry["ImageLauncher"]) if with_image else baseURL
+            return baseURL + str(entry["Id"])
     return 0
 
 
