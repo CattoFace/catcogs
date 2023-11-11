@@ -8,22 +8,25 @@ import re
 import json
 import requests
 import random 
-
+from io import BytesIO
 
 def generateEmbed(name, content):
     embed = discord.Embed(color=discord.Color.orange(), description=content, title="**"+name+"**")
     return embed
 
 def subchar(charname,region):
-    char=scrapelib.fetchChar(charname,region)
-    embd = 0
-    if char:
-        embd=generateEmbed(char["CharacterName"],"World: "+char["WorldName"] + " Rank: "+f'{char["Rank"]:,}'+"\nLevel: "+str(char["Level"])+" Exp: "+f'{char["Exp"]:,}'+"\nClass: "+char["JobName"])
-        embd.set_image(url="https://msavatar1.nexon.net/Character/BLICDOCCDIGHGNHIJGHBGNNKIMLMPCHOMOCIFMJDDOJPPJIDHICMLJILHJJBINMAOLBIHCJJJKPBKKENHHIPOHFCHBKGNFLMIOJDBEFDLCCCEBGOJEPAMOOKJOFAKLAOECKBGNOGHIIPGBJOPMMFJPBEDCFNBIALKDMDKIFLAICGDIHDJLIKCNNCDIKCOBAPMELFINPGNCCKIFACICBIBMFDDMNLGEAHPEBFAKNDPIBNLCJPAKDIGNBJOIPAKJBM.png")
-        # embd.set_image(url=char["CharacterImgUrl"])
-    else:
-        embd=generateEmbed(charname, "The character was not found")
-    return embd
+    with requests.session() as s:
+        char = s.get('https://maplestory.nexon.net/api/ranking?id=overall&character_name='+charname+('&region=eu' if region else '')).json()
+        if char:
+            char = char[0]
+            charname = char["CharacterName"]
+            embd=generateEmbed(charname,"World: "+char["WorldName"] + " Rank: "+f'{char["Rank"]:,}'+"\nLevel: "+str(char["Level"])+" Exp: "+f'{char["Exp"]:,}'+"\nClass: "+char["JobName"])
+            file = discord.File(BytesIO(s.get(char["CharacterImgUrl"]).content), filename=charname+".png")
+            embd.set_image(url=f"attachment://{charname}.png")
+        else:
+            file = None
+            embd=generateEmbed(charname, "The character was not found")
+    return embd, file
     
 
 class MapleUtil(commands.Cog):
@@ -120,13 +123,21 @@ class MapleUtil(commands.Cog):
     @app_commands.command(description="Shows info of the character from the NA region")
     @app_commands.describe(charname="The character to show")
     async def char(self,interaction: discord.Interaction,charname: str):
-        await interaction.response.send_message(embed=subchar(charname,0))
+        embed, file = subchar(charname, 0)
+        if file:
+            await interaction.response.send_message(embed=embed, file=file)
+        else:
+            await interaction.response.send_message(embed=embed)
         gc.collect()
 
     @app_commands.command(description="Shows info of the character from the EU region")
     @app_commands.describe(charname="The character to show")
     async def chareu(self,interaction: discord.Interaction,charname: str):
-        await interaction.response.send_message(embed=subchar(charname,1))
+        embed, file = subchar(charname, 1)
+        if file:
+            await interaction.response.send_message(embed=embed, file=file)
+        else:
+            await interaction.response.send_message(embed=embed)
         gc.collect()
 
     #@commands.has_permissions(manage_messages=True)
@@ -196,9 +207,13 @@ class MapleUtil(commands.Cog):
         else:
             char = jsonlib.getPersonalChar(self.data,id)
             if char:
-                await interaction.response.send_message(embed=subchar(char["name"],char["region"]))
+                embed, file = subchar(char["name"], char["region"])
+                if file:
+                    await interaction.response.send_message(embed=embed, file=file)
+                else:
+                    await interaction.response.send_message(embed=embed)
             else:
-                await interaction.response.send_message('It looks like '+ ("you don\'t" if len(args)==0 else 'the specified user doesn\'t')+" have an assigned IGN, assign one with the command `registermychar <name> <region(NA/EU)>`")
+                await interaction.response.send_message('It looks like you don\'t have a assigned IGN, assign one with the command /registermychar <name> <region(NA/EU)>')
         gc.collect()
 
     @app_commands.command()
