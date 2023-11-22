@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from functools import reduce
 import json
 
-from util import get_perecent
+from .util import get_perecent
 
 def fetch(url):
     with requests.session() as s:
