@@ -21,7 +21,7 @@ def subchar(charname,region):
         if char:
             char = char[0]
             charname = char["CharacterName"]
-            embd=generateEmbed(charname,f"World: {char["WorldName"]} Rank: {char["Rank"]:,}\nLevel: {char["Level"]} Exp: {char["Exp"]:,}({get_perecent(char["Level"], char["Exp"]):.3f})\nClass: {char["JobName"]}")
+            embd=generateEmbed(charname,f"World: {char['WorldName']} Rank: {char['Rank']:,}\nLevel: {char['Level']} Exp: {char['Exp']:,}({get_perecent(char['Level'], char['Exp']):.3f})\nClass: {char['JobName']}")
             file = discord.File(BytesIO(s.get(char["CharacterImgUrl"]).content), filename=charname+".png")
             embd.set_image(url=f"attachment://{charname}.png")
         else:
