@@ -20,7 +20,7 @@ def subchar(charname,region, session):
     if char:
         charname = char["characterName"]
         embd=generateEmbed(charname,f"World: {char['worldName']} Rank: {char['rank']:,}\nLevel: {char['level']} Exp: {char['exp']:,}({get_perecent(char['level'], char['exp']):.3f}%)\nClass: {char['jobName']}")
-        file = discord.File(BytesIO(s.get(char["characterImgURL"]).content), filename=charname+".png")
+        file = discord.File(BytesIO(session.get(char["characterImgURL"]).content), filename=charname+".png")
         embd.set_image(url=f"attachment://{charname}.png")
     else:
         file = None
@@ -116,7 +116,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Sends a random maple tip")
     async def mapletip(self,interaction: discord.Interaction):
-        j = json.loads(requests.get("https://maplestory.io/api/GMS/251/tips").text)
+        j = json.loads(self.session.get("https://maplestory.io/api/GMS/251/tips").text)
         group=random.randint(0,2)
         toPrint = j[group]["messages"][random.randint(0,len(j[group]["messages"]))]
         await interaction.response.send_message(embed=generateEmbed("Maple Tip", toPrint))
