@@ -46,7 +46,7 @@ def fetchCharExp(charName,eu):
     return level,exp
     
 def fetchUrl(category, targets):
-    baseURL = 'https://www.nexon.com/maplestory/news/'+category+'/'
+    baseURL = 'https://www.nexon.com/maplestory/news/'
     try:
         j = json.loads(requests.get("https://g.nexonstatic.com/maplestory/cms/news/"+category).text)
     except JSONDecodeError:
