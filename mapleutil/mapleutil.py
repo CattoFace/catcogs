@@ -17,9 +17,8 @@ def generateEmbed(name, content):
 
 def subchar(charname,region):
     with requests.session() as s:
-        char = s.get('https://maplestory.nexon.net/api/ranking?id=overall&character_name='+charname+('&region=eu' if region else '')).json()
+        char = scrapelib.fetchChar(charname,region)
         if char:
-            char = char[0]
             charname = char["characterName"]
             embd=generateEmbed(charname,f"World: {char['worldName']} Rank: {char['Rank']:,}\nLevel: {char['level']} Exp: {char['exp']:,}({get_perecent(char['level'], char['exp']):.3f}%)\nClass: {char['jobName']}")
             file = discord.File(BytesIO(s.get(char["characterImgUrl"]).content), filename=charname+".png")
