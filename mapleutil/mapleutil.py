@@ -26,7 +26,7 @@ class MapleUtil(commands.Cog):
         self.session.close()
 
     def subchar(self, charname, region):
-        char = scrapelib.fetchChar(charname,region, session)
+        char = scrapelib.fetchChar(charname,region, self.session)
         if char:
             charname = char["characterName"]
             embd=generateEmbed(charname,f"World: {char['worldName']} Rank: {char['rank']:,}\nLevel: {char['level']} Exp: {char['exp']:,}({get_perecent(char['level'], char['exp']):.3f}%)\nClass: {char['jobName']}")
