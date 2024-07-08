@@ -20,19 +20,16 @@ def fetchCharExp(charName,eu, session):
         return 0,0
     return data['level'],data['exp']
     
-def fetchUrl(category, session, targets=[], summary=False):
+def fetchUrl(category, session, targets=[]):
     baseURL = 'https://www.nexon.com/maplestory/news/'+category+"/"
     try:
         j = json.loads(session.get("https://g.nexonstatic.com/maplestory/cms/v1/news").text)
     except JSONDecodeError:
-        return None
+        return None, None
     for entry in j:
         if entry["category"]==category and (targets==[] or any(x in entry["name"] for x in targets)):
-            if summary:
-                return baseURL + str(entry["id"])+"\n"+entry["summary"]
-            else:
-                return baseURL + str(entry["id"])
-    return None
+            return baseURL, str(entry["id"])+"\n"+entry["summary"]
+    return None, None
 
 def getUrsus2xStatus(summer):
     currentTime = datetime.utcnow()
