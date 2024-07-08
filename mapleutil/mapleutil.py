@@ -15,17 +15,6 @@ def generateEmbed(name, content):
     embed = discord.Embed(color=discord.Color.orange(), description=content, title="**"+name+"**")
     return embed
 
-def subchar(charname,region, session):
-    char = scrapelib.fetchChar(charname,region, session)
-    if char:
-        charname = char["characterName"]
-        embd=generateEmbed(charname,f"World: {char['worldName']} Rank: {char['rank']:,}\nLevel: {char['level']} Exp: {char['exp']:,}({get_perecent(char['level'], char['exp']):.3f}%)\nClass: {char['jobName']}")
-        file = discord.File(BytesIO(session.get(char["characterImgURL"]).content), filename=charname+".png")
-        embd.set_image(url=f"attachment://{charname}.png")
-    else:
-        file = None
-        embd=generateEmbed(charname, "The character was not found")
-    return embd, file
     
 
 class MapleUtil(commands.Cog):
@@ -38,6 +27,18 @@ class MapleUtil(commands.Cog):
     def __del__(self):
         self.session.close()
 
+    def subchar(self, charname, region):
+        char = scrapelib.fetchChar(charname,region, session)
+        if char:
+            charname = char["characterName"]
+            embd=generateEmbed(charname,f"World: {char['worldName']} Rank: {char['rank']:,}\nLevel: {char['level']} Exp: {char['exp']:,}({get_perecent(char['level'], char['exp']):.3f}%)\nClass: {char['jobName']}")
+            file = discord.File(BytesIO(session.get(char["characterImgURL"]).content), filename=charname+".png")
+            embd.set_image(url=f"attachment://{charname}.png")
+        else:
+            file = None
+            embd=generateEmbed(charname, "The character was not found")
+        return embd, file
+        
     @app_commands.command(description="Shows the current time in GMS")
     async def time(self, interaction: discord.Interaction):
         toPrint = datetime.utcnow().strftime("Maple time is currently %H:%M:%S %d-%m-%y")
@@ -93,7 +94,7 @@ class MapleUtil(commands.Cog):
             toPrint=url+"#SunnySunday\n"+summary
         else:
             toPrint = "No patch notes were found."
-        await interaction.response.send_message(embed=generateEmbed("Sunny Sunday", toPrint+"#SunnySunday"))
+        await interaction.response.send_message(embed=generateEmbed("Sunny Sunday", toPrint))
         gc.collect()
 
     @app_commands.command(description="Sends a random maple tip")
@@ -107,7 +108,7 @@ class MapleUtil(commands.Cog):
     @app_commands.command(description="Shows info of the character from the NA region")
     @app_commands.describe(charname="The character to show")
     async def char(self,interaction: discord.Interaction,charname: str):
-        embed, file = subchar(charname, 0)
+        embed, file = self.subchar(charname, 0)
         if file:
             await interaction.response.send_message(embed=embed, file=file)
         else:
@@ -117,7 +118,7 @@ class MapleUtil(commands.Cog):
     @app_commands.command(description="Shows info of the character from the EU region")
     @app_commands.describe(charname="The character to show")
     async def chareu(self,interaction: discord.Interaction,charname: str):
-        embed, file = subchar(charname, 1)
+        embed, file = self.subchar(charname, 1)
         if file:
             await interaction.response.send_message(embed=embed, file=file)
         else:
@@ -129,7 +130,7 @@ class MapleUtil(commands.Cog):
     @app_commands.describe(charname="The character to add")
     @app_commands.guild_only()
     async def addrank(self,interaction: discord.Interaction,charname: str):
-        if scrapelib.fetchChar(charname,0):
+        if scrapelib.fetchChar(charname,0, self.session):
             jsonlib.addChar(self.data,str(interaction.guild_id),charname,0)
             await interaction.response.send_message(charname +" was added")
         else:
@@ -141,7 +142,7 @@ class MapleUtil(commands.Cog):
     @app_commands.describe(charname="The character to add")
     @app_commands.guild_only()
     async def addrankeu(self,interaction: discord.Interaction,charname: str):
-        if scrapelib.fetchChar(charname,1):
+        if scrapelib.fetchChar(charname,1, self.session):
             jsonlib.addChar(self.data,str(interaction.guild_id),charname,1)
             await interaction.response.send_message(charname +" was added")
         else:
@@ -191,7 +192,7 @@ class MapleUtil(commands.Cog):
         else:
             char = jsonlib.getPersonalChar(self.data,id)
             if char:
-                embed, file = subchar(char["name"], char["region"])
+                embed, file = self.subchar(char["name"], char["region"])
                 if file:
                     await interaction.response.send_message(embed=embed, file=file)
                 else:
