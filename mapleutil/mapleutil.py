@@ -46,7 +46,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Finds the latest patch notes")
     async def patchnotes(self,interaction: discord.Interaction):
-        url, summary = scrapelib.fetchUrl("update", targets=["Patch Notes"], session=self.session)
+        url, summary = self.fetchUrl("update", targets=["Patch Notes"], session=self.session)
         if url:
             toPrint=url+"\n"+summary
         else:
@@ -56,7 +56,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Finds the latest Cash Shop Update")
     async def csupdate(self,interaction: discord.Interaction):
-        url, summary = scrapelib.fetchUrl("sale", targets=["Cash Shop Update"], session=self.session)
+        url, summary = self.fetchUrl("sale", targets=["Cash Shop Update"], session=self.session)
         if url:
             toPrint=url+"\n"+summary
         else:
@@ -72,7 +72,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Finds the last maintenance times")
     async def maintenance(self,interaction: discord.Interaction):
-        url, summary = scrapelib.fetchUrl("maintenance",summary=True, session=self.session)
+        url, summary = self.fetchUrl("maintenance", session=self.session)
         if url:
             toPrint=url+"\n"+summary
         else:
@@ -88,7 +88,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Links the sunny sunday section in the last patch note, does not check sunny sunday existance!")
     async def sunnysunday(self,interaction: discord.Interaction):
-        url, summary = scrapelib.fetchUrl("update", targets=["Patch Notes"], session=self.session, split=True)
+        url, summary = self.fetchUrl("update", targets=["Patch Notes"], session=self.session)
         if url:
             toPrint=url+"#SunnySunday\n"+summary
         else:
@@ -232,4 +232,20 @@ class MapleUtil(commands.Cog):
             self.data["summer"]=0
             await interaction.response.send_message("Ursus summer turned off")
 
-    
+
+    def fetchUrl(self, category, targets=[]):
+        baseURL = 'https://www.nexon.com/maplestory/news/'+category+"/"
+        try:
+            j = json.loads(self.session.get("https://g.nexonstatic.com/maplestory/cms/v1/news").text)
+        except JSONDecodeError:
+            return None, None
+        for entry in j:
+            if entry["category"]==category and (targets==[] or any(x in entry["name"] for x in targets)):
+                self.data[category]=(entry["id"],entry["summary"])
+                jsonlib.updateJson(self.data)
+                return baseURL+str(entry["id"]), entry["summary"]
+        if("patchnotes" in self.data):
+            entry=self.data[category]
+            return baseURL+str(entry["id"]), entry["summary"]
+        return None, None
+        
