@@ -86,7 +86,7 @@ class MapleUtil(commands.Cog):
             toPrint=self.data["maintenance"]
         else:
             toPrint = "No cash shop update post were found."
-        await interaction.response.send_message(generateEmbed("Maintenance", toPrint))
+        await interaction.response.send_message(embed=generateEmbed("Maintenance", toPrint))
         gc.collect()
 
     @app_commands.command(description="Sends various times regarding the games reset timers")
