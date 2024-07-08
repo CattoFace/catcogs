@@ -46,12 +46,9 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Finds the latest patch notes")
     async def patchnotes(self,interaction: discord.Interaction):
-        toPrint = scrapelib.fetchUrl("update", targets=["Patch Notes"], summary=True, session=self.session)
-        if toPrint:
-            self.data["patchnotes"]=toPrint
-            jsonlib.updateJson(self.data)
-        elif("patchnotes" in self.data):
-            toPrint=self.data["patchnotes"]
+        url, summary = scrapelib.fetchUrl("update", targets=["Patch Notes"], summary=True, session=self.session)
+        if url:
+            toPrint=url+"\n"+summary
         else:
             toPrint = "No patch notes were found."
         await interaction.response.send_message(embed=generateEmbed("Patch Notes", toPrint))
@@ -59,12 +56,9 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Finds the latest Cash Shop Update")
     async def csupdate(self,interaction: discord.Interaction):
-        toPrint = scrapelib.fetchUrl("sale", targets=["Cash Shop Update"], summary=True, session=self.session)
-        if toPrint:
-            self.data["csupdate"]=toPrint
-            jsonlib.updateJson(self.data)
-        elif("csupdate" in self.data):
-            toPrint=self.data["csupdate"]
+        url, summary = scrapelib.fetchUrl("sale", targets=["Cash Shop Update"], summary=True, session=self.session)
+        if url:
+            toPrint=url+"\n"+summary
         else:
             toPrint = "No cash shop update post were found."
         await interaction.response.send_message(embed=generateEmbed("CS Update", toPrint))
@@ -78,12 +72,9 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Finds the last maintenance times")
     async def maintenance(self,interaction: discord.Interaction):
-        toPrint = scrapelib.fetchUrl("maintenance",summary=True, session=self.session)
-        if toPrint:
-            self.data["maintenance"]=toPrint
-            jsonlib.updateJson(self.data)
-        elif("csupdate" in self.data):
-            toPrint=self.data["maintenance"]
+        url, summary = scrapelib.fetchUrl("maintenance",summary=True, session=self.session)
+        if url:
+            toPrint=url+"\n"+summary
         else:
             toPrint = "No cash shop update post were found."
         await interaction.response.send_message(embed=generateEmbed("Maintenance", toPrint))
@@ -99,12 +90,7 @@ class MapleUtil(commands.Cog):
     async def sunnysunday(self,interaction: discord.Interaction):
         url, summary = scrapelib.fetchUrl("update", targets=["Patch Notes"], summary=True, session=self.session, split=True)
         if url:
-            url+="#SunnySunday\n"
-            toPrint=url+summary
-            self.data["patchnotes"]=toPrint
-            jsonlib.updateJson(self.data)
-        elif("patchnotes" in self.data):
-            toPrint=self.data["patchnotes"]
+            toPrint=url+"#SunnySunday\n"+summary
         else:
             toPrint = "No patch notes were found."
         await interaction.response.send_message(embed=generateEmbed("Sunny Sunday", toPrint+"#SunnySunday"))
