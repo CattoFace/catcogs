@@ -101,9 +101,8 @@ class MapleUtil(commands.Cog):
         await interaction.response.send_message(embed=generateEmbed("Times", toPrint))
         gc.collect()
 
-    # nexon changed patch notes formatting and doesn't use the #sunny tag anymore.
-    # @app_commands.command(name="sunny", description="Links the sunny sunday section in the last patch note, does not check sunny sunday existance!")
-    async def sunny(self,interaction: discord.Interaction):
+    @app_commands.command(name="sunnysunday", description="Links the sunny sunday section in the last patch note, does not check sunny sunday existance!")
+    async def sunnysunday(self,interaction: discord.Interaction):
         toPrint = scrapelib.fetchUrl("update", ["Patch Notes"], summary=True, self.session)
         if toPrint:
             self.data["patchnotes"]=toPrint
@@ -112,7 +111,7 @@ class MapleUtil(commands.Cog):
             toPrint=self.data["patchnotes"]
         else:
             toPrint = "No patch notes were found."
-        await interaction.response.send_message(generateEmbed("Sunny Sunday", toPrint+"#SunnySunday"))
+        await interaction.response.send_message(embed=generateEmbed("Sunny Sunday", toPrint+"#SunnySunday"))
         gc.collect()
 
     @app_commands.command(description="Sends a random maple tip")
@@ -190,7 +189,7 @@ class MapleUtil(commands.Cog):
     async def serverrankings(self,ctx):
         """Print the servers current rankings"""
         async with ctx.typing():
-            toPrint = scrapelib.formatLeaderboard(scrapelib.generateLeaderboard(self.data, str(ctx.guild.id)))
+            toPrint = scrapelib.formatLeaderboard(scrapelib.generateLeaderboard(self.data, str(ctx.guild.id), self.session))
             await ctx.send(embed=generateEmbed("Server Rankings", toPrint))
         gc.collect()
     
