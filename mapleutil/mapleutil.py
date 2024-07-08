@@ -52,7 +52,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(name="patchnotes", description="Finds the latest patch notes")
     async def patchnotes(self,interaction: discord.Interaction):
-        toPrint = scrapelib.fetchUrl("update", ["Patch Notes"], summary=True, self.session)
+        toPrint = scrapelib.fetchUrl("update", ["Patch Notes"], summary=True, session=self.session)
         if toPrint:
             self.data["patchnotes"]=toPrint
             jsonlib.updateJson(self.data)
@@ -65,7 +65,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Finds the latest Cash Shop Update")
     async def csupdate(self,interaction: discord.Interaction):
-        toPrint = scrapelib.fetchUrl("sale", ["Cash Shop Update"], summary=True, self.session)
+        toPrint = scrapelib.fetchUrl("sale", ["Cash Shop Update"], summary=True, session=self.session)
         if toPrint:
             self.data["csupdate"]=toPrint
             jsonlib.updateJson(self.data)
@@ -84,7 +84,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(name="maint", description="Finds the last maintenance times")
     async def maintenance(self,interaction: discord.Interaction):
-        toPrint = scrapelib.fetchUrl("maintenance",summary=True, self.session)
+        toPrint = scrapelib.fetchUrl("maintenance",summary=True, session=self.session)
         if toPrint:
             self.data["maintenance"]=toPrint
             jsonlib.updateJson(self.data)
@@ -103,7 +103,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(name="sunnysunday", description="Links the sunny sunday section in the last patch note, does not check sunny sunday existance!")
     async def sunnysunday(self,interaction: discord.Interaction):
-        toPrint = scrapelib.fetchUrl("update", ["Patch Notes"], summary=True, self.session)
+        toPrint = scrapelib.fetchUrl("update", ["Patch Notes"], summary=True, session=self.session)
         if toPrint:
             self.data["patchnotes"]=toPrint
             jsonlib.updateJson(self.data)
@@ -125,7 +125,7 @@ class MapleUtil(commands.Cog):
     @app_commands.command(description="Shows info of the character from the NA region")
     @app_commands.describe(charname="The character to show")
     async def char(self,interaction: discord.Interaction,charname: str):
-        embed, file = subchar(charname, 0, self.session)
+        embed, file = subchar(charname, 0, session=self.session)
         if file:
             await interaction.response.send_message(embed=embed, file=file)
         else:
@@ -135,7 +135,7 @@ class MapleUtil(commands.Cog):
     @app_commands.command(description="Shows info of the character from the EU region")
     @app_commands.describe(charname="The character to show")
     async def chareu(self,interaction: discord.Interaction,charname: str):
-        embed, file = subchar(charname, 1, self.session)
+        embed, file = subchar(charname, 1, session=self.session)
         if file:
             await interaction.response.send_message(embed=embed, file=file)
         else:
@@ -147,7 +147,7 @@ class MapleUtil(commands.Cog):
     @app_commands.describe(charname="The character to add")
     @app_commands.guild_only()
     async def addrank(self,interaction: discord.Interaction,charname: str):
-        if scrapelib.fetchChar(charname,0, self.session):
+        if scrapelib.fetchChar(charname,0, session=self.session):
             jsonlib.addChar(self.data,str(interaction.guild_id),charname,0)
             await interaction.response.send_message(charname +" was added")
         else:
@@ -159,7 +159,7 @@ class MapleUtil(commands.Cog):
     @app_commands.describe(charname="The character to add")
     @app_commands.guild_only()
     async def addrankeu(self,interaction: discord.Interaction,charname: str):
-        if scrapelib.fetchChar(charname,1, self.session):
+        if scrapelib.fetchChar(charname,1, session=self.session):
             jsonlib.addChar(self.data,str(interaction.guild_id),charname,1)
             await interaction.response.send_message(charname +" was added")
         else:
@@ -189,7 +189,7 @@ class MapleUtil(commands.Cog):
     async def serverrankings(self,ctx):
         """Print the servers current rankings"""
         async with ctx.typing():
-            toPrint = scrapelib.formatLeaderboard(scrapelib.generateLeaderboard(self.data, str(ctx.guild.id), self.session))
+            toPrint = scrapelib.formatLeaderboard(scrapelib.generateLeaderboard(self.data, str(ctx.guild.id), session=self.session))
             await ctx.send(embed=generateEmbed("Server Rankings", toPrint))
         gc.collect()
     
@@ -209,7 +209,7 @@ class MapleUtil(commands.Cog):
         else:
             char = jsonlib.getPersonalChar(self.data,id)
             if char:
-                embed, file = subchar(char["name"], char["region"], self.session)
+                embed, file = subchar(char["name"], char["region"], session=self.session)
                 if file:
                     await interaction.response.send_message(embed=embed, file=file)
                 else:
