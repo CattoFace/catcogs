@@ -46,7 +46,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Finds the latest patch notes")
     async def patchnotes(self,interaction: discord.Interaction):
-        url, summary = self.fetchUrl("update", targets=["Patch Notes"], session=self.session)
+        url, summary = self.fetchUrl("update", targets=["Patch Notes"])
         if url:
             toPrint=url+"\n"+summary
         else:
@@ -56,7 +56,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Finds the latest Cash Shop Update")
     async def csupdate(self,interaction: discord.Interaction):
-        url, summary = self.fetchUrl("sale", targets=["Cash Shop Update"], session=self.session)
+        url, summary = self.fetchUrl("sale", targets=["Cash Shop Update"])
         if url:
             toPrint=url+"\n"+summary
         else:
@@ -72,7 +72,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Finds the last maintenance times")
     async def maintenance(self,interaction: discord.Interaction):
-        url, summary = self.fetchUrl("maintenance", session=self.session)
+        url, summary = self.fetchUrl("maintenance")
         if url:
             toPrint=url+"\n"+summary
         else:
@@ -88,7 +88,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Links the sunny sunday section in the last patch note, does not check sunny sunday existance!")
     async def sunnysunday(self,interaction: discord.Interaction):
-        url, summary = self.fetchUrl("update", targets=["Patch Notes"], session=self.session)
+        url, summary = self.fetchUrl("update", targets=["Patch Notes"])
         if url:
             toPrint=url+"#SunnySunday\n"+summary
         else:
@@ -107,7 +107,7 @@ class MapleUtil(commands.Cog):
     @app_commands.command(description="Shows info of the character from the NA region")
     @app_commands.describe(charname="The character to show")
     async def char(self,interaction: discord.Interaction,charname: str):
-        embed, file = subchar(charname, 0, session=self.session)
+        embed, file = subchar(charname, 0)
         if file:
             await interaction.response.send_message(embed=embed, file=file)
         else:
@@ -117,7 +117,7 @@ class MapleUtil(commands.Cog):
     @app_commands.command(description="Shows info of the character from the EU region")
     @app_commands.describe(charname="The character to show")
     async def chareu(self,interaction: discord.Interaction,charname: str):
-        embed, file = subchar(charname, 1, session=self.session)
+        embed, file = subchar(charname, 1)
         if file:
             await interaction.response.send_message(embed=embed, file=file)
         else:
@@ -129,7 +129,7 @@ class MapleUtil(commands.Cog):
     @app_commands.describe(charname="The character to add")
     @app_commands.guild_only()
     async def addrank(self,interaction: discord.Interaction,charname: str):
-        if scrapelib.fetchChar(charname,0, session=self.session):
+        if scrapelib.fetchChar(charname,0):
             jsonlib.addChar(self.data,str(interaction.guild_id),charname,0)
             await interaction.response.send_message(charname +" was added")
         else:
@@ -141,7 +141,7 @@ class MapleUtil(commands.Cog):
     @app_commands.describe(charname="The character to add")
     @app_commands.guild_only()
     async def addrankeu(self,interaction: discord.Interaction,charname: str):
-        if scrapelib.fetchChar(charname,1, session=self.session):
+        if scrapelib.fetchChar(charname,1):
             jsonlib.addChar(self.data,str(interaction.guild_id),charname,1)
             await interaction.response.send_message(charname +" was added")
         else:
@@ -171,7 +171,7 @@ class MapleUtil(commands.Cog):
     async def serverrankings(self,ctx):
         """Print the servers current rankings"""
         async with ctx.typing():
-            toPrint = scrapelib.formatLeaderboard(scrapelib.generateLeaderboard(self.data, str(ctx.guild.id), session=self.session))
+            toPrint = scrapelib.formatLeaderboard(scrapelib.generateLeaderboard(self.data, str(ctx.guild.id)))
             await ctx.send(embed=generateEmbed("Server Rankings", toPrint))
         gc.collect()
     
@@ -191,7 +191,7 @@ class MapleUtil(commands.Cog):
         else:
             char = jsonlib.getPersonalChar(self.data,id)
             if char:
-                embed, file = subchar(char["name"], char["region"], session=self.session)
+                embed, file = subchar(char["name"], char["region"])
                 if file:
                     await interaction.response.send_message(embed=embed, file=file)
                 else:
