@@ -3,98 +3,36 @@ import requests
 from datetime import datetime, timedelta
 from functools import reduce
 import json
-
 from .util import get_perecent
 
-def fetch(url):
-    with requests.session() as s:
-        return s.get(url)
 
-def fetchChar(charName,eu):
-    with requests.session() as s:
-        char = s.get(f"https://www.nexon.com/api/maplestory/no-auth/v1/ranking/{'eu' if eu else 'na'}?type=overall&id=legendary&character_name={charName}").json()
-        return char["ranks"][0] if char["totalCount"]!=0 else None
+def fetchChar(charName,eu,session):
+    char = session.get(f"https://www.nexon.com/api/maplestory/no-auth/v1/ranking/{'eu' if eu else 'na'}?type=overall&id=legendary&character_name={charName}").json()
+    return char["ranks"][0] if char["totalCount"]!=0 else None
                  
-def fetchCharImg(charName,eu):
-    char = fetchChar(charName,eu)
-    return char["characterImgUrl"] if char else 0
+def fetchCharImg(charName,eu, session):
+    char = fetchChar(charName,eu, session)
+    return char["characterImgUrl"] if char else None
 
-def fetchCharExp(charName,eu):
-    data= fetchChar(charName,eu)
+def fetchCharExp(charName,eu, session):
+    data= fetchChar(charName,eu, session)
     if not data:
         return 0,0
     return data['level'],data['exp']
     
-def fetchUrl(category, targets=[], summary=False):
+def fetchUrl(category, targets=[], summary=False, session):
     baseURL = 'https://www.nexon.com/maplestory/news/'+category+"/"
     try:
-        j = json.loads(requests.get("https://g.nexonstatic.com/maplestory/cms/v1/news").text)
+        j = json.loads(session.get("https://g.nexonstatic.com/maplestory/cms/v1/news").text)
     except JSONDecodeError:
-        return 0
+        return None
     for entry in j:
         if entry["category"]==category and (targets==[] or any(x in entry["name"] for x in targets)):
             if summary:
                 return baseURL + str(entry["id"])+"\n"+entry["summary"]
             else:
                 return baseURL + str(entry["id"])
-    return 0
-
-
-def findCountdown(unparsedData):
-    parsedData = parseDatetimeData(unparsedData)
-    nearest = reduce(lambda a, b: a if a - datetime.utcnow() < b - datetime.utcnow() and a - datetime.utcnow()>timedelta(0) else b, parsedData)
-    return nearest - datetime.utcnow() if nearest - datetime.utcnow() > timedelta(0) else 0
-
-
-def parseDatetimeData(unparsedData):
-    parsedData=[]
-    for unparsedEntry in unparsedData:
-        parsedDate = findDate(unparsedEntry)
-        parsedData = findAllTimes(parsedData, parsedDate, unparsedEntry)
-    return parsedData
-
-
-def findDate(unparsedEntry):
-    splitData = unparsedEntry.split(" ")
-    relevantData = splitData[1] + " " + splitData[2] + " " + str(datetime.utcnow().year)
-    return datetime.strptime(relevantData, "%B %d %Y")
-
-
-def findAllTimes(parsedData, parsedDate, unparsedEntry):
-    data = unparsedEntry[unparsedEntry.index("at ") + 3:]
-    data = data.split("and ")
-    for entry in data:
-        entry = entry[:entry.index(' -')]
-        parsedData.append(datetime.strptime(
-                str(parsedDate.year) + " " + str(parsedDate.month) + " " + str(parsedDate.day) + " " + entry,
-                "%Y %m %d %I:%M %p"))
-    return parsedData
-
-
-def get2xTimes():
-    page = scrape('update', ['2x EXP & Drop'], ["Patch Notes"])
-    times = 0
-    if page:
-        times = fetchTimes()
-    toPrint = ''
-    if not times:
-        return "No 2x periods were found"
-    for entry in times:
-        toPrint += entry + "\n"
-    countdown = findCountdown(times)
-    toPrint += ("The next 2x period is in " + str(countdown).split('.')[0]) if countdown else "All 2x periods have ended(or the last one is currently active)"
-    return toPrint
-
-def getMaintenanceTime():
-    url = fetchUrl('maintenance',[])
-    if not url:
-        return 0
-    site = fetch(url)
-    print(url)
-    soup = BeautifulSoup(site.text, 'html.parser').find('div', class_='cms-html-wrapper').find_next('p')
-    while soup.text=="":
-        soup=soup.find_next('p')
-    return url+"\n"+soup.text
+    return None
 
 def getUrsus2xStatus(summer):
     currentTime = datetime.utcnow()
@@ -127,12 +65,12 @@ def getResetTimes():
     toPrint += "Dojo/Weekly Quests/Guild Potions reset will happen in: " +str(currentTime.replace(hour=0,minute=0,second=0)+timedelta(7-currentTime.weekday())-currentTime)+"\n"
     return toPrint
 
-def generateLeaderboard(data,server):
+def generateLeaderboard(data,server, session):
     leaderboard = []
     if server not in data:
         return {}
     for char in data[server]:
-        exp=fetchCharExp(char[0],char[1])
+        exp=fetchCharExp(char[0],char[1], session)
         leaderboard.append({'name':char[0],'region':'EU' if char[1] else 'NA','level':exp[0],'exp':exp[1] })
     leaderboard.sort(key = lambda x: (x['level'],x['exp']),reverse=1)
     for char in leaderboard:
