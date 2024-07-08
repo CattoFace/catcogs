@@ -170,7 +170,7 @@ class MapleUtil(commands.Cog):
     async def serverrankings(self,ctx):
         """Print the servers current rankings"""
         async with ctx.typing():
-            toPrint = scrapelib.formatLeaderboard(scrapelib.generateLeaderboard(self.data, str(ctx.guild.id)))
+            toPrint = scrapelib.formatLeaderboard(scrapelib.generateLeaderboard(self.data, str(ctx.guild.id), self.session))
             await ctx.send(embed=generateEmbed("Server Rankings", toPrint))
         gc.collect()
     
