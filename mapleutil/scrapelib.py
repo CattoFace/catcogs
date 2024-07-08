@@ -1,5 +1,4 @@
 from json.decoder import JSONDecodeError
-from bs4 import BeautifulSoup
 import requests
 from datetime import datetime, timedelta
 from functools import reduce
@@ -10,23 +9,6 @@ from .util import get_perecent
 def fetch(url):
     with requests.session() as s:
         return s.get(url)
-    
-def scrape(category, targetSections, targetArticles):
-    url = fetchUrl(category, targetArticles)
-    if not url:
-        return 0
-    site = fetch(url)
-    soup = BeautifulSoup(site.text, 'html.parser').find('div', class_='component component-news-article').find(
-        'ul').find_next('p')
-    soup = soup.find_next(lambda tag: tag.name == 'span' and any(x in tag.text for x in targetSections))
-    return soup.find_next('p') if soup else 0
-    
-def fetchTimes(soup):
-    times = []
-    for entry in soup.text.split("UTC:"):
-        if entry:
-            times.append("UTC:" + entry)
-    return times
 
 def fetchChar(charName,eu):
     with requests.session() as s:
@@ -41,11 +23,9 @@ def fetchCharExp(charName,eu):
     data= fetchChar(charName,eu)
     if not data:
         return 0,0
-    level = data['level']
-    exp = data['exp']
-    return level,exp
+    return data['level'],data['exp']
     
-def fetchUrl(category, targets):
+def fetchUrl(category, targets=[], summary=False):
     baseURL = 'https://www.nexon.com/maplestory/news/'+category+"/"
     try:
         j = json.loads(requests.get("https://g.nexonstatic.com/maplestory/cms/v1/news").text)
@@ -53,7 +33,10 @@ def fetchUrl(category, targets):
         return 0
     for entry in j:
         if entry["category"]==category and (targets==[] or any(x in entry["name"] for x in targets)):
-            return baseURL + str(entry["id"])
+            if summary:
+                return baseURL + str(entry["id"])+"\n"+entry["summary"]
+            else:
+                return baseURL + str(entry["id"])
     return 0
 
 
