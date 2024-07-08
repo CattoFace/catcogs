@@ -46,7 +46,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Finds the latest patch notes")
     async def patchnotes(self,interaction: discord.Interaction):
-        url, summary = scrapelib.fetchUrl("update", targets=["Patch Notes"], summary=True, session=self.session)
+        url, summary = scrapelib.fetchUrl("update", targets=["Patch Notes"], session=self.session)
         if url:
             toPrint=url+"\n"+summary
         else:
@@ -56,7 +56,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Finds the latest Cash Shop Update")
     async def csupdate(self,interaction: discord.Interaction):
-        url, summary = scrapelib.fetchUrl("sale", targets=["Cash Shop Update"], summary=True, session=self.session)
+        url, summary = scrapelib.fetchUrl("sale", targets=["Cash Shop Update"], session=self.session)
         if url:
             toPrint=url+"\n"+summary
         else:
@@ -88,7 +88,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Links the sunny sunday section in the last patch note, does not check sunny sunday existance!")
     async def sunnysunday(self,interaction: discord.Interaction):
-        url, summary = scrapelib.fetchUrl("update", targets=["Patch Notes"], summary=True, session=self.session, split=True)
+        url, summary = scrapelib.fetchUrl("update", targets=["Patch Notes"], session=self.session, split=True)
         if url:
             toPrint=url+"#SunnySunday\n"+summary
         else:
