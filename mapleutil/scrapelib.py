@@ -20,10 +20,10 @@ def fetchCharExp(charName,eu, session):
         return 0,0
     return data['level'],data['exp']
     
-def fetchUrl(category, targets=[]):
+def fetchUrl(category, sesssion, targets=[]):
     baseURL = 'https://www.nexon.com/maplestory/news/'+category+"/"
     try:
-        j = json.loads(self.session.get("https://g.nexonstatic.com/maplestory/cms/v1/news").text)
+        j = json.loads(session.get("https://g.nexonstatic.com/maplestory/cms/v1/news").text)
     except JSONDecodeError:
         return None, None
     for entry in j:
