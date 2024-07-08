@@ -97,8 +97,10 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Links the sunny sunday section in the last patch note, does not check sunny sunday existance!")
     async def sunnysunday(self,interaction: discord.Interaction):
-        toPrint = scrapelib.fetchUrl("update", targets=["Patch Notes"], summary=True, session=self.session)
-        if toPrint:
+        url, summary = scrapelib.fetchUrl("update", targets=["Patch Notes"], summary=True, session=self.session, split=True)
+        if url:
+            url+="#SunnySunday\n"
+            toPrint=url+summary
             self.data["patchnotes"]=toPrint
             jsonlib.updateJson(self.data)
         elif("patchnotes" in self.data):
