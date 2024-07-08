@@ -49,7 +49,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(name="patchnotes", description="Finds the latest patch notes")
     async def patchnotes(self,interaction: discord.Interaction):
-        toPrint = scrapelib.fetchUrl("update", ["Patch Notes"])
+        toPrint = scrapelib.fetchUrl("update", ["Patch Notes"], summary=True)
         if toPrint:
             self.data["patchnotes"]=toPrint
             jsonlib.updateJson(self.data)
@@ -57,12 +57,12 @@ class MapleUtil(commands.Cog):
             toPrint=self.data["patchnotes"]
         else:
             toPrint = "No patch notes were found."
-        await interaction.response.send_message(toPrint)
+        await interaction.response.send_message(embed=generateEmbed("Patch Notes", toPrint))
         gc.collect()
 
     @app_commands.command(description="Finds the latest Cash Shop Update")
     async def csupdate(self,interaction: discord.Interaction):
-        toPrint = scrapelib.fetchUrl("sale", ["Cash Shop Update"])
+        toPrint = scrapelib.fetchUrl("sale", ["Cash Shop Update"], summary=True)
         if toPrint:
             self.data["csupdate"]=toPrint
             jsonlib.updateJson(self.data)
@@ -70,7 +70,7 @@ class MapleUtil(commands.Cog):
             toPrint=self.data["csupdate"]
         else:
             toPrint = "No cash shop update post were found."
-        await interaction.response.send_message(toPrint)
+        await interaction.response.send_message(embed=generateEmbed("CS Update", toPrint))
         gc.collect()
 
     @app_commands.command(description="Sends info about current ursus 2x meso status")
@@ -81,15 +81,15 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(name="maint", description="Finds the last maintenance times")
     async def maintenance(self,interaction: discord.Interaction):
-        toPrint = scrapelib.getMaintenanceTime()
+        toPrint = scrapelib.fetchUrl("maintenance",summary=True)
         if toPrint:
-            self.data["maint"]=toPrint
+            self.data["maintenance"]=toPrint
             jsonlib.updateJson(self.data)
-        elif("maint" in self.data):
-            toPrint=self.data["maint"]
+        elif("csupdate" in self.data):
+            toPrint=self.data["maintenance"]
         else:
-            toPrint = "No maintenance were found."
-        await interaction.response.send_message(embed=generateEmbed("Maintenance",toPrint))
+            toPrint = "No cash shop update post were found."
+        await interaction.response.send_message(generateEmbed("Maintenance", toPrint))
         gc.collect()
 
     @app_commands.command(description="Sends various times regarding the games reset timers")
@@ -101,7 +101,7 @@ class MapleUtil(commands.Cog):
     # nexon changed patch notes formatting and doesn't use the #sunny tag anymore.
     # @app_commands.command(name="sunny", description="Links the sunny sunday section in the last patch note, does not check sunny sunday existance!")
     async def sunny(self,interaction: discord.Interaction):
-        toPrint = scrapelib.fetchUrl("update", ["Patch Notes"])
+        toPrint = scrapelib.fetchUrl("update", ["Patch Notes"], summary=True)
         if toPrint:
             self.data["patchnotes"]=toPrint
             jsonlib.updateJson(self.data)
@@ -109,7 +109,7 @@ class MapleUtil(commands.Cog):
             toPrint=self.data["patchnotes"]
         else:
             toPrint = "No patch notes were found."
-        await interaction.response.send_message(toPrint+"#sunny")
+        await interaction.response.send_message(generateEmbed("Sunny Sunday", toPrint+"#SunnySunday"))
         gc.collect()
 
     @app_commands.command(description="Sends a random maple tip")
