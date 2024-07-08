@@ -46,7 +46,7 @@ def fetchCharExp(charName,eu):
     return level,exp
     
 def fetchUrl(category, targets):
-    baseURL = 'https://www.nexon.com/maplestory/news/'
+    baseURL = 'https://www.nexon.com/maplestory/news/'+category+"/"
     try:
         j = json.loads(requests.get("https://g.nexonstatic.com/maplestory/cms/v1/news").text)
     except JSONDecodeError:
@@ -107,6 +107,7 @@ def getMaintenanceTime():
     if not url:
         return 0
     site = fetch(url)
+    print(url)
     soup = BeautifulSoup(site.text, 'html.parser').find('div', class_='cms-html-wrapper').find_next('p')
     while soup.text=="":
         soup=soup.find_next('p')
