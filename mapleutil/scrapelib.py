@@ -31,7 +31,7 @@ def fetchTimes(soup):
 def fetchChar(charName,eu):
     with requests.session() as s:
         char = s.get(f"https://www.nexon.com/api/maplestory/no-auth/v1/ranking/{'eu' if eu else 'na'}?type=overall&id=legendary&character_name={charName}").json()
-        return char[0] if char else 0
+        return char["ranks"][0] if char["totalCount"]!=0 else None
                  
 def fetchCharImg(charName,eu):
     char = fetchChar(charName,eu)
