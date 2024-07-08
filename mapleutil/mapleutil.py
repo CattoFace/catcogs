@@ -20,9 +20,9 @@ def subchar(charname,region):
         char = s.get('https://maplestory.nexon.net/api/ranking?id=overall&character_name='+charname+('&region=eu' if region else '')).json()
         if char:
             char = char[0]
-            charname = char["CharacterName"]
-            embd=generateEmbed(charname,f"World: {char['WorldName']} Rank: {char['Rank']:,}\nLevel: {char['Level']} Exp: {char['Exp']:,}({get_perecent(char['Level'], char['Exp']):.3f}%)\nClass: {char['JobName']}")
-            file = discord.File(BytesIO(s.get(char["CharacterImgUrl"]).content), filename=charname+".png")
+            charname = char["characterName"]
+            embd=generateEmbed(charname,f"World: {char['worldName']} Rank: {char['Rank']:,}\nLevel: {char['level']} Exp: {char['exp']:,}({get_perecent(char['level'], char['exp']):.3f}%)\nClass: {char['jobName']}")
+            file = discord.File(BytesIO(s.get(char["characterImgUrl"]).content), filename=charname+".png")
             embd.set_image(url=f"attachment://{charname}.png")
         else:
             file = None
@@ -115,7 +115,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Sends a random maple tip")
     async def mapletip(self,interaction: discord.Interaction):
-        j = json.loads(requests.get("https://maplestory.io/api/GMS/245/tips").text)
+        j = json.loads(requests.get("https://maplestory.io/api/GMS/251/tips").text)
         group=random.randint(0,2)
         toPrint = j[group]["messages"][random.randint(0,len(j[group]["messages"]))]
         await interaction.response.send_message(embed=generateEmbed("Maple Tip", toPrint))
