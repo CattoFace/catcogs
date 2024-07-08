@@ -15,17 +15,16 @@ def generateEmbed(name, content):
     embed = discord.Embed(color=discord.Color.orange(), description=content, title="**"+name+"**")
     return embed
 
-def subchar(charname,region):
-    with requests.session() as s:
-        char = scrapelib.fetchChar(charname,region)
-        if char:
-            charname = char["characterName"]
-            embd=generateEmbed(charname,f"World: {char['worldName']} Rank: {char['rank']:,}\nLevel: {char['level']} Exp: {char['exp']:,}({get_perecent(char['level'], char['exp']):.3f}%)\nClass: {char['jobName']}")
-            file = discord.File(BytesIO(s.get(char["characterImgURL"]).content), filename=charname+".png")
-            embd.set_image(url=f"attachment://{charname}.png")
-        else:
-            file = None
-            embd=generateEmbed(charname, "The character was not found")
+def subchar(charname,region, session):
+    char = scrapelib.fetchChar(charname,region, session)
+    if char:
+        charname = char["characterName"]
+        embd=generateEmbed(charname,f"World: {char['worldName']} Rank: {char['rank']:,}\nLevel: {char['level']} Exp: {char['exp']:,}({get_perecent(char['level'], char['exp']):.3f}%)\nClass: {char['jobName']}")
+        file = discord.File(BytesIO(s.get(char["characterImgURL"]).content), filename=charname+".png")
+        embd.set_image(url=f"attachment://{charname}.png")
+    else:
+        file = None
+        embd=generateEmbed(charname, "The character was not found")
     return embd, file
     
 
@@ -34,6 +33,10 @@ class MapleUtil(commands.Cog):
     def __init__(self, bot):
         self.data = jsonlib.initiateBot()
         self.bot = bot
+        self.session = requests.Session()
+
+    def __del__(self):
+        self.session.close()
 
     @app_commands.command(name="time", description="Shows the current time in GMS")
     async def time(self, interaction: discord.Interaction):
@@ -49,7 +52,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(name="patchnotes", description="Finds the latest patch notes")
     async def patchnotes(self,interaction: discord.Interaction):
-        toPrint = scrapelib.fetchUrl("update", ["Patch Notes"], summary=True)
+        toPrint = scrapelib.fetchUrl("update", ["Patch Notes"], summary=True, self.session)
         if toPrint:
             self.data["patchnotes"]=toPrint
             jsonlib.updateJson(self.data)
@@ -62,7 +65,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Finds the latest Cash Shop Update")
     async def csupdate(self,interaction: discord.Interaction):
-        toPrint = scrapelib.fetchUrl("sale", ["Cash Shop Update"], summary=True)
+        toPrint = scrapelib.fetchUrl("sale", ["Cash Shop Update"], summary=True, self.session)
         if toPrint:
             self.data["csupdate"]=toPrint
             jsonlib.updateJson(self.data)
@@ -81,7 +84,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(name="maint", description="Finds the last maintenance times")
     async def maintenance(self,interaction: discord.Interaction):
-        toPrint = scrapelib.fetchUrl("maintenance",summary=True)
+        toPrint = scrapelib.fetchUrl("maintenance",summary=True, self.session)
         if toPrint:
             self.data["maintenance"]=toPrint
             jsonlib.updateJson(self.data)
@@ -101,7 +104,7 @@ class MapleUtil(commands.Cog):
     # nexon changed patch notes formatting and doesn't use the #sunny tag anymore.
     # @app_commands.command(name="sunny", description="Links the sunny sunday section in the last patch note, does not check sunny sunday existance!")
     async def sunny(self,interaction: discord.Interaction):
-        toPrint = scrapelib.fetchUrl("update", ["Patch Notes"], summary=True)
+        toPrint = scrapelib.fetchUrl("update", ["Patch Notes"], summary=True, self.session)
         if toPrint:
             self.data["patchnotes"]=toPrint
             jsonlib.updateJson(self.data)
@@ -123,7 +126,7 @@ class MapleUtil(commands.Cog):
     @app_commands.command(description="Shows info of the character from the NA region")
     @app_commands.describe(charname="The character to show")
     async def char(self,interaction: discord.Interaction,charname: str):
-        embed, file = subchar(charname, 0)
+        embed, file = subchar(charname, 0, self.session)
         if file:
             await interaction.response.send_message(embed=embed, file=file)
         else:
@@ -133,7 +136,7 @@ class MapleUtil(commands.Cog):
     @app_commands.command(description="Shows info of the character from the EU region")
     @app_commands.describe(charname="The character to show")
     async def chareu(self,interaction: discord.Interaction,charname: str):
-        embed, file = subchar(charname, 1)
+        embed, file = subchar(charname, 1, self.session)
         if file:
             await interaction.response.send_message(embed=embed, file=file)
         else:
@@ -145,7 +148,7 @@ class MapleUtil(commands.Cog):
     @app_commands.describe(charname="The character to add")
     @app_commands.guild_only()
     async def addrank(self,interaction: discord.Interaction,charname: str):
-        if scrapelib.fetchChar(charname,0):
+        if scrapelib.fetchChar(charname,0, self.session):
             jsonlib.addChar(self.data,str(interaction.guild_id),charname,0)
             await interaction.response.send_message(charname +" was added")
         else:
@@ -157,7 +160,7 @@ class MapleUtil(commands.Cog):
     @app_commands.describe(charname="The character to add")
     @app_commands.guild_only()
     async def addrankeu(self,interaction: discord.Interaction,charname: str):
-        if scrapelib.fetchChar(charname,1):
+        if scrapelib.fetchChar(charname,1, self.session):
             jsonlib.addChar(self.data,str(interaction.guild_id),charname,1)
             await interaction.response.send_message(charname +" was added")
         else:
@@ -207,7 +210,7 @@ class MapleUtil(commands.Cog):
         else:
             char = jsonlib.getPersonalChar(self.data,id)
             if char:
-                embed, file = subchar(char["name"], char["region"])
+                embed, file = subchar(char["name"], char["region"], self.session)
                 if file:
                     await interaction.response.send_message(embed=embed, file=file)
                 else:
