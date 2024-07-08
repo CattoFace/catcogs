@@ -76,7 +76,7 @@ class MapleUtil(commands.Cog):
         await interaction.response.send_message(embed=generateEmbed("Ursus Status", toPrint))
         gc.collect()
 
-    @app_commands.command(name="maint", description="Finds the last maintenance times")
+    @app_commands.command(name="maintenance", description="Finds the last maintenance times")
     async def maintenance(self,interaction: discord.Interaction):
         toPrint = scrapelib.fetchUrl("maintenance",summary=True, session=self.session)
         if toPrint:
