@@ -52,7 +52,7 @@ def fetchUrl(category, targets):
     except JSONDecodeError:
         return 0
     for entry in j:
-        if entry["category"]==category and targets==[] or any(x in entry["name"] for x in targets):
+        if entry["category"]==category and (targets==[] or any(x in entry["name"] for x in targets)):
             return baseURL + str(entry["id"])
     return 0
 
