@@ -44,15 +44,9 @@ class MapleUtil(commands.Cog):
         await interaction.response.send_message(embed=generateEmbed("Time", toPrint))
         gc.collect()
 
-    @app_commands.command(name="next2x", description="Finds the latest 2x post")
-    async def next2x(self,iteraction: discord.Interaction):
-        toPrint = scrapelib.get2xTimes()
-        await iteraction.response.send_message(embed=generateEmbed("2x EXP & Drop", toPrint))
-        gc.collect()
-
     @app_commands.command(name="patchnotes", description="Finds the latest patch notes")
     async def patchnotes(self,interaction: discord.Interaction):
-        toPrint = scrapelib.fetchUrl("update", ["Patch Notes"], summary=True, session=self.session)
+        toPrint = scrapelib.fetchUrl("update", targets=["Patch Notes"], summary=True, session=self.session)
         if toPrint:
             self.data["patchnotes"]=toPrint
             jsonlib.updateJson(self.data)
@@ -65,7 +59,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(description="Finds the latest Cash Shop Update")
     async def csupdate(self,interaction: discord.Interaction):
-        toPrint = scrapelib.fetchUrl("sale", ["Cash Shop Update"], summary=True, session=self.session)
+        toPrint = scrapelib.fetchUrl("sale", targets=["Cash Shop Update"], summary=True, session=self.session)
         if toPrint:
             self.data["csupdate"]=toPrint
             jsonlib.updateJson(self.data)
@@ -103,7 +97,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command(name="sunnysunday", description="Links the sunny sunday section in the last patch note, does not check sunny sunday existance!")
     async def sunnysunday(self,interaction: discord.Interaction):
-        toPrint = scrapelib.fetchUrl("update", ["Patch Notes"], summary=True, session=self.session)
+        toPrint = scrapelib.fetchUrl("update", targets=["Patch Notes"], summary=True, session=self.session)
         if toPrint:
             self.data["patchnotes"]=toPrint
             jsonlib.updateJson(self.data)
@@ -117,7 +111,7 @@ class MapleUtil(commands.Cog):
     @app_commands.command(description="Sends a random maple tip")
     async def mapletip(self,interaction: discord.Interaction):
         j = json.loads(self.session.get("https://maplestory.io/api/GMS/251/tips").text)
-        group=random.randint(0,2)
+        group=random.randint(0,len(j))
         toPrint = j[group]["messages"][random.randint(0,len(j[group]["messages"]))]
         await interaction.response.send_message(embed=generateEmbed("Maple Tip", toPrint))
         gc.collect()
