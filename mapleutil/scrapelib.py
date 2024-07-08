@@ -110,7 +110,7 @@ def getMaintenanceTime():
     soup = BeautifulSoup(site.text, 'html.parser').find('div', class_='cms-html-wrapper').find_next('p')
     while soup.text=="":
         soup=soup.find_next('p')
-    return soup.text
+    return url+"\n"+soup.text
 
 def getUrsus2xStatus(summer):
     currentTime = datetime.utcnow()
