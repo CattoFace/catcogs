@@ -38,13 +38,13 @@ class MapleUtil(commands.Cog):
     def __del__(self):
         self.session.close()
 
-    @app_commands.command(name="time", description="Shows the current time in GMS")
+    @app_commands.command(description="Shows the current time in GMS")
     async def time(self, interaction: discord.Interaction):
         toPrint = datetime.utcnow().strftime("Maple time is currently %H:%M:%S %d-%m-%y")
         await interaction.response.send_message(embed=generateEmbed("Time", toPrint))
         gc.collect()
 
-    @app_commands.command(name="patchnotes", description="Finds the latest patch notes")
+    @app_commands.command(description="Finds the latest patch notes")
     async def patchnotes(self,interaction: discord.Interaction):
         toPrint = scrapelib.fetchUrl("update", targets=["Patch Notes"], summary=True, session=self.session)
         if toPrint:
@@ -76,7 +76,7 @@ class MapleUtil(commands.Cog):
         await interaction.response.send_message(embed=generateEmbed("Ursus Status", toPrint))
         gc.collect()
 
-    @app_commands.command(name="maintenance", description="Finds the last maintenance times")
+    @app_commands.command(description="Finds the last maintenance times")
     async def maintenance(self,interaction: discord.Interaction):
         toPrint = scrapelib.fetchUrl("maintenance",summary=True, session=self.session)
         if toPrint:
@@ -95,7 +95,7 @@ class MapleUtil(commands.Cog):
         await interaction.response.send_message(embed=generateEmbed("Times", toPrint))
         gc.collect()
 
-    @app_commands.command(name="sunnysunday", description="Links the sunny sunday section in the last patch note, does not check sunny sunday existance!")
+    @app_commands.command(description="Links the sunny sunday section in the last patch note, does not check sunny sunday existance!")
     async def sunnysunday(self,interaction: discord.Interaction):
         toPrint = scrapelib.fetchUrl("update", targets=["Patch Notes"], summary=True, session=self.session)
         if toPrint:
