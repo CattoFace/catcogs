@@ -28,11 +28,11 @@ def fetchUrl(category, sesssion, targets=[]):
         return None, None
     for entry in j:
         if entry["category"]==category and (targets==[] or any(x in entry["name"] for x in targets)):
-            self.data["patchnotes"]=(entry["id"],entry["summary")
+            self.data[category]=(entry["id"],entry["summary"])
             jsonlib.updateJson(self.data)
             return baseURL+str(entry["id"]), entry["summary"]
     if("patchnotes" in self.data):
-        entry=self.data["patchnotes"]
+        entry=self.data[category]
         return baseURL+str(entry["id"]), entry["summary"]
     return None, None
 
