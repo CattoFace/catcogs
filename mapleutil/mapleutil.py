@@ -188,7 +188,7 @@ class MapleUtil(commands.Cog):
         if not id:
             await interaction.response.send_message("Syntax error, please use either `mychar` or `mychar <mention>`")
         else:
-            char = jsonlilistb.getPersonalChar(self.data,id)
+            char = jsonlib.getPersonalChar(self.data,id)
             if char:
                 embed, file = self.subchar(char["name"], char["region"])
                 if file:
