@@ -43,7 +43,7 @@ def getResetTimes():
 
 def generateLeaderboard(data,server, session):
     leaderboard = []
-    if server not in data:
+    if server not in data or len(data[server])==0:
         return {}
     for char_name,char_region in data[server]:
         char=fetchChar(char_name,char_region, session)
