@@ -167,7 +167,6 @@ class MapleUtil(commands.Cog):
     
     @commands.command()
     @commands.guild_only()
-    @commands.default_permissions(manage_message=True)
     async def serverrankings(self,ctx):
         """Print the servers current rankings"""
         async with ctx.typing():
@@ -200,9 +199,9 @@ class MapleUtil(commands.Cog):
                 await interaction.response.send_message('It looks like you don\'t have a assigned IGN, assign one with the command /registermychar <name> <region(NA/EU)>')
         gc.collect()
 
-    @commands.command()
-    @commands.guild_only()
-    @commands.default_permissions(manage_messages=True)
+    @app_ommands.command()
+    @app_commands.guild_only()
+    @app_commands.default_permissions(manage_messages=True)
     async def resetrankings(self,interaction: discord.Interaction,key: str,s:str):
         jsonlib.resetRankings(self.data, str(ctx.guild.id))
         await interaction.response.send_message("Rankings for this server were reset")
