@@ -201,7 +201,7 @@ class MapleUtil(commands.Cog):
 
     @app_commands.command()
     @app_commands.default_permissions(manage_messages=True)
-    async def resetRankings(self,interaction: discord.Interaction,key: str,s:str):
+    async def resetrankings(self,interaction: discord.Interaction,key: str,s:str):
         jsonlib.resetRankings(self.data, str(ctx.guild.id))
         await interaction.response.send_message("Rankings for this server were reset")
     
