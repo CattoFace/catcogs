@@ -3,7 +3,7 @@ import requests
 from datetime import datetime, timedelta
 from functools import reduce
 import json
-from .util import get_perecent
+from .util import get_percent
 
 
 def fetchChar(charName,eu,session):
