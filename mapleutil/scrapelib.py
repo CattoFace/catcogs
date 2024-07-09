@@ -9,16 +9,6 @@ from .util import get_perecent
 def fetchChar(charName,eu,session):
     char = session.get(f"https://www.nexon.com/api/maplestory/no-auth/v1/ranking/{'eu' if eu else 'na'}?type=overall&id=legendary&character_name={charName}").json()
     return char["ranks"][0] if char["totalCount"]!=0 else None
-                 
-def fetchCharImg(charName,eu, session):
-    char = fetchChar(charName,eu, session)
-    return char["characterImgUrl"] if char else None
-
-def fetchCharExp(charName,eu, session):
-    data= fetchChar(charName,eu, session)
-    if not data:
-        return 0,0
-    return data['level'],data['exp']
 
 def getUrsus2xStatus(summer):
     currentTime = datetime.utcnow()
@@ -55,9 +45,12 @@ def generateLeaderboard(data,server, session):
     leaderboard = []
     if server not in data:
         return {}
-    for char in data[server]:
-        exp=fetchCharExp(char[0],char[1], session)
-        leaderboard.append({'name':char[0],'region':'EU' if char[1] else 'NA','level':exp[0],'exp':exp[1] })
+    for char_name,char_region in data[server]:
+        char=fetchCharExp(char_name,char_region, session)
+        if char:
+            leaderboard.append({'name':char["name"],'region':'EU' if char_region else 'NA','level':char["level"],'exp':char["exp"] })
+        else:
+            leaderboard.append({'name':char_name,'region':'EU' if char_region else 'NA','level':None,'exp':None}) 
     leaderboard.sort(key = lambda x: (x['level'],x['exp']),reverse=1)
     for char in leaderboard:
         char['exp']= 'err' if char['exp']=='0' else f"{char['exp']:,}({get_perecent(char['level'],char['exp']):.3f}%)"
