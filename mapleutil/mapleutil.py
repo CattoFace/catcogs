@@ -202,9 +202,11 @@ class MapleUtil(commands.Cog):
     @app_commands.command()
     @app_commands.guild_only()
     @app_commands.default_permissions(manage_messages=True)
-    async def resetrankings(self,interaction: discord.Interaction,key: str,s:str):
-        jsonlib.resetRankings(self.data, str(ctx.guild.id))
-        await interaction.response.send_message("Rankings for this server were reset")
+    @app_commands.describe(confirm="Type Yes to confirm")
+    async def resetrankings(self,interaction: discord.Interaction,confirm: str):
+        if confirm=="Yes":
+            jsonlib.resetRankings(self.data, str(ctx.guild.id))
+            await interaction.response.send_message("Rankings for this server were reset")
     
     @app_commands.command()
     @app_commands.default_permissions(manage_messages=True)
