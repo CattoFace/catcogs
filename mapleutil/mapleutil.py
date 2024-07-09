@@ -9,7 +9,7 @@ import json
 import requests
 import random 
 from io import BytesIO
-from .util import get_perecent
+from .util import get_percent
 
 def generateEmbed(name, content):
     embed = discord.Embed(color=discord.Color.orange(), description=content, title="**"+name+"**")
@@ -29,7 +29,7 @@ class MapleUtil(commands.Cog):
         char = scrapelib.fetchChar(charname,region, self.session)
         if char:
             charname = char["characterName"]
-            embd=generateEmbed(charname,f"World: {char['worldName']} Rank: {char['rank']:,}\nLevel: {char['level']} Exp: {char['exp']:,}({get_perecent(char['level'], char['exp']):.3f}%)\nClass: {char['jobName']}")
+            embd=generateEmbed(charname,f"World: {char['worldName']} Rank: {char['rank']:,}\nLevel: {char['level']} Exp: {char['exp']:,}({get_percent(char['level'], char['exp']):.3f}%)\nClass: {char['jobName']}")
             file = discord.File(BytesIO(self.session.get(char["characterImgURL"]).content), filename=charname+".png")
             embd.set_image(url=f"attachment://{charname}.png")
         else:
