@@ -49,3 +49,4 @@ def getPersonalChar(data,author):
 
 def resetRankings(data,server):
     del data[server]
+    updateJson(data)
