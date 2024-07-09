@@ -46,7 +46,7 @@ def generateLeaderboard(data,server, session):
     if server not in data:
         return {}
     for char_name,char_region in data[server]:
-        char=fetchCharExp(char_name,char_region, session)
+        char=fetchChar(char_name,char_region, session)
         if char:
             leaderboard.append({'name':char["name"],'region':'EU' if char_region else 'NA','level':char["level"],'exp':get_percent(char["level"],char["exp"]) })
         else:
