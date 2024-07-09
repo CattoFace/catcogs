@@ -48,7 +48,7 @@ def generateLeaderboard(data,server, session):
     for char_name,char_region in data[server]:
         char=fetchChar(char_name,char_region, session)
         if char:
-            leaderboard.append({'name':char["name"],'region':'EU' if char_region else 'NA','level':char["level"],'exp':get_percent(char["level"],char["exp"]) })
+            leaderboard.append({'name':char["characterName"],'region':'EU' if char_region else 'NA','level':char["level"],'exp':get_percent(char["level"],char["exp"]) })
         else:
             leaderboard.append({'name':char_name,'region':'EU' if char_region else 'NA','level':0,'exp':0}) 
     leaderboard.sort(key = lambda x: (x['level'],x['exp']),reverse=1)
