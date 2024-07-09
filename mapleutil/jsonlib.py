@@ -39,13 +39,13 @@ def loadJson():
 def assignChar(data, author,char,region):
     if "personalCharacters" not in data:
         data["personalCharacters"]={}
-    data["personalCharacters"][author]={}
-    data["personalCharacters"][author]["name"]=char
-    data["personalCharacters"][author]["region"]=1 if region.lower()=="eu" else 0
+    data["personalCharacters"][author]={"name":char,"region":1 if region.lower()=="eu" else 0}
     updateJson(data)
 
 def getPersonalChar(data,author):
     if ("personalCharacters" not in data) or (not author in data["personalCharacters"]):
         return None
     return data["personalCharacters"][author]
-    
+
+def resetRankings(data,server):
+    del data[server]
