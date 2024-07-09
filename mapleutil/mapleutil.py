@@ -199,7 +199,7 @@ class MapleUtil(commands.Cog):
                 await interaction.response.send_message('It looks like you don\'t have a assigned IGN, assign one with the command /registermychar <name> <region(NA/EU)>')
         gc.collect()
 
-    @app_ommands.command()
+    @app_commands.command()
     @app_commands.guild_only()
     @app_commands.default_permissions(manage_messages=True)
     async def resetrankings(self,interaction: discord.Interaction,key: str,s:str):
