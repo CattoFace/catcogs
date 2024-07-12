@@ -55,4 +55,4 @@ def generateLeaderboard(data,server, session):
     return leaderboard
 
 def formatLeaderboard(leaderboard):
-    return '\n'.join('({rank}) {name} - Region: {region} Level: {level} Exp: {exp:,} (percent%)'.format(**x, rank=i+1) for i, x in enumerate(leaderboard))
+    return '\n'.join('({rank}) {name} - Region: {region} Level: {level} Exp: {exp:,} ({percent:.3f}%)'.format(**x, rank=i+1) for i, x in enumerate(leaderboard))
