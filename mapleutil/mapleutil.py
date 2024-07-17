@@ -257,5 +257,5 @@ class MapleUtil(commands.Cog):
         ctx = await self.bot.get_context(interaction)
         menu_items, start_index = scrapelib.fetchServerStatus(self.session, world)
         print(start_index)
-        embeds = [generateEmbed(n,c) for (n,c) in menu_items]
+        embeds = {n:generateEmbed(n,c) for (n,c) in menu_items}
         await SimpleMenu(embeds, start_index, use_select_menu=True).start(ctx)
