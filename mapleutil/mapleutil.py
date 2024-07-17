@@ -251,7 +251,8 @@ class MapleUtil(commands.Cog):
             return baseURL+str(entry["id"]), entry["summary"]
         return None, None
         
+    # TODO select server
     @commands.command()
-    async def serverstatus(self, ctx, server: str):
+    async def serverstatus(self, ctx):
         menu_items = scrapelib.fetchServerStatus(self.session)
         await menu(ctx,menu_items)
