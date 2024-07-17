@@ -255,4 +255,6 @@ class MapleUtil(commands.Cog):
     @commands.command()
     async def serverstatus(self, ctx, world=None):
         menu_items = scrapelib.fetchServerStatus(self.session, world)
+        print(menu_items)
+        menu_items = [generateEmbed(n,c) for (n,c) in menu_items]
         await menu(ctx,menu_items)
