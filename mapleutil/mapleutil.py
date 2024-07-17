@@ -262,5 +262,6 @@ class MapleUtil(commands.Cog):
         menu.select_options = [
             discord.SelectOption(label=n, value=num) for num, (n,_) in enumerate(menu_items)
         ]
-        menu.add_item(menu._get_select_menu())
+        menu.select_menu = menu._get_select_menu()
+        menu.add_item(menu.select_menu)
         await menu.start(ctx)
