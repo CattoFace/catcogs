@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from .util import get_percent
 def status_dict2str(status):
-    output = f"{status['worldName']}:\n"
+    output = ''
     for i in range(3):
         label = f"login{'0' if i<10 else ''}{i}"
         s = status.get(label)
@@ -15,6 +15,7 @@ def status_dict2str(status):
             output += f"Channel {i+1}: {'UP' if s==1 else 'DOWN'}"
         if i%5==0:
             output+="\n"
+    return status['worldName'],output
 
 def fetchServerStatus(session, world=None):
     statuses = session.get("https://www.nexon.com/api/maplestory/no-auth/v1/server-status/na").json()["servers"]
