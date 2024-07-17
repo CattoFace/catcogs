@@ -253,4 +253,5 @@ class MapleUtil(commands.Cog):
         
     @commands.command()
     async def serverstatus(self, ctx, server: str):
-        await menu(ctx,["test1", "test2", server])
+        menu_items = scrapelib.fetchServerStatus(self.session)
+        await menu(ctx,menu_items)

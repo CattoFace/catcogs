@@ -1,10 +1,14 @@
-from json.decoder import JSONDecodeError
-import requests
 from datetime import datetime, timedelta
-from functools import reduce
-import json
 from .util import get_percent
-
+from itertools import chain
+def status_dict2str(status):
+    # TODO prettier
+    return "\n".join(k+": "+v for k,v in status.items())
+def fetchServerStatus(session):
+    status_na = session.get("https://www.nexon.com/api/maplestory/no-auth/v1/server-status/na").json()["servers"]
+    status_eu = session.get("https://www.nexon.com/api/maplestory/no-auth/v1/server-status/eu").json()["servers"]
+    menu_items = [status_dict2str(status) for status in chain(status_na, status_eu)]
+    return menu_items
 
 def fetchChar(charName,eu,session):
     char = session.get(f"https://www.nexon.com/api/maplestory/no-auth/v1/ranking/{'eu' if eu else 'na'}?type=overall&id=legendary&character_name={charName}").json()
