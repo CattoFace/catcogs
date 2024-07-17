@@ -11,6 +11,7 @@ def status_dict2str(status):
 def fetchServerStatus(session, world):
     statuses = session.get("https://maplestatus.info/api/games/maplestory/global/worlds/servers").json()
     if world is not None:
+        world = world.lower()
         index = next(i for i,s in enumerate(statuses) if s["info"]["name"].lower()==world)
     else:
         index = 0
