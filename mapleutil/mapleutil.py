@@ -256,11 +256,11 @@ class MapleUtil(commands.Cog):
     async def serverstatus(self, ctx, world=None):
         menu_items = scrapelib.fetchServerStatus(self.session, world)
         embeds = [generateEmbed(n,c) for (n,c) in menu_items]
-        emoji_map = {'\N{NO ENTRY SIGN}':4}
+        emoji_map = {':img:':4}
         async def selectworld(ctx, pages, controls, message, page, timeout, emoji):
             print(emoji)
             return await menu(ctx, pages, controls, message=message, page=emoji_map[emoji], timeout=timeout)
-        controls = {**DEFAULT_CONTROLS, '\N{NO ENTRY SIGN}':selectworld}
+        controls = {**DEFAULT_CONTROLS, ':img:':selectworld}
         await menu(ctx,embeds, controls)
 
     
