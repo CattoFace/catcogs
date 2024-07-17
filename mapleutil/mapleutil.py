@@ -1,5 +1,5 @@
 import discord
-from redbot.core.utils.view import SimpleMenu
+from redbot.core.utils.views import SimpleMenu
 from datetime import datetime
 import gc
 from redbot.core import app_commands, commands
@@ -258,5 +258,3 @@ class MapleUtil(commands.Cog):
         menu_items, start_index = scrapelib.fetchServerStatus(self.session, world)
         embeds = [generateEmbed(n,c) for (n,c) in menu_items]
         await SimpleMenu(embeds, start_index).start(ctx)
-
-    
