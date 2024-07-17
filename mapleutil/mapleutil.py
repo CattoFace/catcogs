@@ -251,7 +251,6 @@ class MapleUtil(commands.Cog):
             return baseURL+str(entry["id"]), entry["summary"]
         return None, None
         
-    # TODO select server
     @app_commands.command()
     async def serverstatus(self, interaction: discord.Interaction, world:str|None):
         ctx = await self.bot.get_context(interaction)
