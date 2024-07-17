@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from .util import get_percent
 def status_dict2str(status):
     output = ''
-    for i,s in status["data"]:
+    for i,s in enumerate(status["data"]):
         output += f"{s['name']}: {':green_square:' if s['status']==1 else ':red_square:'}"
         if i%4==3:
             output+="\n"
