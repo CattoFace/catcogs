@@ -256,9 +256,8 @@ class MapleUtil(commands.Cog):
     async def serverstatus(self, interaction: discord.Interaction, world:str|None):
         ctx = await self.bot.get_context(interaction)
         menu_items, start_index = scrapelib.fetchServerStatus(self.session, world)
-        print(start_index)
-        embeds = {n:generateEmbed(n,c) for (n,c) in menu_items}
+        embeds = [generateEmbed(n,c) for (n,c) in menu_items]
         if world is not None:
-            await SimpleMenu(embeds, world, use_select_menu=True).start(ctx)
+            await SimpleMenu(embeds, start_index, use_select_menu=True).start(ctx)
         else:
             await SimpleMenu(embeds, use_select_menu=True).start(ctx)
