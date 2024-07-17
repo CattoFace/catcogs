@@ -2,26 +2,16 @@ from datetime import datetime, timedelta
 from .util import get_percent
 def status_dict2str(status):
     output = ''
-    for i in range(3):
-        label = f"login{'0' if i<10 else ''}{i}"
-        s = ':green_square:  ' if status.get(label)==1 else ':red_square:  '
-        if s:
-            output += f"Login {i+1}:".rjust(11)+s
-    output += "\n"
-    for i in range(40):
-        label = f"game{'0' if i<10 else ''}{i}"
-        s = ':green_square:  ' if status.get(label)==1 else ':red_square:  '
-        if s:
-            output += f"Channel {i+1}:".rjust(11)+s
+    for i,s in status["data"]:
+        output += f"{s['name']}: {':green_square:' if s['status']==1 else ':red_square:'}"
         if i%4==3:
             output+="\n"
-    return status['worldName'],output
+    return status['info']['name'],output
 
 def fetchServerStatus(session, world=None):
-    statuses = session.get("https://www.nexon.com/api/maplestory/no-auth/v1/server-status/na").json()["servers"]
-    statuses.extend(session.get("https://www.nexon.com/api/maplestory/no-auth/v1/server-status/eu").json()["servers"])
+    statuses = session.get("https://maplestatus.info/api/games/maplestory/global/worlds/servers").json()
     if world is not None:
-        index = next(i for i,s in enumerate(statuses) if s["worldName"]==world)
+        index = next(i for i,s in enumerate(statuses) if s["info"]["name"]==world)
         statuses.insert(0, statuses.pop(index))
     return [status_dict2str(status) for status in statuses]
 
