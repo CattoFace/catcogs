@@ -3,7 +3,7 @@ from .util import get_percent
 from itertools import chain
 def status_dict2str(status):
     # TODO prettier
-    return "\n".join(k+": "+("up" if v==1 else "down") for k,v in status.items())
+    return "\n".join(k+": "+str(v) for k,v in status.items())
 def fetchServerStatus(session):
     status_na = session.get("https://www.nexon.com/api/maplestory/no-auth/v1/server-status/na").json()["servers"]
     status_eu = session.get("https://www.nexon.com/api/maplestory/no-auth/v1/server-status/eu").json()["servers"]
