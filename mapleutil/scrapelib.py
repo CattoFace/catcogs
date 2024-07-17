@@ -1,12 +1,12 @@
 from datetime import datetime, timedelta
 from .util import get_percent
 def status_dict2str(status):
-    output = f"{status["worldName"]}:\n"
+    output = f"{status['worldName']}:\n"
     for i in range(3):
-        output += f"Login {i+1}: {"UP" if status[f"login_0{i}"]==1 else "DOWN"}"
+        output += f"Login {i+1}: {'UP' if status[f'login_0{i}']==1 else 'DOWN'}"
     output += "\n"
     for i in range(40):
-        output += f"Channel {i+1}: {"UP" if status[f"login_{"0" if i<10 else ""}{i}"]==1 else "DOWN"}"
+        output += f"Channel {i+1}: {'UP' if status[f'login_{'0' if i<10 else ''}{i}']==1 else 'DOWN'}"
         if i%5==0:
             output+="\n"
 
