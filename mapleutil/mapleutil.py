@@ -258,6 +258,11 @@ class MapleUtil(commands.Cog):
         menu_items, start_index = scrapelib.fetchServerStatus(self.session, world)
         embeds = [generateEmbed(n,c) for (n,c) in menu_items]
         if world is not None:
-            await SimpleMenu(embeds, start_index, use_select_menu=True).start(ctx)
+            menu = SimpleMenu(embeds, start_index, use_select_menu=True)
         else:
-            await SimpleMenu(embeds, use_select_menu=True).start(ctx)
+            menu = SimpleMenu(embeds, use_select_menu=True)
+        # hack to get custom page names
+        menu.select_options = [
+            discord.SelectOption(label=s, value=num) for num, (s,_) in enumerate(menu_items)
+        ]
+        await menu.start(ctx)
