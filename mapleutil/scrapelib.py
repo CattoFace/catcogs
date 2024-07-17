@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 from .util import get_percent
-from itertools import chain
 def status_dict2str(status):
     output = f"{status["worldName"]}:\n"
     for i in range(3):
@@ -11,11 +10,13 @@ def status_dict2str(status):
         if i%5==0:
             output+="\n"
 
-def fetchServerStatus(session):
-    status_na = session.get("https://www.nexon.com/api/maplestory/no-auth/v1/server-status/na").json()["servers"]
-    status_eu = session.get("https://www.nexon.com/api/maplestory/no-auth/v1/server-status/eu").json()["servers"]
-    menu_items = [status_dict2str(status) for status in chain(status_na, status_eu)]
-    return menu_items
+def fetchServerStatus(session, world=None):
+    statuses = session.get("https://www.nexon.com/api/maplestory/no-auth/v1/server-status/na").json()["servers"]
+    statuses.extend(session.get("https://www.nexon.com/api/maplestory/no-auth/v1/server-status/eu").json()["servers"])
+    if world is not None:
+        index = next(i for i,s in enumerate(statuses) if s["worldName"]==world)
+        statuses.insert(0, statuses.pop(index))
+    return [status_dict2str(status) for status in statuses]
 
 def fetchChar(charName,eu,session):
     char = session.get(f"https://www.nexon.com/api/maplestory/no-auth/v1/ranking/{'eu' if eu else 'na'}?type=overall&id=legendary&character_name={charName}").json()
