@@ -251,16 +251,17 @@ class MapleUtil(commands.Cog):
             return baseURL+str(entry["id"]), entry["summary"]
         return None, None
         
+
     # TODO select server
     @commands.command()
     async def serverstatus(self, ctx, world=None):
         menu_items = scrapelib.fetchServerStatus(self.session, world)
         embeds = [generateEmbed(n,c) for (n,c) in menu_items]
         emoji_map = {'<:img:1263215863453192204>':4}
-        async def selectworld(ctx, pages, controls, message, page, timeout, emoji):
-            print(emoji)
-            return await menu(ctx, pages, controls, message=message, page=emoji_map[emoji], timeout=timeout)
         controls = {**DEFAULT_CONTROLS, '<:img:1263215863453192204>':selectworld}
         await menu(ctx,embeds, controls)
 
     
+async def selectworld(ctx, pages, controls, message, page, timeout, emoji):
+    print(emoji)
+    return await menu(ctx, pages, controls, message=message, page=page+1, timeout=timeout)
