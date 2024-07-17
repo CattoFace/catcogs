@@ -253,7 +253,7 @@ class MapleUtil(commands.Cog):
         
     # TODO select server
     @app_commands.command()
-    async def serverstatus(self, interaction: discord.Interaction, world=None):
+    async def serverstatus(self, interaction: discord.Interaction, world:str):
         ctx = await self.get_context(interaction)
         menu_items, start_index = scrapelib.fetchServerStatus(self.session, world)
         embeds = [generateEmbed(n,c) for (n,c) in menu_items]
