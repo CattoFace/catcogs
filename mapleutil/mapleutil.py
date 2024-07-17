@@ -1,5 +1,5 @@
 import discord
-from redbot.core.utils.menus import menu, DEFAULT_CONTROLS
+from redbot.core.utils.view import SimpleMenu
 from datetime import datetime
 import gc
 from redbot.core import app_commands, commands
@@ -252,15 +252,11 @@ class MapleUtil(commands.Cog):
         return None, None
         
     # TODO select server
-    @commands.command()
-    async def serverstatus(self, ctx, world=None):
-        menu_items = scrapelib.fetchServerStatus(self.session, world)
+    @app_commands.command()
+    async def serverstatus(self, interaction: discord.Interaction, world=None):
+        ctx = await self.get_context(interaction)
+        menu_items, start_index = scrapelib.fetchServerStatus(self.session, world)
         embeds = [generateEmbed(n,c) for (n,c) in menu_items]
-        emoji_map = {':img:':4}
-        async def selectworld(ctx, pages, controls, message, page, timeout, emoji):
-            print(emoji)
-            return await menu(ctx, pages, controls, message=message, page=emoji_map[emoji], timeout=timeout)
-        controls = {**DEFAULT_CONTROLS, ':img:':selectworld}
-        await menu(ctx,embeds, controls)
+        await SimpleMenu(embeds, start_index).start(ctx)
 
     

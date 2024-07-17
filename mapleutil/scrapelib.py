@@ -12,8 +12,9 @@ def fetchServerStatus(session, world=None):
     statuses = session.get("https://maplestatus.info/api/games/maplestory/global/worlds/servers").json()
     if world is not None:
         index = next(i for i,s in enumerate(statuses) if s["info"]["name"]==world)
-        statuses.insert(0, statuses.pop(index))
-    return [status_dict2str(status) for status in statuses]
+    else:
+        index = 0
+    return [status_dict2str(status) for status in statuses], index
 
 def fetchChar(charName,eu,session):
     char = session.get(f"https://www.nexon.com/api/maplestory/no-auth/v1/ranking/{'eu' if eu else 'na'}?type=overall&id=legendary&character_name={charName}").json()
