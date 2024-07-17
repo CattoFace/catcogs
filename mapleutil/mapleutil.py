@@ -11,6 +11,7 @@ import requests
 import random 
 from io import BytesIO
 from .util import get_percent
+from typing import Optional
 
 def generateEmbed(name, content):
     embed = discord.Embed(color=discord.Color.orange(), description=content, title="**"+name+"**")
@@ -252,7 +253,7 @@ class MapleUtil(commands.Cog):
         return None, None
         
     @app_commands.command()
-    async def serverstatus(self, interaction: discord.Interaction, world:str|None):
+    async def serverstatus(self, interaction: discord.Interaction, world:Optional[str]):
         ctx = await self.bot.get_context(interaction)
         menu_items, start_index = scrapelib.fetchServerStatus(self.session, world)
         embeds = [generateEmbed(n,c) for (n,c) in menu_items]
