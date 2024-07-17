@@ -259,7 +259,7 @@ class MapleUtil(commands.Cog):
         emoji_map = {'<:carryme:309501757376167947>':2}
         async def selectworld(ctx, pages, controls, message, page, timeout, emoji):
             await menu(ctx, pages, controls, message=message, page=emoji_map[emoji], timeout=timeout)
-        controls = {'<:carryme:309501757376167947>', selectworld}
+        controls = {'<:carryme:309501757376167947>':selectworld}
         await menu(ctx,embeds, controls)
 
     
