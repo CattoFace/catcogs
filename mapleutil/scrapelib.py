@@ -4,15 +4,15 @@ def status_dict2str(status):
     output = ''
     for i in range(3):
         label = f"login{'0' if i<10 else ''}{i}"
-        s = status.get(label)
+        s = ':green_square' if status.get(label)==1 else ':red_square'
         if s:
-            output += f"Login {i+1}: {'UP' if s==1 else 'DOWN'}  "
+            output += f"Login {i+1}: {s}  "
     output += "\n"
     for i in range(40):
         label = f"game{'0' if i<10 else ''}{i}"
-        s = status.get(label)
+        s = ':green_square' if status.get(label)==1 else ':red_square'
         if s:
-            output += f"Channel {i+1}: {':green_square:' if s==1 else ':red_square:'}  "
+            output += f"Channel {i+1}: {s}  "
         if i%4==3:
             output+="\n"
     return status['worldName'],output
