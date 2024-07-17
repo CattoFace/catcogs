@@ -263,6 +263,6 @@ class MapleUtil(commands.Cog):
             menu = SimpleMenu(embeds, use_select_menu=True)
         # hack to get custom page names
         menu.select_options = [
-            discord.SelectOption(label=s, value=num) for num, (s,_) in enumerate(menu_items)
+            discord.SelectOption(label=n, value=num) for num, (n,_) in enumerate(menu_items)
         ]
         await menu.start(ctx)
