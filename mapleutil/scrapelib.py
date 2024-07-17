@@ -12,8 +12,8 @@ def status_dict2str(status):
         label = f"game{'0' if i<10 else ''}{i}"
         s = status.get(label)
         if s:
-            output += f"Channel {i+1}: {'UP' if s==1 else 'DOWN'}  "
-        if i%5==0:
+            output += f"Channel {i+1}: {':green_square:' if s==1 else ':red_square:'}  "
+        if i%4==3:
             output+="\n"
     return status['worldName'],output
 
