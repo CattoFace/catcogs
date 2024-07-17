@@ -255,5 +255,11 @@ class MapleUtil(commands.Cog):
     @commands.command()
     async def serverstatus(self, ctx, world=None):
         menu_items = scrapelib.fetchServerStatus(self.session, world)
-        menu_items = [generateEmbed(n,c) for (n,c) in menu_items]
-        await menu(ctx,menu_items)
+        embeds = [generateEmbed(n,c) for (n,c) in menu_items]
+        emoji_map = {'<:carryme:309501757376167947>':2}
+        async def selectworld(ctx, pages, controls, message, page, timeout, emoji):
+            await menu(ctx, pages, controls, message=message, page=emoji_map[emoji], timeout=timeout)
+        controls = {'<:carryme:309501757376167947>', selectworld}
+        await menu(ctx,embeds, controls)
+
+    
