@@ -1,4 +1,5 @@
 import discord
+from redbot.core.utils.menus import menu
 from datetime import datetime
 import gc
 from redbot.core import app_commands, commands
@@ -250,3 +251,6 @@ class MapleUtil(commands.Cog):
             return baseURL+str(entry["id"]), entry["summary"]
         return None, None
         
+    @commands.command()
+    async def serverstatus(self, ctx, server: str):
+        await menu(ctx,["test1", "test2", server])
