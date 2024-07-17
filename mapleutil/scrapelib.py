@@ -2,8 +2,15 @@ from datetime import datetime, timedelta
 from .util import get_percent
 from itertools import chain
 def status_dict2str(status):
-    # TODO prettier
-    return "\n".join(k+": "+str(v) for k,v in status.items())
+    output = f"{status["worldName"]}:\n"
+    for i in range(3):
+        output += f"Login {i+1}: {"UP" if status[f"login_{i:02}"]==1 else "DOWN"}"
+    output += "\n"
+    for i in range(40):
+        output += f"Channel {i+1}: {"UP" if status[f"login_{i:02}"]==1 else "DOWN"}"
+        if i%5==0:
+            output+="\n"
+
 def fetchServerStatus(session):
     status_na = session.get("https://www.nexon.com/api/maplestory/no-auth/v1/server-status/na").json()["servers"]
     status_eu = session.get("https://www.nexon.com/api/maplestory/no-auth/v1/server-status/eu").json()["servers"]
