@@ -1,5 +1,5 @@
 import discord
-from redbot.core.utils.menus import menu
+from redbot.core.utils.menus import menu, DEFAULT_CONTROLS
 from datetime import datetime
 import gc
 from redbot.core import app_commands, commands
@@ -260,7 +260,7 @@ class MapleUtil(commands.Cog):
         async def selectworld(ctx, pages, controls, message, page, timeout, emoji):
             print(emoji)
             return await menu(ctx, pages, controls, message=message, page=emoji_map[emoji], timeout=timeout)
-        controls = {'<:img:1263215863453192204>':selectworld}
+        controls = {**DEFAULT_CONTROLS, '<:img:1263215863453192204>':selectworld}
         await menu(ctx,embeds, controls)
 
     
